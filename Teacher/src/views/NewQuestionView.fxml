@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="308.0" prefWidth="473.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewQuestionController">
+    <HBox layoutX="39.0" layoutY="266.0" prefHeight="26.0" prefWidth="286.0" xmlns:fx="http://javafx.com/fxml">
+        <fx:define>
+            <ToggleGroup fx:id="correctAnswerToggleGroup" />
+        </fx:define>
+        <children>
+            <RadioButton fx:id="optionARadioButton" prefHeight="26.0" prefWidth="76.0" text="A" toggleGroup="$correctAnswerToggleGroup" />
+            <RadioButton fx:id="optionBRadioButton" prefHeight="26.0" prefWidth="76.0" text="B" toggleGroup="$correctAnswerToggleGroup" />
+            <RadioButton fx:id="optionCRadioButton" prefHeight="26.0" prefWidth="69.0" text="C" toggleGroup="$correctAnswerToggleGroup" />
+            <RadioButton fx:id="optionDRadioButton" prefHeight="26.0" prefWidth="32.0" text="D" toggleGroup="$correctAnswerToggleGroup" />
+        </children>
+    </HBox>
+   <Button fx:id="okQuestionButton" layoutX="348.0" layoutY="266.0" mnemonicParsing="false" onAction="#okQuestionResponse" prefHeight="26.0" prefWidth="51.0" text="OK" />
+   <Button fx:id="cancelQuestionButton" layoutX="407.0" layoutY="267.0" mnemonicParsing="false" onAction="#cancelQuestionResponse" text="Cancel" />
+   <VBox layoutX="39.0" layoutY="140.0" prefHeight="97.0" prefWidth="394.0">
+      <children>
+         <TextField fx:id="optionATextField" promptText="Option A" />
+         <TextField fx:id="optionBTextField" promptText="Option B" />
+         <TextField fx:id="optionCTextField" promptText="Option C" />
+         <TextField fx:id="optionDTextField" promptText="Option D" />
+      </children>
+   </VBox>
+   <TextArea fx:id="questionTextArea" layoutX="39.0" layoutY="36.0" prefHeight="81.0" prefWidth="394.0" promptText="Question" />
+</AnchorPane>

@@ -1,4 +1,4 @@
-import Response.Response;
+import response.Response;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

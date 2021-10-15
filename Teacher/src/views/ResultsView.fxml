@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ResultsController">
+   <center>
+      <VBox prefHeight="590.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="434.0" text="Results                  " textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="121.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#backResponse" prefHeight="26.0" prefWidth="42.0" text="Back" textAlignment="CENTER" />
+                        <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshResponse" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="26.0" prefWidth="600.0" spacing="20.0">
+               <children>
+                  <ComboBox fx:id="resultSearchComboBox" editable="true" onKeyReleased="#handleOnKeyPressed" prefHeight="26.0" prefWidth="186.0" promptText="Search" />
+                  <Label prefHeight="26.0" prefWidth="46.0" text="Sort by:" />
+                  <ComboBox fx:id="sortByComboBox" onAction="#sortResponse" prefHeight="26.0" prefWidth="90.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="573.0" prefWidth="590.0" spacing="5.0">
+               <children>
+                  <TableView fx:id="examsTableView" onMouseClicked="#clickItem" prefHeight="506.0" prefWidth="188.0">
+                     <columns>
+                        <TableColumn fx:id="titleTableColumn" prefWidth="100.99999982118607" text="Title" />
+                        <TableColumn fx:id="dateTableColumn" prefWidth="85.4000244140625" text="Date" />
+                     </columns>
+                  </TableView>
+                  <VBox alignment="TOP_CENTER" prefHeight="500.0" prefWidth="395.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="examTitleLabel" text="Example Title">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <TableView prefHeight="591.0" prefWidth="395.0">
+                          <columns>
+                              <TableColumn fx:id="rankTableColumn" prefWidth="39.19998246431351" text="Rank" />
+                            <TableColumn fx:id="registrationNumberTableColumn" prefWidth="126.00005722045898" text="Registration Number" />
+                              <TableColumn fx:id="nameTableColumn" prefWidth="170.2000274658203" text="Name" />
+                            <TableColumn fx:id="marksTableColumn" minWidth="5.800048828125" prefWidth="58.5999755859375" text="Marks" />
+                          </columns>
+                        </TableView>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</BorderPane>

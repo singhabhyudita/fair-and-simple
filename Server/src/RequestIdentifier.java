@@ -1,5 +1,5 @@
-import Request.LoginRequest;
-import RequestHandler.LoginRequestHandler;
+import request.LoginRequest;
+import requestHandler.LoginRequestHandler;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BuyPageController">
+   <center>
+   <VBox prefHeight="590.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <children>
+         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="425.0" text="Exams Schedule" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="121.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#backResponse" prefHeight="26.0" prefWidth="42.0" text="Back" textAlignment="CENTER" />
+                        <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshResponse" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </HBox>
+         <HBox prefHeight="26.0" prefWidth="600.0" spacing="20.0">
+            <children>
+               <ComboBox fx:id="examSearchComboBox" editable="true" onKeyReleased="#handleOnKeyPressed" prefHeight="26.0" prefWidth="186.0" promptText="Search" />
+               <Label prefHeight="26.0" prefWidth="46.0" text="Sort by:" />
+               <ComboBox fx:id="sortByComboBox" onAction="#sortResponse" prefHeight="26.0" prefWidth="90.0" />
+            </children>
+         </HBox>
+         <HBox prefHeight="573.0" prefWidth="590.0" spacing="5.0">
+            <children>
+               <TableView fx:id="examsTableView" onMouseClicked="#clickItem" prefHeight="510.0" prefWidth="272.0">
+                  <columns>
+                     <TableColumn fx:id="titleTableColumn" prefWidth="103.99996644258499" text="Title" />
+                     <TableColumn fx:id="timeTableColumn" prefWidth="81.5999755859375" text="Time" />
+                  </columns>
+               </TableView>
+               <VBox alignment="TOP_CENTER" prefHeight="500.0" prefWidth="395.0" spacing="10.0">
+                  <children>
+                     <Label fx:id="examTitleLabel" text="Example Title">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Instructions:">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                        </Label>
+                        <Text fx:id="instructionsText" strokeType="OUTSIDE" strokeWidth="0.0" text="This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. " wrappingWidth="379.7367172241211">
+                           <font>
+                              <Font name="System Italic" size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Start time:">
+                                 <font>
+                                    <Font name="System Italic" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="startTimeLabel" prefHeight="27.0" prefWidth="182.0" text="29-10-2021 11:30AM">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <font>
+                                    <Font name="System Italic" size="15.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Duration:">
+                                 <font>
+                                    <Font name="System Italic" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="durationLabel" prefHeight="18.0" prefWidth="72.0" text="90 mins">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <font>
+                                    <Font name="System Italic" size="15.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Max marks:">
+                                 <font>
+                                    <Font name="System Italic" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="maxMarksLabel" prefHeight="18.0" prefWidth="72.0" text="30">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <font>
+                                    <Font name="System Italic" size="15.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                  </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+               </VBox>
+            </children>
+         </HBox>
+      </children>
+   </VBox>
+   </center>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</BorderPane>
