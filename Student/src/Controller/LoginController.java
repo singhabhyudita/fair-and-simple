@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.HomePageController;
 import Request.LoginRequest;
 import Response.LoginResponse;
 import javafx.event.ActionEvent;
@@ -7,10 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
+import Classes.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,7 +32,9 @@ public class LoginController implements Initializable {
     @FXML
     public Label signinLabel;
     @FXML
-    public Hyperlink signupLink;
+    public Label signupLabel;
+    @FXML
+    public Button signupButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,7 +53,7 @@ public class LoginController implements Initializable {
         else {
             assert response != null;
             System.out.println("Registration number is "+response.getRegistrationNo());
-            FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../FXML/HomePage.fxml"));
+            FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("FXML/HomePage.fxml"));
             Stage currentStage=(Stage)loginButton.getScene().getWindow();
             Scene scene=null;
             try {
@@ -63,16 +69,5 @@ public class LoginController implements Initializable {
     }
 
     public void switchToSignup(ActionEvent actionEvent) {
-        FXMLLoader registerLoader=new FXMLLoader(getClass().getResource("../FXML/Register.fxml"));
-        Scene scene=null;
-        Stage stage=(Stage)signupLink.getScene().getWindow();
-        try {
-            scene=new Scene(registerLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setScene(scene);
-        stage.setTitle("Sign Up");
-
     }
 }
