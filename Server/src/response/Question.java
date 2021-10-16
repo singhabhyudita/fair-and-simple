@@ -1,6 +1,8 @@
 package response;
 
-public class Question {
+import java.io.Serializable;
+
+public class Question implements Serializable {
     private final String question;
     private final String optionA;
     private final String optionB;

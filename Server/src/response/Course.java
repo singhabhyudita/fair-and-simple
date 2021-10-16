@@ -1,6 +1,8 @@
 package response;
 
-public class Course {
+import java.io.Serializable;
+
+public class Course implements Serializable {
     private final String teacherId;
     private final String courseId;
     private final String courseTitle;

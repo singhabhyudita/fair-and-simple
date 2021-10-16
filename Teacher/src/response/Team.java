@@ -1,8 +1,9 @@
 package response;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Team {
+public class Team implements Serializable {
     private final String courseId;
     private final String teacherId;
     private final List<Student> students;

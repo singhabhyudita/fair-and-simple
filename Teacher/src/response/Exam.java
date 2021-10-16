@@ -1,8 +1,9 @@
 package response;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Exam {
+public class Exam implements Serializable {
     private final String examId;
     private final String teacherId;
     private final String courseId;

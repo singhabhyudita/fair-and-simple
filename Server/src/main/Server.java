@@ -1,4 +1,8 @@
+package main;
+
+import response.CreateTeamResponse;
 import response.Response;
+import util.RandomString;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,6 +16,7 @@ import java.sql.SQLException;
 public class Server {
 
     private static Connection connection;
+    private static RandomString randomString;
 
     public static void main(String[] args) {
         ServerSocket serverSocket= null;
@@ -40,28 +45,32 @@ public class Server {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url="jdbc:mysql://localhost:3306/fairnsimple";
-            connection= DriverManager.getConnection(url,"root","060801&ABab");
+            connection= DriverManager.getConnection(url,"utkarsh","Hello@123");
+            System.out.println("Database connected!!");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return connection;
     }
-    public static void SendResponse(ObjectOutputStream outputStream, Response response){
+    public static void sendResponse(ObjectOutputStream outputStream, Response response){
         try {
-            System.out.println("Sending respone thru oos");
+            System.out.println("The response begin sent is " + response);
+            if(response instanceof CreateTeamResponse)
+            System.out.println("This response is non null and team code = " + ((CreateTeamResponse) response).getTeamCode());
             outputStream.writeObject(response);
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static Object ReceiveRequest(ObjectInputStream inputStream){
-        try {
-            System.out.println("Received request");
+    public static Object receiveRequest(ObjectInputStream inputStream) throws IOException, ClassNotFoundException {
             return inputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+    }
+
+    public static String getRandomString() {
+        if(randomString == null) {
+            randomString = new RandomString(8);
         }
-        return null;
+        return randomString.nextString();
     }
 }

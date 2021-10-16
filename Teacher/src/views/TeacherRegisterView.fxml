@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="474.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TeacherRegisterController">
+    <Button fx:id="registerButton" layoutX="207.0" layoutY="318.0" mnemonicParsing="false" onAction="#register" text="Register" />
+    <Hyperlink fx:id="loginLink" layoutX="172.0" layoutY="362.0" onAction="#switchToLogin" text="Already have an account?" textFill="#130000" underline="true" />
+    <Label fx:id="signupLabel" layoutX="190.0" layoutY="51.0" text="Sign Up">
+        <font>
+            <Font size="27.0" />
+        </font>
+    </Label>
+    <TextField fx:id="firstNameField" layoutX="88.0" layoutY="129.0" promptText="First Name" />
+    <TextField fx:id="lastNameField" layoutX="266.0" layoutY="129.0" promptText="Last Name" />
+    <TextField fx:id="teacherIDField" layoutX="88.0" layoutY="187.0" promptText="Teacher ID" />
+    <PasswordField fx:id="passwordField" layoutX="88.0" layoutY="244.0" promptText="Password" />
+    <PasswordField fx:id="confirmPasswordField" layoutX="266.0" layoutY="244.0" promptText="Confirm Password" />
+    <TextField fx:id="emailIDField" layoutX="266.0" layoutY="187.0" promptText="Email ID" />
+    <Label fx:id="matchLabel" layoutX="273.0" layoutY="269.0">
+        <font>
+            <Font size="10.0" />
+        </font>
+    </Label>
+</AnchorPane>

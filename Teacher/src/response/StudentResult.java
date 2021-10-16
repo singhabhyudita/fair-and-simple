@@ -1,6 +1,8 @@
 package response;
 
-class StudentResult {
+import java.io.Serializable;
+
+class StudentResult implements Serializable {
     private final String studentId;
     private final String examId;
     private final String registrationNumber;

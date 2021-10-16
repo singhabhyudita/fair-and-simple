@@ -199,8 +199,9 @@ public class CourseController {
                 Integer.parseInt(endTimeHourTextField.getText()),
                 Integer.parseInt(endTimeMinTextField.getText()));
         String examTitle = examTitleLabel.getText();
+        List<Question> questions = new ArrayList<>(questionsTableView.getItems());
         SetExamRequest newExam = new SetExamRequest(TeacherApplication.getTeacherId(),
-                this.courseId, startTime, endTime, examTitle, questionsTableView.getItems());
+                this.courseId, startTime, endTime, examTitle, questions);
         Platform.runLater(() -> {
 
             titleTextField.setEditable(false);

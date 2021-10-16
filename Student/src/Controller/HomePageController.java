@@ -30,7 +30,7 @@ public class HomePageController {
         nameLabel.setText(firstName +" "+ lastName);
     }
     public void logout(ActionEvent actionEvent) {
-        FXMLLoader logoutLoader= new FXMLLoader(getClass().getResource("FXML/Login.fxml"));
+        FXMLLoader logoutLoader= new FXMLLoader(getClass().getResource("../FXML/Login.fxml"));
         Stage stage=(Stage)logoutLink.getScene().getWindow();
         Scene scene=null;
         try {

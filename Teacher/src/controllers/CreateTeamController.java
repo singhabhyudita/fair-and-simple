@@ -45,6 +45,7 @@ public class CreateTeamController {
                 CreateTeamRequest request = new CreateTeamRequest(TeacherApplication.getTeacherId(), teamDescriptionTextArea.getText(), teamNameTextField.getText());
                 TeacherApplication.sendRequest(request);
                 CreateTeamResponse response = (CreateTeamResponse) TeacherApplication.receiveResponse();
+                System.out.println("Response = " + response);
                 if(response == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Could Not create a team. Please try again.");
                     alert.showAndWait();

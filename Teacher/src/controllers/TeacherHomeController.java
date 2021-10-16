@@ -118,11 +118,16 @@ public class TeacherHomeController {
     }
 
     public void callFirst() {
+        System.out.println("The thread is " + Thread.currentThread());
+        System.out.println("Called first");
         courseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
+        System.out.println("Values set");
         Platform.runLater(() -> {
+            System.out.println("Inside courses request thread" + Thread.currentThread());
             TeacherCoursesRequest request = new TeacherCoursesRequest(TeacherApplication.getTeacherId());
             TeacherApplication.sendRequest(request);
             TeacherCoursesResponse response = (TeacherCoursesResponse) TeacherApplication.receiveResponse();
+            System.out.println("Fetched courses response");
             if(response == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fetch your courses. Click OK to exit the application");
                 alert.showAndWait();
