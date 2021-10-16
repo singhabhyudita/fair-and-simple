@@ -13,41 +13,42 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.TeacherApplication;
+import request.CreateTeamRequest;
 import request.TeacherCoursesRequest;
 import response.Course;
+import response.CreateTeamResponse;
 import response.TeacherCoursesResponse;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class TeacherHomeController {
     @FXML
-    public Button resultsButton;
-    @FXML
-    public Button createTeamButton;
-    @FXML
     public ImageView profilePicImageView;
     @FXML
-    public Button upcomingExamsButton;
-    @FXML
     public Button changePasswordButton;
-    @FXML
-    public Button changeProfilePicButton;
     @FXML
     public Button logOutButton;
     @FXML
     public Label heyNameLabel;
     @FXML
-    public TextField searchTextField;
+    public TextField courseSearchTextField;
     @FXML
     public TableView<Course> coursesTableView;
     @FXML
     public TableColumn<Course, String> courseTableColumn;
+    @FXML
+    public TextField courseNameTextField;
+    @FXML
+    public TextArea courseDescriptionTextArea;
+    @FXML
+    public TextField courseCodeTextField;
+    @FXML
+    public Button createCourseButton;
 
     @FXML
     public void resultsResponse(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ResultsView.fxml"));
-        Stage stage = (Stage) upcomingExamsButton.getScene().getWindow();
+        Stage stage = (Stage) changePasswordButton.getScene().getWindow();
         Scene scene = null;
         try {
             scene = new Scene(loader.load());
@@ -58,20 +59,6 @@ public class TeacherHomeController {
         stage.setTitle("Results");
         ResultsController controller = loader.getController();
         controller.callFirst();
-    }
-
-    @FXML
-    public void createTeamResponse(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/CreateTeamView.fxml"));
-        Stage stage = (Stage) upcomingExamsButton.getScene().getWindow();
-        Scene scene = null;
-        try {
-            scene = new Scene(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setScene(scene);
-        stage.setTitle("Create New Team");
     }
 
     @FXML
@@ -95,7 +82,7 @@ public class TeacherHomeController {
     }
 
     @FXML
-    public void clickItem(MouseEvent mouseEvent) {
+    public void onCourseClicked(MouseEvent mouseEvent) {
         if(mouseEvent.getClickCount() == 2)
         {
             Course selectedCourse = coursesTableView.getSelectionModel().getSelectedItem();
@@ -103,7 +90,7 @@ public class TeacherHomeController {
             String courseId = selectedCourse.getCourseId();
             System.out.println("Clicked = " + courseId);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/CourseView.fxml"));
-            Stage stage = (Stage) upcomingExamsButton.getScene().getWindow();
+            Stage stage = (Stage) changePasswordButton.getScene().getWindow();
             Scene scene = null;
             try {
                 scene = new Scene(loader.load());
@@ -137,5 +124,31 @@ public class TeacherHomeController {
                 coursesTableView.setItems(courseList);
             }
         });
+    }
+
+    public void createCourseButtonResponse(ActionEvent actionEvent) {
+        if(courseNameTextField.getText() == null || courseNameTextField.getText().length() == 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Enter a non-empty course name.");
+            alert.showAndWait();
+        } else {
+            courseNameTextField.setEditable(false);
+            courseDescriptionTextArea.setEditable(false);
+            createCourseButton.setDisable(true);
+            Platform.runLater(() -> {
+                CreateTeamRequest request = new CreateTeamRequest(TeacherApplication.getTeacherId(), courseDescriptionTextArea.getText(), courseNameTextField.getText());
+                TeacherApplication.sendRequest(request);
+                CreateTeamResponse response = (CreateTeamResponse) TeacherApplication.receiveResponse();
+                System.out.println("Response = " + response);
+                if(response == null) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Could Not create a course. Please try again.");
+                    alert.showAndWait();
+                    courseNameTextField.setEditable(true);
+                    courseDescriptionTextArea.setEditable(true);
+                    createCourseButton.setDisable(false);
+                } else {
+                    courseCodeTextField.setText(response.getTeamCode());
+                }
+            });
+        }
     }
 }
