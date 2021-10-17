@@ -7,7 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.GuiUtil;
-import response.Exam;
+import entity.Exam;
 
 import java.util.Date;
 

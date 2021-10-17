@@ -23,6 +23,9 @@ public class ExamTable {
             + END_TIME_COLUMN + " = ?;";
     public static final String DELETE_EXAM_BY_ID = "DELETE FROM " + TABLE_NAME + "WHERE "
             + EXAM_ID_COLUMN + " = ?;";
-    public static final String GET_EXAM_BY_TEACHER_ID = "SELECT * FROM " + TABLE_NAME + " WHERE "
-            + PROCTOR_ID_COLUMN + " = ?";
+    public static final String GET_EXAM_BY_COURSE_ID= "SELECT * FROM "+ TABLE_NAME+" WHERE "+ COURSE_ID_COLUMN+" =?;";
+    public static final String GET_EXAM_BY_TEACHER_ID = "SELECT * FROM " + TABLE_NAME
+            + " INNER JOIN " + CoursesTable.TABLE_NAME + " ON "
+            + TABLE_NAME + "." + COURSE_ID_COLUMN + " = "+CoursesTable.TABLE_NAME +"." + CoursesTable.COURSE_ID_COLUMN
+            + " WHERE " + PROCTOR_ID_COLUMN + " = ?";
 }

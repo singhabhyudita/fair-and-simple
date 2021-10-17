@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import main.TeacherApplication;
+import main.Main;
 import request.TeacherLoginRequest;
 import response.TeacherLoginResponse;
 
@@ -30,9 +30,9 @@ public class TeacherLoginController implements Initializable {
     public void login(ActionEvent actionEvent) {
         System.out.println("Creating a request object");
         TeacherLoginRequest request=new TeacherLoginRequest(usernameField.getText(),passwordField.getText());
-        TeacherApplication.sendRequest(request);
+        Main.sendRequest(request);
         System.out.println("Request.Request Sent");
-        TeacherLoginResponse response= (TeacherLoginResponse) TeacherApplication.receiveResponse();
+        TeacherLoginResponse response= (TeacherLoginResponse) Main.receiveResponse();
         if (response != null && response.getFirstName() == null) {
             System.out.println("Wrong Info");
         }
@@ -50,7 +50,7 @@ public class TeacherLoginController implements Initializable {
             }
             currentStage.setScene(scene);
             currentStage.setTitle("Welcome");
-            TeacherApplication.setTeacherId(response.getTeacherID());
+            Main.setTeacherId(response.getTeacherID());
             TeacherHomeController controller = homepageLoader.getController();
             controller.callFirst();
         }

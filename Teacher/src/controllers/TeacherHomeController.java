@@ -1,5 +1,7 @@
 package controllers;
 
+import entity.Course;
+import entity.Exam;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,10 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.GuiUtil;
-import main.TeacherApplication;
+import main.Main;
 import request.*;
 import response.*;
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -97,10 +98,10 @@ public class TeacherHomeController {
         }
         Platform.runLater(() -> {
             changePasswordButton.setDisable(true);
-            TeacherChangePasswordRequest request = new TeacherChangePasswordRequest(TeacherApplication.getTeacherId(),
+            TeacherChangePasswordRequest request = new TeacherChangePasswordRequest(Main.getTeacherId(),
                     oldPasswordTextField.getText(), newPasswordTextField.getText());
-            TeacherApplication.sendRequest(request);
-            TeacherChangePasswordResponse response = (TeacherChangePasswordResponse) TeacherApplication.receiveResponse();
+            Main.sendRequest(request);
+            TeacherChangePasswordResponse response = (TeacherChangePasswordResponse) Main.receiveResponse();
             if(response == null || response.getStatus() == -1) {
                 GuiUtil.alert(Alert.AlertType.ERROR, "Could not change the password");
             } else {
@@ -119,8 +120,17 @@ public class TeacherHomeController {
 
     @FXML
     public void logOutResponse(ActionEvent actionEvent) {
-        TeacherApplication.sendRequest(new LogoutRequest());
-        Platform.exit();
+        Main.sendRequest(new LogoutRequest());
+        Main.receiveResponse();
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("../views/TeacherLoginView.fxml"));
+        Stage stage= (Stage) changePasswordButton.getScene().getWindow();
+        Scene scene = null;
+        try {
+             scene=new Scene(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setScene(scene);
     }
 
     @FXML
@@ -128,7 +138,7 @@ public class TeacherHomeController {
         if(mouseEvent.getClickCount() == 2)
         {
             Course selectedCourse = coursesTableView.getSelectionModel().getSelectedItem();
-            String courseTitle = selectedCourse.getCourseTitle();
+            String courseTitle = selectedCourse.getCourseName();
             String courseId = selectedCourse.getCourseId();
             System.out.println("Clicked = " + courseId);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/CourseView.fxml"));
@@ -161,9 +171,11 @@ public class TeacherHomeController {
             courseDescriptionTextArea.setEditable(false);
             createCourseButton.setDisable(true);
             Platform.runLater(() -> {
-                CreateCourseRequest request = new CreateCourseRequest(TeacherApplication.getTeacherId(), courseDescriptionTextArea.getText(), courseNameTextField.getText());
-                TeacherApplication.sendRequest(request);
-                CreateCourseResponse response = (CreateCourseResponse) TeacherApplication.receiveResponse();
+
+                CreateCourseRequest request = new CreateCourseRequest(Main.getTeacherId(), courseDescriptionTextArea.getText(), courseNameTextField.getText());
+                Main.sendRequest(request);
+                CreateCourseResponse response = (CreateCourseResponse) Main.receiveResponse();
+
                 System.out.println("Response = " + response);
                 if(response == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Could Not create a course. Please try again.");
@@ -181,13 +193,13 @@ public class TeacherHomeController {
     private void populateTeacherCourses() {
         System.out.println("The thread is " + Thread.currentThread());
         System.out.println("Called first");
-        courseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
+        courseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
         System.out.println("Values set");
         Platform.runLater(() -> {
             System.out.println("Inside courses request thread" + Thread.currentThread());
-            TeacherCoursesRequest request = new TeacherCoursesRequest(TeacherApplication.getTeacherId());
-            TeacherApplication.sendRequest(request);
-            TeacherCoursesResponse response = (TeacherCoursesResponse) TeacherApplication.receiveResponse();
+            TeacherCoursesRequest request = new TeacherCoursesRequest(Main.getTeacherId());
+            Main.sendRequest(request);
+            TeacherCoursesResponse response = (TeacherCoursesResponse) Main.receiveResponse();
             System.out.println("Fetched courses response");
             if(response == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fetch your courses. Click OK to exit the application");
@@ -207,16 +219,16 @@ public class TeacherHomeController {
         upcomingCourseNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
         upcomingTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         upcomingTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        upcomingMaxMarksTableColumn.setCellValueFactory(new PropertyValueFactory<>("maximumMarks"));
+        upcomingMaxMarksTableColumn.setCellValueFactory(new PropertyValueFactory<>("maxMarks"));
 
         examsResultTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         examsResultDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         examResultCourseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
 
         Platform.runLater(() -> {
-            TeacherExamRequest request = new TeacherExamRequest(TeacherApplication.getTeacherId(), false);
-            TeacherApplication.sendRequest(request);
-            TeacherExamResponse response = (TeacherExamResponse) TeacherApplication.receiveResponse();
+            TeacherExamRequest request = new TeacherExamRequest(Main.getTeacherId(), false);
+            Main.sendRequest(request);
+            TeacherExamResponse response = (TeacherExamResponse) Main.receiveResponse();
             if(response == null) GuiUtil.alert(Alert.AlertType.ERROR, "Could not fetch your exams. Might be a server error.");
             else {
                 ObservableList<Exam> upcomingExams = FXCollections.observableList(response.getExams().stream()

@@ -1,9 +1,10 @@
 package requestHandler;
 
+import entity.Exam;
 import main.Server;
 import request.TeacherExamRequest;
-import response.Exam;
 import response.TeacherExamResponse;
+import table.CoursesTable;
 import table.ExamTable;
 
 import java.io.ObjectOutputStream;
@@ -37,7 +38,7 @@ public class TeacherExamRequestHandler {
                 exams.add(new Exam(allExams.getString(ExamTable.EXAM_ID_COLUMN),
                         allExams.getString(ExamTable.PROCTOR_ID_COLUMN),
                         allExams.getString(ExamTable.COURSE_ID_COLUMN),
-                        allExams.getString(ExamTable.COURSE_ID_COLUMN),
+                        allExams.getString(CoursesTable.COURSE_NAME_COLUMN),
                         allExams.getString(ExamTable.TITLE_COLUMN),
                         allExams.getDate(ExamTable.START_TIME_COLUMN),
                         allExams.getInt(ExamTable.MAXIMUM_MARKS_COLUMN)

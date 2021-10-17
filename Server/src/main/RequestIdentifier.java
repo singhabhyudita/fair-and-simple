@@ -7,12 +7,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.SQLException;
+
 
 public class RequestIdentifier implements Runnable{
     Socket socket;
     ObjectOutputStream oos=null;
     ObjectInputStream ois=null;
+    public static String userID;
+
     public RequestIdentifier(Socket socket){
         this.socket=socket;
         try {
@@ -28,7 +30,7 @@ public class RequestIdentifier implements Runnable{
     public void run() {
         System.out.println("We are here");
         while (socket.isConnected()){
-            Object request= null;
+            Object request;
             try {
                 System.out.println("Waiting for a request");
                 request = Server.receiveRequest(ois);
@@ -40,38 +42,22 @@ public class RequestIdentifier implements Runnable{
             System.out.println("Request came");
             if(request==null) break;
             else if(request instanceof LoginRequest){
-
+                userID=((LoginRequest) request).getUsername();
                 LoginRequestHandler loginRequestHandler=new LoginRequestHandler(oos,(LoginRequest)request,Server.getConnection());
-                try {
-                    loginRequestHandler.sendResponse();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                loginRequestHandler.sendResponse();
             }
             else if(request instanceof RegisterRequest){
                 RegisterRequestHandler registerRequestHandler=new RegisterRequestHandler((RegisterRequest)request,oos,Server.getConnection());
-                try {
-                    registerRequestHandler.sendResponse();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                registerRequestHandler.sendResponse();
             }
             else if(request instanceof TeacherLoginRequest){
                 TeacherLoginRequestHandler teacherLoginRequestHandler=new TeacherLoginRequestHandler(Server.getConnection(),oos,(TeacherLoginRequest)request);
-                try {
-                    teacherLoginRequestHandler.sendResponse();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                teacherLoginRequestHandler.sendResponse();
             }
             else if(request instanceof TeacherRegisterRequest){
                 System.out.println("Teacher register request came.");
                 TeacherRegisterRequestHandler teacherRegisterRequestHandler=new TeacherRegisterRequestHandler(Server.getConnection(), oos,(TeacherRegisterRequest)request);
-                try {
-                    teacherRegisterRequestHandler.sendResponse();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                teacherRegisterRequestHandler.sendResponse();
             } else if(request instanceof TeacherCoursesRequest) {
                 TeacherCoursesRequestHandler handler = new TeacherCoursesRequestHandler(Server.getConnection(), oos, (TeacherCoursesRequest) request);
                 handler.sendResposne();
@@ -88,12 +74,37 @@ public class RequestIdentifier implements Runnable{
             } else if(request instanceof TeacherExamRequest) {
                 TeacherExamRequestHandler handler = new TeacherExamRequestHandler(Server.getConnection(), oos, (TeacherExamRequest) request);
                 handler.sendResponse();
-            } else if(request instanceof LogoutRequest) {
+            } else if(request instanceof LogOutRequest) {
                 break; // get out of the infinite loop.
             } else if(request instanceof TeacherChangePasswordRequest) {
                 TeacherChangePasswordRequestHandler handler = new TeacherChangePasswordRequestHandler(Server.getConnection(), oos, (TeacherChangePasswordRequest) request);
                 handler.sendResponse();
-            } else {
+            }
+            else if(request instanceof JoinCourseRequest){
+                JoinCourseRequestHandler joinCourseRequestHandler=new JoinCourseRequestHandler(Server.getConnection(),oos,(JoinCourseRequest)request);
+                joinCourseRequestHandler.sendResponse();
+            }
+            else if(request instanceof CoursesListRequest){
+                CoursesListRequestHandler coursesListRequestHandler=new CoursesListRequestHandler(Server.getConnection(),oos);
+                coursesListRequestHandler.sendResponse();
+            }
+            else if(request instanceof ChangePasswordRequest){
+                ChangePasswordRequestHandler changePasswordRequestHandler=new ChangePasswordRequestHandler(Server.getConnection(),oos,(ChangePasswordRequest)request);
+                changePasswordRequestHandler.sendResponse();
+            }
+            else if(request instanceof LogOutRequest){
+                LogOutRequestHandler logOutRequestHandler=new LogOutRequestHandler(Server.getConnection(),oos);
+                logOutRequestHandler.sendResponse();
+            }
+            else if(request instanceof ParticipantsListRequest){
+                ParticipantsListRequestHandler participantsListRequestHandler=new ParticipantsListRequestHandler(Server.getConnection(),oos,(ParticipantsListRequest)request);
+                participantsListRequestHandler.sendResponse();
+            }
+            else if(request instanceof ExamsListRequest){
+                ExamsListRequestHandler examsListRequestHandler=new ExamsListRequestHandler(Server.getConnection(),oos,(ExamsListRequest)request);
+                examsListRequestHandler.sendResponse();
+            }
+            else{
                 Server.sendResponse(oos, null);
             }
         }

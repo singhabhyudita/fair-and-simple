@@ -2,7 +2,7 @@ package requestHandler;
 
 import main.Server;
 import request.TeacherCoursesRequest;
-import response.Course;
+import entity.Course;
 import response.TeacherCoursesResponse;
 import table.CoursesTable;
 
@@ -34,7 +34,8 @@ public class TeacherCoursesRequestHandler {
             while(courseResultSet.next()) {
                 courses.add(new Course(courseResultSet.getString(CoursesTable.TEACHER_ID_COLUMN),
                         courseResultSet.getString(CoursesTable.COURSE_ID_COLUMN),
-                        courseResultSet.getString(CoursesTable.COURSE_NAME_COLUMN)));
+                        courseResultSet.getString(CoursesTable.COURSE_NAME_COLUMN), courseResultSet.getString(CoursesTable.COURSE_CODE_COLUMN),
+                        courseResultSet.getString(CoursesTable.COURSE_DESC_COLUMN)));
             }
             TeacherCoursesResponse response = new TeacherCoursesResponse(teacherCoursesRequest.getTeacherId(), courses);
             Server.sendResponse(oos, response);
