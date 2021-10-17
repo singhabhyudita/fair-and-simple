@@ -1,9 +1,9 @@
 package response;
 
-public class CreateTeamResponse extends Response {
+public class CreateCourseResponse extends Response {
     private final String teamCode;
 
-    public CreateTeamResponse(String teamCode) {
+    public CreateCourseResponse(String teamCode) {
         this.teamCode = teamCode;
     }
 

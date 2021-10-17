@@ -30,10 +30,9 @@ public class TeacherLoginRequestHandler extends RequestHandler {
         ResultSet resultSet=preparedStatement.executeQuery();
         TeacherLoginResponse response;
         if(!resultSet.next()) response=null;
-        do{
+        else
             response=new TeacherLoginResponse(resultSet.getString(TeacherTable.COLUMN_FIRST_NAME),resultSet.getString(TeacherTable.COLUMN_LAST_NAME),
                     resultSet.getString(TeacherTable.COLUMN_EMAIL_ID),resultSet.getString(TeacherTable.COLUMN_TEACHER_ID));
-        }while (resultSet.next());
         try {
             oos.writeObject(response);
             oos.flush();

@@ -2,10 +2,10 @@ package response;
 
 import java.util.List;
 
-public class ExamsResponse extends Response {
+public class TeacherExamResponse extends Response {
     private final List<Exam> exams;
 
-    public ExamsResponse(List<Exam> exams) {
+    public TeacherExamResponse(List<Exam> exams) {
         this.exams = exams;
     }
 

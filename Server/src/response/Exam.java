@@ -7,15 +7,19 @@ public class Exam implements Serializable {
     private final String examId;
     private final String teacherId;
     private final String courseId;
+    private final String courseName;
     private final String title;
     private final Date date;
+    private final Integer maximmumMarks;
 
-    Exam(String examId, String teacherId, String courseId, String title, Date date) {
+    public Exam(String examId, String teacherId, String courseId, String courseName, String title, Date date, Integer maximmumMarks) {
         this.examId = examId;
         this.teacherId = teacherId;
         this.courseId = courseId;
+        this.courseName = courseName;
         this.title = title;
         this.date = date;
+        this.maximmumMarks = maximmumMarks;
     }
 
     public String getExamId() {
@@ -30,11 +34,19 @@ public class Exam implements Serializable {
         return courseId;
     }
 
+    public String getCourseName() {
+        return courseName;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public Date getDate() {
         return date;
+    }
+
+    public Integer getMaximmumMarks() {
+        return maximmumMarks;
     }
 }
