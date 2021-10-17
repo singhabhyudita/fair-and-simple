@@ -40,7 +40,7 @@ public class TeacherLoginController implements Initializable {
             assert response != null;
             if(response==null) System.out.println("null response");
             System.out.println("Teacher ID is "+response.getTeacherID());
-            FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../views/TeacherHomeView.fxml"));
+            FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../views/TeacherHomeView2.fxml"));
             Stage currentStage=(Stage)loginButton.getScene().getWindow();
             Scene scene=null;
             try {

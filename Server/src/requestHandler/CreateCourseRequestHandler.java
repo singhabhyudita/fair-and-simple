@@ -1,10 +1,8 @@
 package requestHandler;
 
 import main.Server;
-import request.CreateTeamRequest;
-import request.TeacherCoursesRequest;
-import response.Course;
-import response.CreateTeamResponse;
+import request.CreateCourseRequest;
+import response.CreateCourseResponse;
 import table.CoursesTable;
 
 import java.io.IOException;
@@ -14,11 +12,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CreateTeamRequestHandler {
+public class CreateCourseRequestHandler {
     private final Connection connection;
     private final  ObjectOutputStream oos;
-    private final CreateTeamRequest request;
-    public CreateTeamRequestHandler(Connection connection, ObjectOutputStream oos, CreateTeamRequest request) {
+    private final CreateCourseRequest request;
+    public CreateCourseRequestHandler(Connection connection, ObjectOutputStream oos, CreateCourseRequest request) {
         this.connection = connection;
         this.oos = oos;
         this.request = request;
@@ -37,7 +35,7 @@ public class CreateTeamRequestHandler {
             else {
                 System.out.println("Team created with code " + teamCode);
                 System.out.println("Sending create team response\n");
-                oos.writeObject(new CreateTeamResponse(teamCode));
+                oos.writeObject(new CreateCourseResponse(teamCode));
                 System.out.println("create team response sent.");
             }
         } catch (SQLException | IOException e) {

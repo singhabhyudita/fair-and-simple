@@ -1,6 +1,6 @@
 package main;
 
-import response.CreateTeamResponse;
+import response.CreateCourseResponse;
 import response.Response;
 import util.RandomString;
 
@@ -55,8 +55,8 @@ public class Server {
     public static void sendResponse(ObjectOutputStream outputStream, Response response){
         try {
             System.out.println("The response begin sent is " + response);
-            if(response instanceof CreateTeamResponse)
-            System.out.println("This response is non null and team code = " + ((CreateTeamResponse) response).getTeamCode());
+            if(response instanceof CreateCourseResponse)
+            System.out.println("This response is non null and team code = " + ((CreateCourseResponse) response).getTeamCode());
             outputStream.writeObject(response);
             outputStream.flush();
         } catch (IOException e) {

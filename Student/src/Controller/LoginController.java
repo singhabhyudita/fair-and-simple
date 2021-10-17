@@ -44,9 +44,9 @@ public class LoginController implements Initializable {
     public void login(ActionEvent actionEvent) {
         System.out.println("Creating a request object");
         LoginRequest request=new LoginRequest(usernameField.getText(),passwordField.getText());
-        Main.SendRequest(request);
+        Main.sendRequest(request);
         System.out.println("Request.Request Sent");
-        LoginResponse response= (LoginResponse) Main.GetResponse();
+        LoginResponse response= (LoginResponse) Main.getResponse();
         if (response != null && response.getFirstName() == null) {
             System.out.println("Wrong Info");
         }

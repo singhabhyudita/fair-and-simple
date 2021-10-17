@@ -1,5 +1,6 @@
 package Controller;
 
+import Classes.Main;
 import Request.RegisterRequest;
 import Response.RegisterResponse;
 import javafx.event.ActionEvent;
@@ -66,9 +67,9 @@ public class RegisterController {
         if(check){
             RegisterRequest registerRequest=new RegisterRequest(firstNameField.getText(),lastNameField.getText(),emailIDField.getText(),
                     passwordField.getText(),registrationNoField.getText());
-            Main.SendRequest(registerRequest);
+            Main.sendRequest(registerRequest);
             System.out.println("Register request sent");
-            RegisterResponse response=(RegisterResponse)Main.GetResponse();
+            RegisterResponse response=(RegisterResponse)Main.getResponse();
             assert response != null;
             if(response.getMessage().length()==0) System.out.println("Please Try Again");
             else {
