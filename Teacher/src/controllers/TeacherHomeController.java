@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import main.GuiUtil;
 import main.Main;
 import request.*;
-import response.*;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -120,7 +120,7 @@ public class TeacherHomeController {
 
     @FXML
     public void logOutResponse(ActionEvent actionEvent) {
-        Main.sendRequest(new LogoutRequest());
+        Main.sendRequest(new LogOutRequest());
         Main.receiveResponse();
         FXMLLoader loader=new FXMLLoader(getClass().getResource("../views/TeacherLoginView.fxml"));
         Stage stage= (Stage) changePasswordButton.getScene().getWindow();
