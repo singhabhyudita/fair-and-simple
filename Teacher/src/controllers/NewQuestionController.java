@@ -1,12 +1,11 @@
 package controllers;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import main.TeacherApplication;
-import response.Question;
+import main.Main;
+import entity.Question;
 
 public class NewQuestionController {
     @FXML
@@ -60,7 +59,7 @@ public class NewQuestionController {
         if(selectedToggle.getText().equals("B")) ans = 2;
         else if(selectedToggle.getText().equals("C")) ans = 3;
         else if(selectedToggle.getText().equals("D")) ans = 4;
-        TeacherApplication.tempHolder = new Question(questionTextArea.getText(),
+        Main.tempHolder = new Question(questionTextArea.getText(),
                 optionATextField.getText(),
                 optionBTextField.getText(),
                 optionCTextField.getText(),

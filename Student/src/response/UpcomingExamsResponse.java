@@ -1,6 +1,6 @@
-package Response;
+package response;
 
-import Classes.*;
+import entity.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 

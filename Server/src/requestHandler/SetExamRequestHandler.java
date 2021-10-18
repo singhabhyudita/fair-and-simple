@@ -2,9 +2,9 @@ package requestHandler;
 
 import main.Server;
 import request.SetExamRequest;
-import response.Question;
+import entity.Question;
 import response.SetExamResponse;
-import response.Status;
+import entity.Status;
 import table.ExamQuestionsTable;
 import table.ExamTable;
 

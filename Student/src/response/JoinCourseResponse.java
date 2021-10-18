@@ -1,11 +1,21 @@
-package Response;
+package response;
 import java.io.Serializable;
-import Classes.*;
 
 public class JoinCourseResponse extends Response implements Serializable {
     String response;
-    public JoinCourseResponse(String response) {
+    String courseID;
+
+    public JoinCourseResponse(String response, String courseID) {
         this.response = response;
+        this.courseID = courseID;
+    }
+
+    public String getCourseID() {
+        return courseID;
+    }
+
+    public void setCourseID(String courseID) {
+        this.courseID = courseID;
     }
 
     public String getResponse() {

@@ -1,5 +1,7 @@
 package response;
 
+import entity.StudentResult;
+
 import java.util.List;
 
 public class ExamResultResponse extends Response {

@@ -16,14 +16,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.GuiUtil;
-import main.TeacherApplication;
+import main.Main;
 import request.SetExamRequest;
-import response.Question;
+import entity.Question;
 import response.SetExamResponse;
-import response.Status;
+import entity.Status;
+import sun.plugin.dom.html.HTMLBodyElement;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -85,6 +87,8 @@ public class CourseController {
     public Button deleteButton;
     @FXML
     public Button okExamButton;
+    @FXML
+    public TextArea descriptionTextArea;
 
     private String courseId;
 
@@ -118,9 +122,9 @@ public class CourseController {
             e.printStackTrace();
         }
         addQuestionStage.showAndWait();
-        if(TeacherApplication.tempHolder == null) return;
-        questionsTableView.getItems().add((Question) TeacherApplication.tempHolder);
-        TeacherApplication.tempHolder = null;
+        if(Main.tempHolder == null) return;
+        questionsTableView.getItems().add((Question) Main.tempHolder);
+        Main.tempHolder = null;
     }
 
     @FXML
@@ -142,9 +146,9 @@ public class CourseController {
         controller.callFirst(question.getQuestion(), question.getOptionA(), question.getOptionB(),
                 question.getOptionC(), question.getOptionD(), question.getCorrectOption());
         editQuestionStage.showAndWait();
-        if(TeacherApplication.tempHolder == null) return;
-        questionsTableView.getItems().set(i, (Question) TeacherApplication.tempHolder);
-        TeacherApplication.tempHolder = null;
+        if(Main.tempHolder == null) return;
+        questionsTableView.getItems().set(i, (Question) Main.tempHolder);
+        Main.tempHolder = null;
     }
 
     @FXML
@@ -187,21 +191,31 @@ public class CourseController {
             GuiUtil.alert(Alert.AlertType.WARNING, "Select a future date!");
             return;
         }
+        if(descriptionTextArea.getText().length()==0){
+            GuiUtil.alert(Alert.AlertType.WARNING,"Specify the description");
+        }
         LocalDate date = examDatePicker.getValue();
-        Date startTime = new Date(date.getYear(),
-                date.getMonthValue(),
+        System.out.println("LocalDate = " + date);
+        System.out.println("year = " + date.getYear());
+        System.out.println("month = " + date.getMonthValue());
+        System.out.println("day = " + date.getDayOfMonth());
+
+        Date startTime = new Date(date.getYear()-1900,
+                date.getMonthValue()-1,
                 date.getDayOfMonth(),
                 Integer.parseInt(startTimeHourTextField.getText()),
                 Integer.parseInt(startTimeMinTextField.getText()));
-        Date endTime = new Date(date.getYear(),
-                date.getMonthValue(),
+        System.out.println(startTime);
+        Date endTime = new Date(date.getYear()-1900,
+                date.getMonthValue()-1,
                 date.getDayOfMonth(),
                 Integer.parseInt(endTimeHourTextField.getText()),
                 Integer.parseInt(endTimeMinTextField.getText()));
-        String examTitle = examTitleLabel.getText();
+        String examTitle = titleTextField.getText();
+        String description=descriptionTextArea.getText();
         List<Question> questions = new ArrayList<>(questionsTableView.getItems());
-        SetExamRequest newExam = new SetExamRequest(TeacherApplication.getTeacherId(),
-                this.courseId, startTime, endTime, examTitle, questions);
+        SetExamRequest newExam = new SetExamRequest(Main.getTeacherId(),
+                this.courseId, startTime, endTime, examTitle,description, questions);
         Platform.runLater(() -> {
 
             titleTextField.setEditable(false);
@@ -215,8 +229,8 @@ public class CourseController {
             editButton.setDisable(true);
             deleteButton.setDisable(true);
 
-            TeacherApplication.sendRequest(newExam);
-            SetExamResponse response = (SetExamResponse) TeacherApplication.receiveResponse();
+            Main.sendRequest(newExam);
+            SetExamResponse response = (SetExamResponse) Main.receiveResponse();
             if(response == null || response.getStatus() == Status.OTHER) {
                 GuiUtil.alert(Alert.AlertType.WARNING, "Could not schedule exam due to unexpected error!");
                 GuiUtil.goToHome((Stage) deleteButton.getScene().getWindow());
@@ -238,5 +252,9 @@ public class CourseController {
                 deleteButton.setDisable(false);
             }
         });
+    }
+
+    public void backResponse(ActionEvent actionEvent) {
+        GuiUtil.goToHome((Stage) deleteButton.getScene().getWindow());
     }
 }

@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,16 +10,26 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import Request.*;
-import Response.*;
-import Classes.*;
+import request.*;
+import response.*;
+import entity.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CourseTabPaneController implements Initializable
 {
+    @FXML
+    public Label courseNameLabel;
+    @FXML
+    public Label courseCodeLabel;
+    @FXML
+    public Text aboutCourseLabel;
+    @FXML
+    public Label professorLabel;
     @FXML
     private Text instructionsText;
     @FXML
@@ -69,10 +79,16 @@ public class CourseTabPaneController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
     public void first(String courseId) throws InterruptedException {
         this.courseId = courseId;
-
+        Main.sendRequest(new CourseDetailsRequest(courseId));
+        System.out.println("course details request sent");
+        Course course= (Course) Main.getResponse();
+        assert course != null;
+        courseNameLabel.setText(course.getCourseName());
+        courseCodeLabel.setText(course.getCourseCode());
+        aboutCourseLabel.setText(course.getCourseDescription());
+        professorLabel.setText(course.getTeacherId());
         // Populating the Title and Time column in TableView with Classes.Exam object properties
         titleTableColumn.setCellValueFactory(
                 new PropertyValueFactory<Exam, String>("title")
@@ -139,8 +155,16 @@ public class CourseTabPaneController implements Initializable
 
     @FXML
     public void backResponse(ActionEvent e) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../sample/ProfilePage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Parent root = (Parent) loader.load();
-        //TODO: load profile page here
+
+    }
+
+    public void refreshResponse(ActionEvent actionEvent) {
+
+    }
+
+    public void sendButtonResponse(ActionEvent actionEvent) {
+        //TODO: send messages
     }
 }

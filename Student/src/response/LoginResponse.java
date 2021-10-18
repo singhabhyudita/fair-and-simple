@@ -1,4 +1,4 @@
-package Response;
+package response;
 
 public class LoginResponse extends Response {
     private final String firstName,lastName,emailID;
