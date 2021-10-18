@@ -1,4 +1,4 @@
-package response;
+package Response;
 
 public class RegisterResponse extends Response {
     private String message;

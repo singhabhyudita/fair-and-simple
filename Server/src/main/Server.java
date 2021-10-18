@@ -1,6 +1,6 @@
 package main;
 
-import response.CreateCourseResponse;
+import response.CreateTeamResponse;
 import response.Response;
 import util.RandomString;
 
@@ -45,7 +45,7 @@ public class Server {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url="jdbc:mysql://localhost:3306/fairnsimple";
-            connection= DriverManager.getConnection(url,"root","060801&ABab");
+            connection= DriverManager.getConnection(url,"utkarsh","Hello@123");
             System.out.println("Database connected!!");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -55,8 +55,8 @@ public class Server {
     public static void sendResponse(ObjectOutputStream outputStream, Response response){
         try {
             System.out.println("The response begin sent is " + response);
-            if(response instanceof CreateCourseResponse)
-            System.out.println("This response is non null and team code = " + ((CreateCourseResponse) response).getTeamCode());
+            if(response instanceof CreateTeamResponse)
+            System.out.println("This response is non null and team code = " + ((CreateTeamResponse) response).getTeamCode());
             outputStream.writeObject(response);
             outputStream.flush();
         } catch (IOException e) {

@@ -1,7 +1,5 @@
 package response;
 
-import entity.Status;
-
 public class SetExamResponse extends Response {
     private final Status status;
 

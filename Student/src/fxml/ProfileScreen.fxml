@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="530.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileScreenController">
+<BorderPane prefHeight="530.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProfileScreenController">
    <bottom>
       <TabPane prefHeight="531.0" prefWidth="682.0" side="LEFT" stylesheets="@../css/tabs.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>

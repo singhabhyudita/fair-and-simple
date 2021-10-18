@@ -22,21 +22,16 @@ public class TeacherRegisterRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
-        PreparedStatement preparedStatement;
-        int result=0;
-        try {
-            preparedStatement=connection.prepareStatement(TeacherTable.QUERY_REGISTER);
-            preparedStatement.setString(1,registerRequest.getTeacherID());
-            preparedStatement.setString(2,registerRequest.getFirstName());
-            preparedStatement.setString(3,registerRequest.getLastName());
-            preparedStatement.setString(4,registerRequest.getEmailID());
-            preparedStatement.setString(5,registerRequest.getPassword());
-            result=preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void sendResponse() throws SQLException {
+        PreparedStatement preparedStatement=null;
+        preparedStatement=connection.prepareStatement(TeacherTable.QUERY_REGISTER);
+        preparedStatement.setString(1,registerRequest.getTeacherID());
+        preparedStatement.setString(2,registerRequest.getFirstName());
+        preparedStatement.setString(3,registerRequest.getLastName());
+        preparedStatement.setString(4,registerRequest.getEmailID());
+        preparedStatement.setString(5,registerRequest.getPassword());
 
+        int result=preparedStatement.executeUpdate();
         System.out.println(result+" register query executed");
         if(result==0) {
             try {

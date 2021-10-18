@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="registerPane" prefHeight="400.0" prefWidth="474.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RegisterController">
    <Button fx:id="registerButton" layoutX="207.0" layoutY="318.0" mnemonicParsing="false" onAction="#register"
            text="Register"/>
    <Hyperlink fx:id="loginLink" layoutX="172.0" layoutY="362.0" onAction="#switchToLogin"

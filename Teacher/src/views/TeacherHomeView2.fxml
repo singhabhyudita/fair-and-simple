@@ -64,10 +64,6 @@
                                                 <Font size="18.0" />
                                             </font>
                                         </Button>
-                              <Hyperlink onAction="#clearResponse" text="Clear">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font></Hyperlink>
                                     </children>
                                     <padding>
                                         <Insets left="20.0" right="20.0" top="40.0" />
@@ -122,12 +118,12 @@
                                   <TableColumn fx:id="examsResultDateTableColumn" prefWidth="94.79989624023438" text="Date" />
                                 </columns>
                               </TableView>
-                              <TableView fx:id="particularResultTableView" prefHeight="229.0" prefWidth="562.0">
+                              <TableView fx:id="resultParticularResultTableView" prefHeight="229.0" prefWidth="562.0">
                                 <columns>
-                                  <TableColumn fx:id="particularResultRankTableColumn" prefWidth="75.0" text="Rank" />
-                                  <TableColumn fx:id="particularResultRegistrationNumberTableColumn" prefWidth="205.19995880126953" text="Regstration Number" />
-                                    <TableColumn fx:id="particularResultNameTableColumn" prefWidth="210.800048828125" text="Name" />
-                                    <TableColumn fx:id="particularResultMarksTableColumn" prefWidth="68.60000610351562" text="Marks" />
+                                  <TableColumn fx:id="examResultRankTableColumn" prefWidth="75.0" text="Rank" />
+                                  <TableColumn fx:id="examResultRegistrationNumberTableColumn" prefWidth="205.19995880126953" text="Regstration Number" />
+                                    <TableColumn fx:id="examResultNameTableColumn" prefWidth="210.800048828125" text="Name" />
+                                    <TableColumn fx:id="examResultMarksTableColumn" prefWidth="68.60000610351562" text="Marks" />
                                 </columns>
                               </TableView>
                                     </children>
@@ -174,7 +170,7 @@
                                                 <Font size="20.0" />
                                             </font>
                                         </PasswordField>
-                                        <Button fx:id="changePasswordButton" mnemonicParsing="false" onAction="#changePasswordResponse" text="Change password">
+                                        <Button fx:id="changePasswordButton" mnemonicParsing="false" onAction="#changePasswordButtonResponse" text="Change password">
                                             <font>
                                                 <Font size="20.0" />
                                             </font>
@@ -236,7 +232,7 @@
                                                 <Font size="35.0" />
                                             </font>
                                         </Label>
-                                        <Button mnemonicParsing="false" onAction="#logOutResponse" text="Log out">
+                                        <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutButtonResponse" text="Log out">
                                             <font>
                                                 <Font size="20.0" />
                                             </font>

@@ -1,8 +1,8 @@
-package response;
+package Response;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import entity.*;
+import Classes.*;
 
 public class ParticipantsListResponse extends Response implements Serializable {
     private ArrayList<Student> participantsList;

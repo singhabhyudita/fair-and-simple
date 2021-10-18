@@ -1,4 +1,5 @@
-package request;
+package Request;
+import Classes.Main;
 
 import java.io.Serializable;
 public class JoinCourseRequest extends Request implements Serializable {

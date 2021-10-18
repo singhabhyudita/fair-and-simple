@@ -1,7 +1,5 @@
 package response;
 
-import entity.Course;
-
 import java.util.List;
 
 public class TeacherCoursesResponse extends Response {

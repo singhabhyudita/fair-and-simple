@@ -4,16 +4,17 @@ import request.*;
 import requestHandler.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
+import java.sql.SQLException;
 
 public class RequestIdentifier implements Runnable{
     Socket socket;
     ObjectOutputStream oos=null;
     ObjectInputStream ois=null;
-    public static String userID;
+    String userId;
 
     public RequestIdentifier(Socket socket){
         this.socket=socket;
@@ -30,40 +31,56 @@ public class RequestIdentifier implements Runnable{
     public void run() {
         System.out.println("We are here");
         while (socket.isConnected()){
-            Object request;
+            Object request= null;
             try {
                 System.out.println("Waiting for a request");
                 request = Server.receiveRequest(ois);
                 System.out.println("Request received");
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace(); // basically the client disconnected so end this thread.
-                break;
+                return;
             }
             System.out.println("Request came");
             if(request==null) break;
             else if(request instanceof LoginRequest){
-                userID=((LoginRequest) request).getUsername();
+
                 LoginRequestHandler loginRequestHandler=new LoginRequestHandler(oos,(LoginRequest)request,Server.getConnection());
-                loginRequestHandler.sendResponse();
+                try {
+                    loginRequestHandler.sendResponse();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
             else if(request instanceof RegisterRequest){
                 RegisterRequestHandler registerRequestHandler=new RegisterRequestHandler((RegisterRequest)request,oos,Server.getConnection());
-                registerRequestHandler.sendResponse();
+                try {
+                    registerRequestHandler.sendResponse();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
             else if(request instanceof TeacherLoginRequest){
                 TeacherLoginRequestHandler teacherLoginRequestHandler=new TeacherLoginRequestHandler(Server.getConnection(),oos,(TeacherLoginRequest)request);
-                teacherLoginRequestHandler.sendResponse();
+                try {
+                    teacherLoginRequestHandler.sendResponse();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
             else if(request instanceof TeacherRegisterRequest){
                 System.out.println("Teacher register request came.");
                 TeacherRegisterRequestHandler teacherRegisterRequestHandler=new TeacherRegisterRequestHandler(Server.getConnection(), oos,(TeacherRegisterRequest)request);
-                teacherRegisterRequestHandler.sendResponse();
+                try {
+                    teacherRegisterRequestHandler.sendResponse();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             } else if(request instanceof TeacherCoursesRequest) {
                 TeacherCoursesRequestHandler handler = new TeacherCoursesRequestHandler(Server.getConnection(), oos, (TeacherCoursesRequest) request);
                 handler.sendResposne();
-            } else if(request instanceof CreateCourseRequest) {
-                System.out.println("Request is a create team request by teacher " + ((CreateCourseRequest) request).getTeacherId());
-                CreateCourseRequestHandler handler = new CreateCourseRequestHandler(Server.getConnection(), oos, (CreateCourseRequest) request);
+            } else if(request instanceof CreateTeamRequest) {
+                System.out.println("Request is a create team request by teacher " + ((CreateTeamRequest) request).getTeacherId());
+                CreateTeamRequestHandler handler = new CreateTeamRequestHandler(Server.getConnection(), oos, (CreateTeamRequest) request);
                 handler.sendResponse();
             } else if(request instanceof ExamResultRequest) {
                 ExamResultRequestHandler handler = new ExamResultRequestHandler(Server.getConnection(), oos, (ExamResultRequest) request);
@@ -71,43 +88,19 @@ public class RequestIdentifier implements Runnable{
             } else if(request instanceof SetExamRequest) {
                 SetExamRequestHandler handler = new SetExamRequestHandler(Server.getConnection(), oos, (SetExamRequest) request);
                 handler.sendResponse();
-            } else if(request instanceof TeacherExamRequest) {
-                TeacherExamRequestHandler handler = new TeacherExamRequestHandler(Server.getConnection(), oos, (TeacherExamRequest) request);
+            } else if(request instanceof ExamsHistoryRequest) {
+                ExamsHistoryRequestHandler handler = new ExamsHistoryRequestHandler(Server.getConnection(), oos, (ExamsHistoryRequest) request,this.userId);
                 handler.sendResponse();
-            } else if(request instanceof LogOutRequest) {
-                break; // get out of the infinite loop.
-            } else if(request instanceof TeacherChangePasswordRequest) {
-                TeacherChangePasswordRequestHandler handler = new TeacherChangePasswordRequestHandler(Server.getConnection(), oos, (TeacherChangePasswordRequest) request);
+            } else if(request instanceof UpcomingExamsRequest) {
+                UpcomingExamsRequestHandler handler = new UpcomingExamsRequestHandler(Server.getConnection(), oos, (UpcomingExamsRequest) request,this.userId);
                 handler.sendResponse();
-            }
-            else if(request instanceof JoinCourseRequest){
-                JoinCourseRequestHandler joinCourseRequestHandler=new JoinCourseRequestHandler(Server.getConnection(),oos,(JoinCourseRequest)request);
-                joinCourseRequestHandler.sendResponse();
-            }
-            else if(request instanceof CoursesListRequest){
-                CoursesListRequestHandler coursesListRequestHandler=new CoursesListRequestHandler(Server.getConnection(),oos);
-                coursesListRequestHandler.sendResponse();
-            }
-            else if(request instanceof ChangePasswordRequest){
-                ChangePasswordRequestHandler changePasswordRequestHandler=new ChangePasswordRequestHandler(Server.getConnection(),oos,(ChangePasswordRequest)request);
-                changePasswordRequestHandler.sendResponse();
-            }
-            else if(request instanceof LogOutRequest){
-                LogOutRequestHandler logOutRequestHandler=new LogOutRequestHandler(Server.getConnection(),oos);
-                logOutRequestHandler.sendResponse();
-            }
-            else if(request instanceof ParticipantsListRequest){
-                ParticipantsListRequestHandler participantsListRequestHandler=new ParticipantsListRequestHandler(Server.getConnection(),oos,(ParticipantsListRequest)request);
-                participantsListRequestHandler.sendResponse();
-            }
-            else if(request instanceof ExamsListRequest){
-                ExamsListRequestHandler examsListRequestHandler=new ExamsListRequestHandler(Server.getConnection(),oos,(ExamsListRequest)request);
-                examsListRequestHandler.sendResponse();
-            }
-            else{
-                Server.sendResponse(oos, null);
+            } else if(request instanceof ChangeProfilePicRequest) {
+                ChangeProfilePicRequestHandler handler = new ChangeProfilePicRequestHandler(Server.getConnection(), oos, (ChangeProfilePicRequest) request,((ChangeProfilePicRequest) request).getFileInputStream() ,this.userId);
+                handler.sendResponse();
+            } else if(request instanceof GetProfilePicRequest) {
+                GetProfilePicRequestHandler handler = new GetProfilePicRequestHandler(Server.getConnection(), oos, (GetProfilePicRequest) request ,this.userId);
+                handler.sendResponse();
             }
         }
-        System.out.println("Client disconnected!!");
     }
 }

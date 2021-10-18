@@ -1,4 +1,4 @@
-package response;
+package Response;
 import java.io.Serializable;
 
 public class ChangePasswordResponse extends Response implements Serializable {

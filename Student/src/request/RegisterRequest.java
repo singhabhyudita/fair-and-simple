@@ -1,4 +1,4 @@
-package request;
+package Request;
 
 public class RegisterRequest extends Request {
     private String firstName,lastName,emailID,password,username;

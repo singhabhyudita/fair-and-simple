@@ -1,9 +1,10 @@
-package response;
+package Response;
 
-import entity.Exam;
+import Classes.Exam;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import Classes.*;
 
 public class ExamsHistoryResponse extends Response implements Serializable {
     private ArrayList<Exam> examsList;

@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class RegisterRequestHandler extends requestHandler.RequestHandler {
+public class RegisterRequestHandler extends RequestHandler {
     private RegisterRequest registerRequest;
     private ObjectOutputStream oos;
     private Connection connection;
@@ -23,20 +23,16 @@ public class RegisterRequestHandler extends requestHandler.RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
-        PreparedStatement preparedStatement;
-        int result = 0;
-        try {
-            preparedStatement=connection.prepareStatement(StudentTable.QUERY_REGISTER);
-            preparedStatement.setString(1,registerRequest.getUsername());
-            preparedStatement.setString(2,registerRequest.getFirstName());
-            preparedStatement.setString(3,registerRequest.getLastName());
-            preparedStatement.setString(4,registerRequest.getEmailID());
-            preparedStatement.setString(5,registerRequest.getPassword());
-            result=preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void sendResponse() throws SQLException {
+        PreparedStatement preparedStatement=null;
+        preparedStatement=connection.prepareStatement(StudentTable.QUERY_REGISTER);
+        preparedStatement.setString(1,registerRequest.getUsername());
+        preparedStatement.setString(2,registerRequest.getFirstName());
+        preparedStatement.setString(3,registerRequest.getLastName());
+        preparedStatement.setString(4,registerRequest.getEmailID());
+        preparedStatement.setString(5,registerRequest.getPassword());
+
+        int result=preparedStatement.executeUpdate();
         System.out.println(result+" register query executed");
         if(result==0) {
             try {

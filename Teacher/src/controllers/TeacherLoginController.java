@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import main.Main;
+import main.TeacherApplication;
 import request.TeacherLoginRequest;
 import response.TeacherLoginResponse;
 
@@ -30,9 +30,9 @@ public class TeacherLoginController implements Initializable {
     public void login(ActionEvent actionEvent) {
         System.out.println("Creating a request object");
         TeacherLoginRequest request=new TeacherLoginRequest(usernameField.getText(),passwordField.getText());
-        Main.sendRequest(request);
+        TeacherApplication.sendRequest(request);
         System.out.println("Request.Request Sent");
-        TeacherLoginResponse response= (TeacherLoginResponse) Main.receiveResponse();
+        TeacherLoginResponse response= (TeacherLoginResponse) TeacherApplication.receiveResponse();
         if (response != null && response.getFirstName() == null) {
             System.out.println("Wrong Info");
         }
@@ -40,7 +40,7 @@ public class TeacherLoginController implements Initializable {
             assert response != null;
             if(response==null) System.out.println("null response");
             System.out.println("Teacher ID is "+response.getTeacherID());
-            FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../views/TeacherHomeView2.fxml"));
+            FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../views/TeacherHomeView.fxml"));
             Stage currentStage=(Stage)loginButton.getScene().getWindow();
             Scene scene=null;
             try {
@@ -50,7 +50,7 @@ public class TeacherLoginController implements Initializable {
             }
             currentStage.setScene(scene);
             currentStage.setTitle("Welcome");
-            Main.setTeacherId(response.getTeacherID());
+            TeacherApplication.setTeacherId(response.getTeacherID());
             TeacherHomeController controller = homepageLoader.getController();
             controller.callFirst();
         }

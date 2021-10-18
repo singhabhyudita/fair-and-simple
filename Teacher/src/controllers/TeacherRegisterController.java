@@ -1,6 +1,6 @@
 package controllers;
 
-import main.Main;
+import main.TeacherApplication;
 import request.TeacherRegisterRequest;
 import response.TeacherRegisterResponse;
 import javafx.event.ActionEvent;
@@ -43,9 +43,9 @@ public class TeacherRegisterController {
                 && emailIDField.getText().length() != 0) {
             TeacherRegisterRequest registerRequest=new TeacherRegisterRequest(firstNameField.getText(),lastNameField.getText(),emailIDField.getText(),
                     passwordField.getText(),teacherIDField.getText());
-            Main.sendRequest(registerRequest);
+            TeacherApplication.sendRequest(registerRequest);
             System.out.println("Register request sent");
-            TeacherRegisterResponse response=(TeacherRegisterResponse) Main.receiveResponse();
+            TeacherRegisterResponse response=(TeacherRegisterResponse) TeacherApplication.receiveResponse();
             assert response != null;
             if(response.getMessage().length()==0) System.out.println("Please Try Again");
             else {
