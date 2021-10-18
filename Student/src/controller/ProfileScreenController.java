@@ -1,21 +1,24 @@
-package Controller;
+package controller;
 
+import entity.Course;
+import entity.Exam;
+import entity.Main;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import request.*;
+import response.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import Response.*;
-import Request.*;
-import Classes.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+
 import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,14 +60,34 @@ public class ProfileScreenController implements Initializable
     // Join a course
     @FXML
     private TextField enterCourseCodeTextField;
+    @FXML
+    public Button joinCourseButton;
 
     public void joinCourseButtonResponse(ActionEvent actionEvent) {
         String courseCode = enterCourseCodeTextField.getText().trim();
-        JoinCourseRequest joinCourseRequest = new JoinCourseRequest(courseCode);
+        Main.sendRequest(new JoinCourseRequest(courseCode));
+        System.out.println("Join course request sent");
         JoinCourseResponse joinCourseResponse = (JoinCourseResponse) Main.getResponse();
-        if(joinCourseResponse.getResponse() == "Successful") {
+        assert joinCourseResponse != null;
+        if(joinCourseResponse.getResponse().equals("Successful")) {
             JOptionPane.showMessageDialog(null,"Successfully joined course.");
             //Redirect to the team joined
+            FXMLLoader loader= new FXMLLoader(getClass().getResource("../fxml/CourseTabPane.fxml"));
+            Stage stage=(Stage)joinCourseButton.getScene().getWindow();
+            Scene scene=null;
+            try {
+                 scene=new Scene(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setScene(scene);
+            stage.setTitle("Course");
+            CourseTabPaneController courseTabPaneController=loader.getController();
+            try {
+                courseTabPaneController.first(joinCourseResponse.getCourseID());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         else {
             JOptionPane.showMessageDialog(null,"Invalid course code.");
@@ -131,11 +154,21 @@ public class ProfileScreenController implements Initializable
     }
 
     //Logout
+    @FXML
+    private Button logOutButton;
     public void logOutButtonResponse(ActionEvent actionEvent) {
         LogOutRequest logOutRequest = new LogOutRequest();
         LogOutResponse logOutResponse = (LogOutResponse)Main.getResponse();
         if(logOutResponse.getResponse() == "Successful") {
-            //Load the login screen
+            FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
+            Stage stage=(Stage)logOutButton.getScene().getWindow();
+            try {
+                Scene scene=new Scene(loader.load());
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setTitle("Login");
         }
         else {
             JOptionPane.showMessageDialog(null,"LogOut failed. Please try again!");
@@ -234,14 +267,18 @@ public class ProfileScreenController implements Initializable
                 new PropertyValueFactory<Course, String>("professorName")
         );
 
-        //Sending request to server to fetch user's upcoming exams
+        //Sending request to server to fetch user's enrolled courses
         CoursesListRequest coursesListRequest = new CoursesListRequest();
         Main.sendRequest(coursesListRequest);
         CoursesListResponse coursesListResponse = (CoursesListResponse) Main.getResponse();
 
-        //Setting list of exams as Observable list in Exams Table
+        //Setting list of courses as observable
         observableCoursesList = FXCollections.observableList(coursesListResponse.getCoursesList());
         coursesTableView.setItems(observableCoursesList);
+    }
+
+    public void onCourseClicked(MouseEvent mouseEvent) {
+        //list of courses
     }
 }
 

@@ -1,7 +1,8 @@
-package Controller;
+package controller;
 
-import Request.RegisterRequest;
-import Response.RegisterResponse;
+import entity.Main;
+import request.RegisterRequest;
+import response.RegisterResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,7 +39,7 @@ public class RegisterController {
 
     public boolean check;
     public void switchToLogin(ActionEvent actionEvent) {
-        FXMLLoader loginLoader=new FXMLLoader(getClass().getResource("../FXML/Login.fxml"));
+        FXMLLoader loginLoader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
         Stage stage=(Stage)loginLink.getScene().getWindow();
         Scene scene=null;
         try {
@@ -62,13 +63,13 @@ public class RegisterController {
     }
 
     public void register(ActionEvent actionEvent) {
-        FXMLLoader loginLoader=new FXMLLoader(getClass().getResource("../FXML/Login.fxml"));
+        FXMLLoader loginLoader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
         if(check){
             RegisterRequest registerRequest=new RegisterRequest(firstNameField.getText(),lastNameField.getText(),emailIDField.getText(),
                     passwordField.getText(),registrationNoField.getText());
-            Main.SendRequest(registerRequest);
+            Main.sendRequest(registerRequest);
             System.out.println("Register request sent");
-            RegisterResponse response=(RegisterResponse)Main.GetResponse();
+            RegisterResponse response=(RegisterResponse)Main.getResponse();
             assert response != null;
             if(response.getMessage().length()==0) System.out.println("Please Try Again");
             else {

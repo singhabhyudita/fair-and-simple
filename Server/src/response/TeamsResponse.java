@@ -1,5 +1,7 @@
 package response;
 
+import entity.Team;
+
 import java.util.List;
 
 public class TeamsResponse extends Response {

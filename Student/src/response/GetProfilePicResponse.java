@@ -1,20 +1,20 @@
 package response;
 
-import java.io.InputStream;
+import javafx.scene.image.Image;
 import java.io.Serializable;
 
 public class GetProfilePicResponse extends Response implements Serializable {
-    InputStream inputStream;
+    Image image;
 
-    public GetProfilePicResponse(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public GetProfilePicResponse(Image image) {
+        this.image = image;
     }
 
-    public InputStream getInputStream() {
-        return inputStream;
+    public Image getImage() {
+        return image;
     }
 
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

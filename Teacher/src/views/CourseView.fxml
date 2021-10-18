@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="590.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CourseController">
+<AnchorPane prefHeight="590.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CourseController">
    <children>
-      <TabPane prefHeight="590.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="-7.0" layoutY="25.0" prefHeight="565.0" prefWidth="607.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Exam Schedule">
             <content>
@@ -175,7 +175,7 @@
                         <TextField fx:id="endTimeMinTextField" layoutX="419.0" layoutY="78.0" prefHeight="26.0" prefWidth="37.0" promptText="MM" />
                         <TextField fx:id="startTimeHourTextField" layoutX="168.0" layoutY="78.0" prefHeight="26.0" prefWidth="33.0" promptText="HH" />
                         <TextField fx:id="startTimeMinTextField" layoutX="202.0" layoutY="78.0" prefHeight="26.0" prefWidth="37.0" promptText="MM" />
-                        <TableView fx:id="questionsTableView" layoutY="119.0" prefHeight="394.0" prefWidth="600.0">
+                        <TableView fx:id="questionsTableView" layoutY="209.0" prefHeight="304.0" prefWidth="600.0">
                           <columns>
                             <TableColumn fx:id="questionTableColumn" prefWidth="285.19999998807907" text="Question" />
                             <TableColumn fx:id="optionATableColumn" prefWidth="67.20001220703125" text="A" />
@@ -193,6 +193,7 @@
                           </buttons>
                         </ButtonBar>
                         <Button fx:id="okExamButton" layoutX="14.0" layoutY="522.0" mnemonicParsing="false" onAction="#okExamResponse" text="OK" />
+                        <TextArea fx:id="descriptionTextArea" layoutX="42.0" layoutY="109.0" prefHeight="93.0" prefWidth="524.0" promptText="description" />
                      </children></AnchorPane>
                 </content>
             </Tab>
@@ -203,5 +204,6 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Button layoutX="521.0" layoutY="-1.0" mnemonicParsing="false" onAction="#backResponse" text="Back" />
    </children>
 </AnchorPane>

@@ -1,5 +1,4 @@
-package Request;
-import Classes.Main;
+package request;
 
 import java.io.Serializable;
 
