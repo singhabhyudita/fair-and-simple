@@ -1,12 +1,10 @@
 package requestHandler;
-
 import entity.Exam;
 import main.Server;
 import request.TeacherExamRequest;
 import response.TeacherExamResponse;
 import table.CoursesTable;
 import table.ExamTable;
-
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
