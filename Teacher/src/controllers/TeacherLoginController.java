@@ -51,6 +51,7 @@ public class TeacherLoginController implements Initializable {
             currentStage.setScene(scene);
             currentStage.setTitle("Welcome");
             Main.setTeacherId(response.getTeacherID());
+            Main.setTeacherName(response.getFirstName() + " " + response.getLastName());
             TeacherHomeController controller = homepageLoader.getController();
             controller.callFirst();
         }

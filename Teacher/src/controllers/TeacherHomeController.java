@@ -21,9 +21,10 @@ import response.CreateCourseResponse;
 import response.TeacherChangePasswordResponse;
 import response.TeacherCoursesResponse;
 import response.TeacherExamResponse;
-
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class TeacherHomeController {
@@ -86,6 +87,8 @@ public class TeacherHomeController {
     @FXML
     public PasswordField confirmNewPasswordTextField;
 
+    private TeacherExamResponse teacherExamResponse;
+
     @FXML
     public void createExamResponse(ActionEvent actionEvent) {
     }
@@ -124,8 +127,11 @@ public class TeacherHomeController {
 
     @FXML
     public void logOutResponse(ActionEvent actionEvent) {
+        System.out.println("Log out button clicked!!");
         Main.sendRequest(new LogOutRequest());
         Main.receiveResponse();
+        Main.setTeacherId("");
+        System.out.println("Login screen being loaded");
         FXMLLoader loader=new FXMLLoader(getClass().getResource("../views/TeacherLoginView.fxml"));
         Stage stage= (Stage) changePasswordButton.getScene().getWindow();
         Scene scene = null;
@@ -134,7 +140,9 @@ public class TeacherHomeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Setting login screen");
         stage.setScene(scene);
+        System.out.println("Login screen set");
     }
 
     @FXML
@@ -156,11 +164,21 @@ public class TeacherHomeController {
             stage.setScene(scene);
             stage.setTitle(courseTitle);
             CourseController controller = loader.getController();
-            controller.callFirst(selectedCourse.getCourseId());
+            List<Exam> courseExam = getExamsForCourse(selectedCourse.getCourseId());
+            controller.callFirst(selectedCourse.getCourseId(), courseExam);
         }
     }
 
+    private List<Exam> getExamsForCourse(String courseId) {
+        List<Exam> ret = new ArrayList<>();
+        for(Exam e : teacherExamResponse.getExams())
+            if(e.getCourseId().equals(courseId))
+                ret.add(e);
+        return ret;
+    }
+
     public void callFirst() {
+        heyNameLabel.setText("Hey " + Main.getTeacherName() + "!");
         populateTeacherCourses();
         populateExamTables();
     }
@@ -232,13 +250,13 @@ public class TeacherHomeController {
         Platform.runLater(() -> {
             TeacherExamRequest request = new TeacherExamRequest(Main.getTeacherId(), false);
             Main.sendRequest(request);
-            TeacherExamResponse response = (TeacherExamResponse) Main.receiveResponse();
-            if(response == null) GuiUtil.alert(Alert.AlertType.ERROR, "Could not fetch your exams. Might be a server error.");
+            teacherExamResponse = (TeacherExamResponse) Main.receiveResponse();
+            if(teacherExamResponse == null) GuiUtil.alert(Alert.AlertType.ERROR, "Could not fetch your exams. Might be a server error.");
             else {
-                ObservableList<Exam> upcomingExams = FXCollections.observableList(response.getExams().stream()
+                ObservableList<Exam> upcomingExams = FXCollections.observableList(teacherExamResponse.getExams().stream()
                         .filter((Exam e) -> e.getDate().after(new Date()))
                         .collect(Collectors.toList()));
-                ObservableList<Exam> pastExams = FXCollections.observableList(response.getExams().stream()
+                ObservableList<Exam> pastExams = FXCollections.observableList(teacherExamResponse.getExams().stream()
                         .filter((Exam e) -> e.getDate().before(new Date()))
                         .collect(Collectors.toList()));
                 upcomingExamsTableView.setItems(upcomingExams);
@@ -256,10 +274,8 @@ public class TeacherHomeController {
     public void confirmPicChangeButtonResponse(ActionEvent actionEvent) {
     }
 
-    public void logOutButtonResponse(ActionEvent actionEvent) {
-    }
-
     public void refreshButtonResponse(ActionEvent actionEvent) {
+        callFirst();
     }
 
     public void clearResponse(ActionEvent actionEvent) {

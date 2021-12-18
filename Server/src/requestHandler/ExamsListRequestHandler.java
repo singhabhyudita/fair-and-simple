@@ -35,8 +35,8 @@ public class ExamsListRequestHandler extends RequestHandler {
             resultSet=preparedStatement.executeQuery();
             while (resultSet.next()){
                 exams.add(new Exam(resultSet.getString(ExamTable.EXAM_ID_COLUMN),resultSet.getString(ExamTable.PROCTOR_ID_COLUMN)
-                ,resultSet.getString(ExamTable.COURSE_ID_COLUMN),resultSet.getString(ExamTable.DESCRIPTION_COLUMN),resultSet.getString(ExamTable.TITLE_COLUMN),
-                        resultSet.getDate(ExamTable.START_TIME_COLUMN),resultSet.getInt(ExamTable.MAXIMUM_MARKS_COLUMN)));
+                ,resultSet.getString(ExamTable.COURSE_ID_COLUMN),resultSet.getString(ExamTable.COURSE_ID_COLUMN),resultSet.getString(ExamTable.TITLE_COLUMN), resultSet.getString(ExamTable.DESCRIPTION_COLUMN),
+                        resultSet.getTimestamp(ExamTable.START_TIME_COLUMN), resultSet.getTimestamp(ExamTable.END_TIME_COLUMN),resultSet.getInt(ExamTable.MAXIMUM_MARKS_COLUMN)));
             }
         } catch (SQLException e) {
             e.printStackTrace();

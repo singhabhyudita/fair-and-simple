@@ -32,6 +32,7 @@ public class TeacherCoursesRequestHandler {
         try {
             PreparedStatement getCoursesStatement = connection.prepareStatement(CoursesTable.GET_COURSES_BY_TEACHER_ID);
             getCoursesStatement.setString(1, teacherCoursesRequest.getTeacherId());
+            System.out.println("Query used to get sources = " + getCoursesStatement.toString());
             courseResultSet = getCoursesStatement.executeQuery();
             List<Course> courses = new ArrayList<>();
             while(courseResultSet.next()) {
@@ -48,6 +49,7 @@ public class TeacherCoursesRequestHandler {
                         courseResultSet.getString(CoursesTable.COURSE_ID_COLUMN),
                         courseResultSet.getString(CoursesTable.COURSE_NAME_COLUMN), courseResultSet.getString(CoursesTable.COURSE_CODE_COLUMN),
                         courseResultSet.getString(CoursesTable.COURSE_DESC_COLUMN)));
+                System.out.println("Getting course = " + courseResultSet.getString(CoursesTable.COURSE_NAME_COLUMN));
             }
             TeacherCoursesResponse response = new TeacherCoursesResponse(teacherCoursesRequest.getTeacherId(), courses);
             Server.sendResponse(oos, response);

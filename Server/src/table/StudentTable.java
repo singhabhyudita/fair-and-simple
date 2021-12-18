@@ -22,4 +22,6 @@ public class  StudentTable  {
             + COLUMN_REGISTRATION_NUMBER + " = ?";
     public static final String SELECT_PROFILE_PIC_STUDENT = "SELECT "+COLUMN_PROFILE_PIC+" FROM "+TABLE_NAME+" WHERE "
             +COLUMN_REGISTRATION_NUMBER+" = ? ";
+    public static final String QUERY_STUDENT_BY_COURSE_ID= " SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_REGISTRATION_NUMBER
+            + " IN (" + EnrollmentTable.QUERY_GET_STUDENTS_BY_COURSE_ID + ");";
 }

@@ -103,6 +103,9 @@ public class CourseTabPaneController implements Initializable
         Course course= (Course) Main.getResponse();
         System.out.println("Course object selected is "+course);
         assert course != null;
+
+        System.out.println("Course Object = " + course);
+
         courseNameLabel.setText(course.getCourseName());
         courseCodeLabel.setText(course.getCourseCode());
         aboutCourseLabel.setText(course.getCourseDescription());
@@ -227,8 +230,10 @@ public class CourseTabPaneController implements Initializable
         ProfileScreenController profileScreenController=loader.getController();
         profileScreenController.first(name);
     }
-
     public void handleOnKeyPressed(KeyEvent keyEvent) {
+    }
+
+    public void clickItem(MouseEvent mouseEvent) {
     }
 
     public void sortResponse(ActionEvent actionEvent) {

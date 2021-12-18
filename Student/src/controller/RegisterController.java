@@ -64,7 +64,7 @@ public class RegisterController {
 
     public void register(ActionEvent actionEvent) {
         FXMLLoader loginLoader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
-        if(check){
+        if(passwordField.getText().equals(confirmPasswordField.getText())){
             RegisterRequest registerRequest=new RegisterRequest(firstNameField.getText(),lastNameField.getText(),emailIDField.getText(),
                     passwordField.getText(),registrationNoField.getText());
             Main.sendRequest(registerRequest);

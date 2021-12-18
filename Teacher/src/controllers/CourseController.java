@@ -1,6 +1,9 @@
 package controllers;
 
+import entity.Exam;
+import entity.Student;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,15 +20,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.GuiUtil;
 import main.Main;
+import request.CourseStudentRequest;
 import request.SetExamRequest;
 import entity.Question;
+import response.CourseStudentResponse;
 import response.SetExamResponse;
 import entity.Status;
-import sun.plugin.dom.html.HTMLBodyElement;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,11 +42,11 @@ public class CourseController {
     @FXML
     public ComboBox sortByComboBox;
     @FXML
-    public TableView examsTableView;
+    public TableView<Exam> examsTableView;
     @FXML
-    public TableColumn titleTableColumn;
+    public TableColumn<Exam, String> titleTableColumn;
     @FXML
-    public TableColumn timeTableColumn;
+    public TableColumn<Exam, Date> timeTableColumn;
     @FXML
     public Label examTitleLabel;
     @FXML
@@ -89,8 +93,14 @@ public class CourseController {
     public Button okExamButton;
     @FXML
     public TextArea descriptionTextArea;
+    @FXML
+    public Label endTimeLabel;
+    public TableView<Student> courseStudentTableView;
+    public TableColumn<Student, String> nameTableColumn;
+    public TableColumn<Student, String> registrationNumberTableColumn;
 
     private String courseId;
+    private List<Student> students;
 
     @FXML
     public void handleOnKeyPressed(KeyEvent keyEvent) {
@@ -101,7 +111,15 @@ public class CourseController {
     }
 
     @FXML
-    public void clickItem(MouseEvent mouseEvent) {
+    public void onExamClicked(MouseEvent mouseEvent) {
+        Exam selectedExam = examsTableView.getSelectionModel().getSelectedItem();
+        examTitleLabel.setText(selectedExam.getTitle());
+        instructionsText.setText(selectedExam.getDescription());
+        Timestamp startTime = new Timestamp(selectedExam.getDate().getTime());
+        Timestamp endTime = new Timestamp(selectedExam.getEndTime().getTime());
+        startTimeLabel.setText(startTime.toString());
+        endTimeLabel.setText(endTime.toString());
+        maxMarksLabel.setText(selectedExam.getMaxMarks().toString());
     }
 
     @FXML
@@ -159,14 +177,42 @@ public class CourseController {
         questions.remove(i);
     }
 
-    public void callFirst(String courseId) {
+    public void callFirst(String courseId, List<Exam> courseExams) {
+
+        this.courseId = courseId;
+
         questionTableColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
         optionATableColumn.setCellValueFactory(new PropertyValueFactory<>("optionA"));
         optionBTableColumn.setCellValueFactory(new PropertyValueFactory<>("optionB"));
         optionCTableColumn.setCellValueFactory(new PropertyValueFactory<>("optionC"));
         optionDTableColumn.setCellValueFactory(new PropertyValueFactory<>("optionD"));
         correctOptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("correctOption"));
-        this.courseId = courseId;
+
+        populateExamsTable(courseExams);
+        populateCourseStudentsTable();
+    }
+
+    private void populateCourseStudentsTable() {
+        System.out.println("Now populating the students of this course");
+        System.out.println("Course id set = " + courseId);
+        CourseStudentRequest request = new CourseStudentRequest(courseId);
+        Main.sendRequest(request);
+        CourseStudentResponse response = (CourseStudentResponse) Main.receiveResponse();
+        students = response.getStudents();
+        System.out.println("Students = " + students);
+        System.out.println("Number of students = " + students.size());
+        for(Student s : students) System.out.println(s.getRegistrationNumber());
+        registrationNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
+        nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        ObservableList<Student> studentsObv = FXCollections.observableList(new ArrayList<>(students));
+        courseStudentTableView.setItems(studentsObv);
+    }
+
+    private void populateExamsTable(List<Exam> courseExams) {
+        titleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        timeTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        ObservableList<Exam> courseExamsObv = FXCollections.observableList(new ArrayList<>(courseExams));
+        examsTableView.setItems(courseExamsObv);
     }
 
     @FXML

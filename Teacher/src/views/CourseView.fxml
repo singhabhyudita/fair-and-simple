@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="590.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CourseController">
+<AnchorPane prefHeight="590.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CourseController">
    <children>
-      <TabPane layoutX="-7.0" layoutY="25.0" prefHeight="565.0" prefWidth="607.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutY="33.0" prefHeight="558.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Exam Schedule">
             <content>
@@ -25,15 +25,15 @@
                                  </HBox>
                                  <HBox prefHeight="573.0" prefWidth="590.0" spacing="5.0">
                                      <children>
-                                         <TableView fx:id="examsTableView" onMouseClicked="#clickItem" prefHeight="510.0" prefWidth="272.0">
+                                         <TableView fx:id="examsTableView" onMouseClicked="#onExamClicked" prefHeight="574.0" prefWidth="261.0">
                                              <columns>
                                                  <TableColumn fx:id="titleTableColumn" prefWidth="103.99996644258499" text="Title" />
                                                  <TableColumn fx:id="timeTableColumn" prefWidth="81.5999755859375" text="Time" />
                                              </columns>
                                          </TableView>
-                                         <VBox alignment="TOP_CENTER" prefHeight="143.0" prefWidth="401.0" spacing="10.0">
+                                         <VBox alignment="TOP_CENTER" prefHeight="563.0" prefWidth="372.0" spacing="10.0">
                                              <children>
-                                                 <Label fx:id="examTitleLabel" text="Example Title">
+                                                 <Label fx:id="examTitleLabel" text="Exam Title">
                                                      <font>
                                                          <Font size="24.0" />
                                                      </font>
@@ -43,7 +43,7 @@
                                                          <Font name="System Italic" size="15.0" />
                                                      </font>
                                                  </Label>
-                                                 <Text fx:id="instructionsText" strokeType="OUTSIDE" strokeWidth="0.0" text="This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. This is example description. " wrappingWidth="379.7367172241211">
+                                                 <Text fx:id="instructionsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Select and exam to see details here." wrappingWidth="379.7367172241211">
                                                      <font>
                                                          <Font name="System Italic" size="15.0" />
                                                      </font>
@@ -58,7 +58,7 @@
                                                                  <Font name="System Italic" size="15.0" />
                                                              </font>
                                                          </Label>
-                                                         <Label fx:id="startTimeLabel" prefHeight="27.0" prefWidth="182.0" text="29-10-2021 11:30AM">
+                                                         <Label fx:id="startTimeLabel" prefHeight="27.0" prefWidth="182.0" text="DD-MM-YYYY 00:00AM">
                                                              <opaqueInsets>
                                                                  <Insets />
                                                              </opaqueInsets>
@@ -73,12 +73,12 @@
                                                  </HBox>
                                                  <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
                                                      <children>
-                                                         <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Duration:">
+                                                         <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="End time:">
                                                              <font>
                                                                  <Font name="System Italic" size="15.0" />
                                                              </font>
                                                          </Label>
-                                                         <Label fx:id="durationLabel" prefHeight="18.0" prefWidth="72.0" text="90 mins">
+                                                         <Label fx:id="endTimeLabel" prefHeight="22.0" prefWidth="183.0" text="DD-MM-YYYY 00:00AM">
                                                              <opaqueInsets>
                                                                  <Insets />
                                                              </opaqueInsets>
@@ -98,7 +98,7 @@
                                                                  <Font name="System Italic" size="15.0" />
                                                              </font>
                                                          </Label>
-                                                         <Label fx:id="maxMarksLabel" prefHeight="18.0" prefWidth="72.0" text="30">
+                                                         <Label fx:id="maxMarksLabel" prefHeight="18.0" prefWidth="72.0" text="0">
                                                              <opaqueInsets>
                                                                  <Insets />
                                                              </opaqueInsets>
@@ -135,13 +135,13 @@
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutY="58.0" prefHeight="513.0" prefWidth="590.0">
+                        <TableView fx:id="courseStudentTableView" layoutY="58.0" prefHeight="513.0" prefWidth="600.0">
                           <columns>
-                            <TableColumn prefWidth="189.19997864961624" text="Registration Number" />
-                            <TableColumn prefWidth="398.8000030517578" text="Name" />
+                            <TableColumn fx:id="registrationNumberTableColumn" prefWidth="198.0" text="Registration Number" />
+                            <TableColumn fx:id="nameTableColumn" prefWidth="391.0" text="Name" />
                           </columns>
                         </TableView>
-                        <TextField layoutX="14.0" layoutY="14.0" onInputMethodTextChanged="#searchByPrefix" prefHeight="26.0" prefWidth="279.0" text="Enter name or registration number to search..." />
+                        <TextField layoutX="14.0" layoutY="14.0" onInputMethodTextChanged="#searchByPrefix" prefHeight="26.0" prefWidth="279.0" promptText="Enter name or registration number to search..." />
                      </children></AnchorPane>
                 </content>
             </Tab>
@@ -175,7 +175,7 @@
                         <TextField fx:id="endTimeMinTextField" layoutX="419.0" layoutY="78.0" prefHeight="26.0" prefWidth="37.0" promptText="MM" />
                         <TextField fx:id="startTimeHourTextField" layoutX="168.0" layoutY="78.0" prefHeight="26.0" prefWidth="33.0" promptText="HH" />
                         <TextField fx:id="startTimeMinTextField" layoutX="202.0" layoutY="78.0" prefHeight="26.0" prefWidth="37.0" promptText="MM" />
-                        <TableView fx:id="questionsTableView" layoutY="209.0" prefHeight="304.0" prefWidth="600.0">
+                        <TableView fx:id="questionsTableView" layoutY="209.0" prefHeight="274.0" prefWidth="600.0">
                           <columns>
                             <TableColumn fx:id="questionTableColumn" prefWidth="285.19999998807907" text="Question" />
                             <TableColumn fx:id="optionATableColumn" prefWidth="67.20001220703125" text="A" />
@@ -185,25 +185,25 @@
                               <TableColumn fx:id="correctOptionTableColumn" prefWidth="80.79998779296875" text="Correct Op." />
                           </columns>
                         </TableView>
-                        <ButtonBar layoutX="331.0" layoutY="513.0" prefHeight="44.0" prefWidth="263.0">
+                        <ButtonBar layoutX="322.0" layoutY="491.0" prefHeight="44.0" prefWidth="276.0">
                           <buttons>
                             <Button fx:id="newButton" mnemonicParsing="false" onAction="#newResponse" text="New" />
                               <Button fx:id="editButton" mnemonicParsing="false" onAction="#editResponse" text="Edit" />
                               <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteResponse" text="Delete" />
                           </buttons>
                         </ButtonBar>
-                        <Button fx:id="okExamButton" layoutX="14.0" layoutY="522.0" mnemonicParsing="false" onAction="#okExamResponse" text="OK" />
+                        <Button fx:id="okExamButton" layoutX="14.0" layoutY="500.0" mnemonicParsing="false" onAction="#okExamResponse" prefHeight="26.0" prefWidth="78.0" text="OK" />
                         <TextArea fx:id="descriptionTextArea" layoutX="42.0" layoutY="109.0" prefHeight="93.0" prefWidth="524.0" promptText="description" />
                      </children></AnchorPane>
                 </content>
             </Tab>
             <Tab text="Get New Code">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="536.0" prefWidth="589.0" />
                 </content>
             </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="521.0" layoutY="-1.0" mnemonicParsing="false" onAction="#backResponse" text="Back" />
+      <Button layoutX="520.0" layoutY="1.0" mnemonicParsing="false" onAction="#backResponse" prefHeight="26.0" prefWidth="66.0" text="Back" />
    </children>
 </AnchorPane>

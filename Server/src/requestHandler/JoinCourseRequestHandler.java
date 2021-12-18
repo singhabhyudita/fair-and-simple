@@ -35,7 +35,8 @@ public class JoinCourseRequestHandler extends RequestHandler {
             resultSet=preparedStatement.executeQuery();
             while (resultSet.next()){
                 preparedStatement=connection.prepareStatement(EnrollmentTable.QUERY_JOIN_COURSE_BY_ID);
-                courseId=resultSet.getInt(1);
+                courseId = resultSet.getInt(1);
+                System.out.println("Course ID = " + courseId);
                 preparedStatement.setInt(1,courseId);
                 preparedStatement.setInt(2,Integer.parseInt(RequestIdentifier.userID));
                 result=preparedStatement.executeUpdate();

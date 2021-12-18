@@ -24,6 +24,7 @@ public class LogOutRequestHandler extends RequestHandler  {
         int result=0;
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(StudentTable.QUERY_UPDATE_LAST_ACTIVE);
+            System.out.println("User Id = " + RequestIdentifier.userID);
             preparedStatement.setInt(1,Integer.parseInt(RequestIdentifier.userID));
             result=preparedStatement.executeUpdate();
         } catch (SQLException e) {

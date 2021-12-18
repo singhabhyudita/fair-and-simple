@@ -42,7 +42,9 @@ public class RequestIdentifier implements Runnable{
             System.out.println("Request came");
             if(request==null) break;
             else if(request instanceof LoginRequest){
-                userID=((LoginRequest) request).getUsername();
+                System.out.println("Login request");
+                RequestIdentifier.userID=((LoginRequest) request).getUsername();
+                System.out.println("Setting the userId static variable to " + RequestIdentifier.userID);
                 LoginRequestHandler loginRequestHandler=new LoginRequestHandler(oos,(LoginRequest)request,Server.getConnection());
                 loginRequestHandler.sendResponse();
             }
@@ -51,6 +53,9 @@ public class RequestIdentifier implements Runnable{
                 registerRequestHandler.sendResponse();
             }
             else if(request instanceof TeacherLoginRequest){
+                System.out.println("Login request");
+                RequestIdentifier.userID=((TeacherLoginRequest) request).getUsername();
+                System.out.println("Setting the userId static variable to " + RequestIdentifier.userID);
                 TeacherLoginRequestHandler teacherLoginRequestHandler=new TeacherLoginRequestHandler(Server.getConnection(),oos,(TeacherLoginRequest)request);
                 teacherLoginRequestHandler.sendResponse();
             }
@@ -126,9 +131,13 @@ public class RequestIdentifier implements Runnable{
                 ChangeTeacherProfilePicRequestHandler changeTeacherProfilePicRequestHandler=new ChangeTeacherProfilePicRequestHandler(Server.getConnection(),oos,(ChangeTeacherProfilePicRequest)request);
                 changeTeacherProfilePicRequestHandler.sendResponse();
             }
-            else if(request instanceof GetTeacherProfilePicRequest){
-                GetTeacherProfilePicRequestHandler getTeacherProfilePicRequestHandler=new GetTeacherProfilePicRequestHandler(Server.getConnection(),oos,(GetTeacherProfilePicRequest)request);
+            else if(request instanceof GetTeacherProfilePicRequest) {
+                GetTeacherProfilePicRequestHandler getTeacherProfilePicRequestHandler = new GetTeacherProfilePicRequestHandler(Server.getConnection(), oos, (GetTeacherProfilePicRequest) request);
                 getTeacherProfilePicRequestHandler.sendResponse();
+            }
+            else if(request instanceof CourseStudentRequest) {
+                CourseStudentRequestHandler courseStudentRequestHandler = new CourseStudentRequestHandler(Server.getConnection(), oos, (CourseStudentRequest) request);
+                courseStudentRequestHandler.sendResponse();
             }
             else{
                 Server.sendResponse(oos, null);
