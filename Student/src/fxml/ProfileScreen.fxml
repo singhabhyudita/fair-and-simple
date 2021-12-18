@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="530.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileScreenController">
+<BorderPane prefHeight="530.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileScreenController">
    <bottom>
       <TabPane prefHeight="531.0" prefWidth="682.0" side="LEFT" stylesheets="@../css/tabs.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -32,8 +23,8 @@
                               </TextField>
                               <TableView fx:id="coursesTableView" onMouseClicked="#onCourseClicked" prefHeight="498.0" prefWidth="538.0">
                                  <columns>
-                                    <TableColumn fx:id="courseNameTableColumn" prefWidth="253.60004270076752" text="Course name" />
-                                    <TableColumn fx:id="professorNameTableColumn" prefWidth="258.39990234375" text="Professor name" />
+                                    <TableColumn fx:id="courseNameTableColumn" prefWidth="253.60004270076752" text="Course " />
+                                    <TableColumn fx:id="professorNameTableColumn" prefWidth="258.39990234375" text="Description" />
                                  </columns>
                               </TableView>
                            </children>
@@ -85,7 +76,7 @@
                               </TextField>
                               <TableView fx:id="upcomingExamsTableView" prefHeight="498.0" prefWidth="538.0">
                                  <columns>
-                                    <TableColumn fx:id="upcomingCourseNameTableColumn" prefWidth="145.5999664068222" text="Course name" />
+                                    <TableColumn fx:id="upcomingCourseNameTableColumn" prefWidth="145.5999664068222" text="Course" />
                                     <TableColumn fx:id="upcomingTitleTableColumn" prefWidth="169.60003662109375" text="Title" />
                                     <TableColumn fx:id="upcomingTimeTableColumn" prefWidth="135.199951171875" text="Time" />
                                     <TableColumn fx:id="upcomingMaxMarksTableColumn" prefWidth="107.20004272460938" text="Max marks" />
@@ -113,7 +104,7 @@
                               </TextField>
                               <TableView fx:id="examsHistoryTableView" prefHeight="498.0" prefWidth="538.0">
                                  <columns>
-                                    <TableColumn fx:id="historyCourseNameTableColumn" prefWidth="174.39995419979095" text="Course name" />
+                                    <TableColumn fx:id="historyCourseNameTableColumn" prefWidth="174.39995419979095" text="Course " />
                                     <TableColumn fx:id="historyTitleTableColumn" prefWidth="183.20001220703125" text="Title" />
                                     <TableColumn fx:id="historyMarksTableColumn" prefWidth="97.60003662109375" text="Marks" />
                                     <TableColumn fx:id="historyMaxMarksTableColumn" prefWidth="97.60003662109375" text="Max Marks" />
@@ -253,7 +244,7 @@
                   <Insets />
                </HBox.margin>
             </VBox>
-            <Label fx:id="heyNameLabel" prefHeight="31.0" prefWidth="158.0" text="Hey Saurabh,">
+            <Label fx:id="heyNameLabel" prefHeight="35.0" prefWidth="362.0" text="Hey Saurabh,">
                <font>
                   <Font name="Book Antiqua Bold" size="24.0" />
                </font>

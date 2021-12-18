@@ -8,11 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import request.*;
 import response.*;
 import entity.*;
@@ -30,6 +32,20 @@ public class CourseTabPaneController implements Initializable
     public Text aboutCourseLabel;
     @FXML
     public Label professorLabel;
+    @FXML
+    public Button backFromDiscussionForumButton;
+    @FXML
+    public Button refreshDiscussionForumButton;
+    @FXML
+    public Button backFromExamsScheduleButton;
+    @FXML
+    public Button refreshExamsScheduleButton;
+    @FXML
+    public Button backfromCourseInfoButton;
+    @FXML
+    public Button refreshCourseInfoButton;
+    @FXML
+    public Button leaveCourseButton;
     @FXML
     private Text instructionsText;
     @FXML
@@ -65,7 +81,7 @@ public class CourseTabPaneController implements Initializable
     public ObservableList<Student> observableParticipantsList;
 
     private SortedList<Exam> sortedData;
-    private String courseId;
+    private String courseId,name;
 
     public String getCourseId() {
         return courseId;
@@ -79,11 +95,13 @@ public class CourseTabPaneController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-    public void first(String courseId) throws InterruptedException {
+    public void first(String courseId,String name) throws InterruptedException {
         this.courseId = courseId;
+        this.name=name;
         Main.sendRequest(new CourseDetailsRequest(courseId));
-        System.out.println("course details request sent");
+        System.out.println("course details request sent "+ courseId);
         Course course= (Course) Main.getResponse();
+        System.out.println("Course object selected is "+course);
         assert course != null;
 
         System.out.println("Course Object = " + course);
@@ -91,15 +109,15 @@ public class CourseTabPaneController implements Initializable
         courseNameLabel.setText(course.getCourseName());
         courseCodeLabel.setText(course.getCourseCode());
         aboutCourseLabel.setText(course.getCourseDescription());
-        professorLabel.setText(course.getTeacherId());
+        professorLabel.setText(course.getTeacherName());
         // Populating the Title and Time column in TableView with Classes.Exam object properties
-        titleTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, String>("title")
-        );
-        timeTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, String>("startTime")
-        );
-        updateExamsScheduleTable();
+//        titleTableColumn.setCellValueFactory(
+//                new PropertyValueFactory<Exam, String>("title")
+//        );
+//        timeTableColumn.setCellValueFactory(
+//                new PropertyValueFactory<Exam, String>("startTime")
+//        );
+//        updateExamsScheduleTable();
 
         nameTableColumn.setCellValueFactory(
                 new PropertyValueFactory<Student, String>("name")
@@ -123,10 +141,12 @@ public class CourseTabPaneController implements Initializable
     public void updateParticipantsTable() {
         //Sending request to server to fetch list of participants of this course
         ParticipantsListRequest participantsListRequest = new ParticipantsListRequest(courseId);
+        System.out.println("participants list requested for course id "+courseId);
         Main.sendRequest(participantsListRequest);
-        ParticipantsListResponse participantsListResponse = (ParticipantsListResponse) Main.getResponse();
 
-        ////Setting list of exams as Observable list in Exams Table
+        ParticipantsListResponse participantsListResponse = (ParticipantsListResponse) Main.getResponse();
+        System.out.println("participants list response received "+participantsListResponse);
+        assert participantsListResponse != null;
         observableParticipantsList = FXCollections.observableList(participantsListResponse.getParticipantsList());
         participantsTableView.setItems(observableParticipantsList);
     }
@@ -155,22 +175,61 @@ public class CourseTabPaneController implements Initializable
         examsTableView.setItems(sortedData);
     }
 
-
-    @FXML
-    public void backResponse(ActionEvent e) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
-        Parent root = (Parent) loader.load();
-
-    }
-
-    public void refreshResponse(ActionEvent actionEvent) {
-
-    }
-
     public void sendButtonResponse(ActionEvent actionEvent) {
         //TODO: send messages
     }
 
+    public void refreshDiscussionForumButtonResponse(ActionEvent actionEvent) {
+    }
+
+    public void backFromDiscussionForumButtonResponse(ActionEvent actionEvent) {
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
+        Scene scene = null;
+        try {
+            scene=new Scene(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage= (Stage) backFromDiscussionForumButton.getScene().getWindow();
+        stage.setTitle("Profile");
+        stage.setScene(scene);
+        ProfileScreenController profileScreenController=loader.getController();
+        profileScreenController.first(name);
+    }
+
+    public void onExamClicked(MouseEvent mouseEvent) {
+
+    }
+
+    public void backFromExamsScheduleButtonResponse(ActionEvent actionEvent) {
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
+        Scene scene = null;
+        try {
+            scene=new Scene(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage= (Stage) backFromExamsScheduleButton.getScene().getWindow();
+        stage.setTitle("Profile");
+        stage.setScene(scene);
+        ProfileScreenController profileScreenController=loader.getController();
+        profileScreenController.first(name);
+    }
+
+    public void backfromCourseInfoButtonResponse(ActionEvent actionEvent) {
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
+        Scene scene = null;
+        try {
+            scene=new Scene(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage= (Stage) backfromCourseInfoButton.getScene().getWindow();
+        stage.setTitle("Profile");
+        stage.setScene(scene);
+        ProfileScreenController profileScreenController=loader.getController();
+        profileScreenController.first(name);
+    }
     public void handleOnKeyPressed(KeyEvent keyEvent) {
     }
 

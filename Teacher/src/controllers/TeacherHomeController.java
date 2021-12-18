@@ -17,8 +17,10 @@ import javafx.stage.Stage;
 import main.GuiUtil;
 import main.Main;
 import request.*;
-import response.*;
-
+import response.CreateCourseResponse;
+import response.TeacherChangePasswordResponse;
+import response.TeacherCoursesResponse;
+import response.TeacherExamResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,7 +86,6 @@ public class TeacherHomeController {
     public PasswordField newPasswordTextField;
     @FXML
     public PasswordField confirmNewPasswordTextField;
-
     private TeacherExamResponse teacherExamResponse;
 
     @FXML
@@ -180,7 +181,6 @@ public class TeacherHomeController {
         populateTeacherCourses();
         populateExamTables();
     }
-
     @FXML
     public void createCourseButtonResponse(ActionEvent actionEvent) {
         if(courseNameTextField.getText() == null || courseNameTextField.getText().length() == 0) {
@@ -191,11 +191,9 @@ public class TeacherHomeController {
             courseDescriptionTextArea.setEditable(false);
             createCourseButton.setDisable(true);
             Platform.runLater(() -> {
-
                 CreateCourseRequest request = new CreateCourseRequest(Main.getTeacherId(), courseDescriptionTextArea.getText(), courseNameTextField.getText());
                 Main.sendRequest(request);
                 CreateCourseResponse response = (CreateCourseResponse) Main.receiveResponse();
-
                 System.out.println("Response = " + response);
                 if(response == null) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Could Not create a course. Please try again.");
@@ -240,11 +238,9 @@ public class TeacherHomeController {
         upcomingTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         upcomingTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         upcomingMaxMarksTableColumn.setCellValueFactory(new PropertyValueFactory<>("maxMarks"));
-
         examsResultTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         examsResultDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         examResultCourseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
-
         Platform.runLater(() -> {
             TeacherExamRequest request = new TeacherExamRequest(Main.getTeacherId(), false);
             Main.sendRequest(request);
@@ -271,7 +267,6 @@ public class TeacherHomeController {
 
     public void confirmPicChangeButtonResponse(ActionEvent actionEvent) {
     }
-
     public void refreshButtonResponse(ActionEvent actionEvent) {
         callFirst();
     }

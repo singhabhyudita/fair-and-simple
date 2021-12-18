@@ -3,23 +3,26 @@ package controller;
 import entity.Course;
 import entity.Exam;
 import entity.Main;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import request.*;
 import response.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
+import sun.awt.image.ToolkitImage;
 
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,7 +40,7 @@ public class ProfileScreenController implements Initializable
 
     //This will be called before Profile Screen is loaded and when refresh is called
     public void refreshButtonResponse() {
-        setUpcomingExamsList();
+       setUpcomingExamsList();
         setExamsHistoryTableView();
         setCoursesList();
         setProfilePic();
@@ -53,8 +56,14 @@ public class ProfileScreenController implements Initializable
         GetProfilePicRequest getProfilePicRequest = new GetProfilePicRequest();
         Main.sendRequest(getProfilePicRequest);
         GetProfilePicResponse getProfilePicResponse = (GetProfilePicResponse) Main.getResponse();
-        profilePicImageView.setImage(getProfilePicResponse.getImage());
-        changeProfilePicImageView.setImage(getProfilePicResponse.getImage());
+        System.out.println("Image input stream received "+getProfilePicResponse);
+        BufferedImage bufferedImage;
+        Image image;
+        assert getProfilePicResponse != null;
+        bufferedImage=  ((ToolkitImage)getProfilePicResponse.getImageIcon().getImage()).getBufferedImage();
+        image = SwingFXUtils.toFXImage(bufferedImage, null);
+        profilePicImageView.setImage(image);
+        changeProfilePicImageView.setImage(image);
     }
 
     // Join a course
@@ -63,7 +72,7 @@ public class ProfileScreenController implements Initializable
     @FXML
     public Button joinCourseButton;
 
-    public void joinCourseButtonResponse(ActionEvent actionEvent) {
+    public void joinCourseButtonResponse() {
         String courseCode = enterCourseCodeTextField.getText().trim();
         Main.sendRequest(new JoinCourseRequest(courseCode));
         System.out.println("Join course request sent");
@@ -84,7 +93,7 @@ public class ProfileScreenController implements Initializable
             stage.setTitle("Course");
             CourseTabPaneController courseTabPaneController=loader.getController();
             try {
-                courseTabPaneController.first(joinCourseResponse.getCourseID());
+                courseTabPaneController.first(joinCourseResponse.getCourseID(),name);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -102,17 +111,19 @@ public class ProfileScreenController implements Initializable
     @FXML
     private PasswordField confirmNewPasswordTextField;
 
-    public void changePasswordButtonResponse(ActionEvent actionEvent) {
+    public void changePasswordButtonResponse() {
         String oldPassword = oldPasswordTextField.getText();
         String newPassword = newPasswordTextField.getText();
         String confirmedNewPassword = confirmNewPasswordTextField.getText();
 
-        if(newPassword == confirmedNewPassword) {
+        if(newPassword.equals(confirmedNewPassword)) {
             ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(oldPassword,newPassword);
+            System.out.println("change password request sent");
+            Main.sendRequest(changePasswordRequest);
             ChangePasswordResponse changePasswordResponse = (ChangePasswordResponse) Main.getResponse();
-            if(changePasswordResponse.getResponse() == "Successful") {
+            assert changePasswordResponse != null;
+            if(changePasswordResponse.getResponse().equals("Successful")) {
                 JOptionPane.showMessageDialog(null,"Password changed successfully!");
-                //Redirect to the team joined
             }
             else {
                 JOptionPane.showMessageDialog(null,"Some error occurred.");
@@ -128,19 +139,26 @@ public class ProfileScreenController implements Initializable
     private Button selectImageButton;
     File selectedFile;
         //Select the image to set
-    public void selectImageButtonResponse(ActionEvent actionEvent) {
+    public void selectImageButtonResponse() {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("image files","*.png","*.jpg","*.jpeg"));
         selectedFile = fc.showOpenDialog(null);
         selectImageButton.setText(selectedFile.getName());
     }
         //Send request to server to set it
-    public void confirmPicChangeButtonResponse(ActionEvent actionEvent) {
+    public void confirmPicChangeButtonResponse() {
         try {
             FileInputStream fis = new FileInputStream(selectedFile);
-            ChangeProfilePicRequest ChangeProfilePicRequest = new ChangeProfilePicRequest(fis);
-            ChangeProfilePicResponse ChangeProfilePicResponse = (ChangeProfilePicResponse) Main.getResponse();
-            if(ChangeProfilePicResponse.getResponse() == "Successful") {
+            byte[] imageArray  = new byte[(int) selectedFile.length()];
+            fis.read(imageArray);
+            fis.close();
+            ChangeProfilePicRequest changeProfilePicRequest = new ChangeProfilePicRequest(imageArray);
+            Main.sendRequest(changeProfilePicRequest);
+            System.out.println("profile pic Request sent ");
+            ChangeProfilePicResponse changeProfilePicResponse = (ChangeProfilePicResponse) Main.getResponse();
+            System.out.println("response profile pic "+ changeProfilePicResponse);
+            assert changeProfilePicResponse != null;
+            if(changeProfilePicResponse.getResponse().equals("Successful")) {
                 JOptionPane.showMessageDialog(null,"Profile picture changed successfully!");
                 setProfilePic();
             }
@@ -150,16 +168,22 @@ public class ProfileScreenController implements Initializable
         }
         catch(FileNotFoundException fileNotFoundException) {
             JOptionPane.showMessageDialog(null,"Please select a valid image first!");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     //Logout
     @FXML
     private Button logOutButton;
-    public void logOutButtonResponse(ActionEvent actionEvent) {
+    public void logOutButtonResponse() {
         LogOutRequest logOutRequest = new LogOutRequest();
+        Main.sendRequest(logOutRequest);
         LogOutResponse logOutResponse = (LogOutResponse)Main.getResponse();
-        if(logOutResponse.getResponse() == "Successful") {
+        assert logOutResponse != null;
+        System.out.println("Response received ");
+        if(logOutResponse.getResponse().equals("Successful")) {
+            System.out.println("Logout "+logOutResponse.getResponse());
             FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
             Stage stage=(Stage)logOutButton.getScene().getWindow();
             try {
@@ -245,6 +269,7 @@ public class ProfileScreenController implements Initializable
         UpcomingExamsResponse upcomingExamsResponse = (UpcomingExamsResponse) Main.getResponse();
 
         //Setting list of exams as Observable list in Exams Table
+        assert upcomingExamsResponse != null;
         observableUpcomingExamsList = FXCollections.observableList(upcomingExamsResponse.getExamsList());
         upcomingExamsTableView.setItems(observableUpcomingExamsList);
     }
@@ -264,7 +289,7 @@ public class ProfileScreenController implements Initializable
                 new PropertyValueFactory<Course, String>("courseName")
         );
         professorNameTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Course, String>("professorName")
+                new PropertyValueFactory<Course, String>("courseDescription")
         );
 
         //Sending request to server to fetch user's enrolled courses
@@ -273,12 +298,43 @@ public class ProfileScreenController implements Initializable
         CoursesListResponse coursesListResponse = (CoursesListResponse) Main.getResponse();
 
         //Setting list of courses as observable
+        System.out.println("Courses list response received, trying to populate the table");
+        assert coursesListResponse != null;
         observableCoursesList = FXCollections.observableList(coursesListResponse.getCoursesList());
         coursesTableView.setItems(observableCoursesList);
     }
 
     public void onCourseClicked(MouseEvent mouseEvent) {
-        //list of courses
+        FXMLLoader courseLoader=new FXMLLoader(getClass().getResource("../fxml/CourseTabPane.fxml"));
+        Course course= (Course) coursesTableView.getSelectionModel().getSelectedItem();
+        Scene scene=null;
+        try {
+             scene=new Scene(courseLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = (Stage) selectImageButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Course");
+        CourseTabPaneController courseTabPaneController=courseLoader.getController();
+        try {
+            System.out.println("Trying to load course");
+            courseTabPaneController.first(course.getCourseId(),name);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    private String name;
+    @FXML
+    public Label heyNameLabel;
+
+    public void first(String name) {
+        this.name=name;
+        heyNameLabel.setText("Hey, "+name);
+        setCoursesList();
+        setUpcomingExamsList();
+        setExamsHistoryTableView();
+        setProfilePic();
     }
 }
 

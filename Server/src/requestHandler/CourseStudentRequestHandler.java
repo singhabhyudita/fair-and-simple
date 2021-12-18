@@ -40,9 +40,9 @@ public class CourseStudentRequestHandler extends RequestHandler {
             ResultSet students = statement.executeQuery();
             System.out.println("Got the following students -");
             while(students.next()) {
-                courseStudents.add(new Student(
-                        students.getString(StudentTable.COLUMN_FIRST_NAME) + " " + students.getString(StudentTable.COLUMN_LAST_NAME),
-                        students.getString(StudentTable.COLUMN_REGISTRATION_NUMBER)));
+                courseStudents.add(new Student( students.getInt(StudentTable.COLUMN_REGISTRATION_NUMBER),
+                        students.getString(StudentTable.COLUMN_FIRST_NAME) + " " + students.getString(StudentTable.COLUMN_LAST_NAME)
+                ));
                 System.out.println(students.getString(StudentTable.COLUMN_REGISTRATION_NUMBER));
             }
             System.out.println("Done");

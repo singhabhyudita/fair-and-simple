@@ -1,5 +1,4 @@
 package request;
-import java.io.FileInputStream;
 import java.io.Serializable;
 
 public class ChangeProfilePicRequest extends Request implements Serializable {

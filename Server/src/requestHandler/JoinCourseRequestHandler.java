@@ -1,7 +1,6 @@
 package requestHandler;
 
 import main.RequestIdentifier;
-import main.Server;
 import request.JoinCourseRequest;
 import response.JoinCourseResponse;
 import table.CoursesTable;
@@ -29,7 +28,7 @@ public class JoinCourseRequestHandler extends RequestHandler {
     public void sendResponse()  {
         ResultSet resultSet = null;
         int result=0;
-        int courseId = -1;
+        int courseId = 0;
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(CoursesTable.GET_COURSE_ID_BY_COURSE_CODE);
             preparedStatement.setString(1,joinCourseRequest.getCourseCode());
@@ -45,7 +44,12 @@ public class JoinCourseRequestHandler extends RequestHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-            if(result==0) Server.sendResponse(oos, new JoinCourseResponse("", ""));
-            else Server.sendResponse(oos, new JoinCourseResponse("Successful", String.valueOf(courseId)));
+        try {
+            if(result==0)oos.writeObject(new JoinCourseResponse("",""));
+            else oos.writeObject(new JoinCourseResponse("Successful",String.valueOf(courseId)));
+            oos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

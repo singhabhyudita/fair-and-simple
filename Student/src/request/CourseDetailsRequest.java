@@ -7,4 +7,7 @@ public class CourseDetailsRequest extends Request {
         this.courseID = courseID;
     }
 
+    public String getCourseID() {
+        return courseID;
+    }
 }

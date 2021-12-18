@@ -5,6 +5,7 @@ import request.TeacherCoursesRequest;
 import entity.Course;
 import response.TeacherCoursesResponse;
 import table.CoursesTable;
+import table.TeacherTable;
 
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
@@ -25,8 +26,9 @@ public class TeacherCoursesRequestHandler {
     }
 
     public void sendResposne() {
-        System.out.println("Finding courses for teacher " + teacherCoursesRequest.getTeacherId());
-        ResultSet courseResultSet = null;
+        ResultSet courseResultSet = null,resultSet;
+        PreparedStatement preparedStatement;
+        String teacherId,name = null;
         try {
             PreparedStatement getCoursesStatement = connection.prepareStatement(CoursesTable.GET_COURSES_BY_TEACHER_ID);
             getCoursesStatement.setString(1, teacherCoursesRequest.getTeacherId());
@@ -34,7 +36,16 @@ public class TeacherCoursesRequestHandler {
             courseResultSet = getCoursesStatement.executeQuery();
             List<Course> courses = new ArrayList<>();
             while(courseResultSet.next()) {
-                courses.add(new Course(courseResultSet.getString(CoursesTable.TEACHER_ID_COLUMN),
+                teacherId=courseResultSet.getString(CoursesTable.TEACHER_ID_COLUMN);
+
+                preparedStatement=connection.prepareStatement(TeacherTable.GET_TEACHER_NAME_BY_ID);
+                preparedStatement.setString(1,teacherId);
+                resultSet=preparedStatement.executeQuery();
+                resultSet.next();
+
+                name=resultSet.getString(1);
+
+                courses.add(new Course(teacherId,name,
                         courseResultSet.getString(CoursesTable.COURSE_ID_COLUMN),
                         courseResultSet.getString(CoursesTable.COURSE_NAME_COLUMN), courseResultSet.getString(CoursesTable.COURSE_CODE_COLUMN),
                         courseResultSet.getString(CoursesTable.COURSE_DESC_COLUMN)));

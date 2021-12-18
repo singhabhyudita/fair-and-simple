@@ -1,12 +1,13 @@
 package response;
 
+import entity.Student;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import entity.*;
 
 public class ParticipantsListResponse extends Response implements Serializable {
     private ArrayList<Student> participantsList;
-    ParticipantsListResponse(ArrayList<Student> participantsList) {
+    public ParticipantsListResponse(ArrayList<Student> participantsList) {
         this.participantsList = participantsList;
     }
 

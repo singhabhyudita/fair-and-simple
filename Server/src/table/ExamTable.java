@@ -4,6 +4,7 @@ public class ExamTable {
     public static final String TABLE_NAME = "exam";
     public static final String EXAM_ID_COLUMN = "examID";
     public static final String COURSE_ID_COLUMN = "courseID";
+    public static final String COURSE_NAME_COLUMN = "courseID";
     public static final String PROCTOR_ID_COLUMN = "proctorID";
     public static final String TITLE_COLUMN = "title";
     public static final String DESCRIPTION_COLUMN = "description";
@@ -28,4 +29,12 @@ public class ExamTable {
             + " INNER JOIN " + CoursesTable.TABLE_NAME + " ON "
             + TABLE_NAME + "." + COURSE_ID_COLUMN + " = "+CoursesTable.TABLE_NAME +"." + CoursesTable.COURSE_ID_COLUMN
             + " WHERE " + PROCTOR_ID_COLUMN + " = ?";
+    public static final String GET_UPCOMING_EXAMS_STUDENT = "SELECT * FROM " + TABLE_NAME
+            + " WHERE " + COURSE_ID_COLUMN +" IN (" + "SELECT " + COURSE_ID_COLUMN + " FROM " + EnrollmentTable.TABLE_NAME
+            + " WHERE " + EnrollmentTable.COLUMN_REGISTGRATION_NO + " = ? ) AND " + START_TIME_COLUMN + " >= ?;";
+    public static final String GET_EXAMS_HISTORY_STUDENT = "SELECT * FROM " + TABLE_NAME
+            + " WHERE " + COURSE_ID_COLUMN +" IN (" + "SELECT " + COURSE_ID_COLUMN + " FROM " + EnrollmentTable.TABLE_NAME
+            + " WHERE " + EnrollmentTable.COLUMN_REGISTGRATION_NO + " = ? ) AND " + START_TIME_COLUMN + " < ?;";
+//    public static final String GET_EXAM_BY_TEACHER_ID = "SELECT * FROM " + TABLE_NAME + " WHERE "
+//            + PROCTOR_ID_COLUMN + " = ?";
 }

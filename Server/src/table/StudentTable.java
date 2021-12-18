@@ -9,6 +9,7 @@ public class  StudentTable  {
     public static final String COLUMN_PASSWORD="password";
     public static final String COLUMN_LAST_ACTIVE="lastActive";
     public static final String COLUMN_SALT="salt";
+    public static final String COLUMN_PROFILE_PIC="profilePic";
 
     public static final String QUERY_LOGIN="SELECT * FROM "+TABLE_NAME+" WHERE "+COLUMN_REGISTRATION_NUMBER+" =? AND "+ COLUMN_PASSWORD+"= ?;";
     public static final String QUERY_UPDATE_LAST_ACTIVE="UPDATE "+TABLE_NAME+ " SET "+COLUMN_LAST_ACTIVE+" = CURRENT_TIMESTAMP WHERE "+COLUMN_REGISTRATION_NUMBER+" =?;";
@@ -17,6 +18,10 @@ public class  StudentTable  {
     public static final String QUERY_CHANGE_PASSWORD= "UPDATE "+ TABLE_NAME + " SET "+ COLUMN_PASSWORD +
             " = ? WHERE "+ COLUMN_REGISTRATION_NUMBER + " = ? AND "+ COLUMN_PASSWORD +" = ?;";
     public static final  String QUERY_STUDENT_DETAILS_BY_ID=" SELECT * FROM "+TABLE_NAME+ " WHERE "+COLUMN_REGISTRATION_NUMBER+" =?;";
+    public static final String UPDATE_PROFILE_PIC_STUDENT = "UPDATE " + TABLE_NAME + " SET " + COLUMN_PROFILE_PIC + " = ? WHERE "
+            + COLUMN_REGISTRATION_NUMBER + " = ?";
+    public static final String SELECT_PROFILE_PIC_STUDENT = "SELECT "+COLUMN_PROFILE_PIC+" FROM "+TABLE_NAME+" WHERE "
+            +COLUMN_REGISTRATION_NUMBER+" = ? ";
     public static final String QUERY_STUDENT_BY_COURSE_ID= " SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_REGISTRATION_NUMBER
             + " IN (" + EnrollmentTable.QUERY_GET_STUDENTS_BY_COURSE_ID + ");";
 }

@@ -19,17 +19,25 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                        <children>
-                                          <Label fx:id="courseNameLabel" alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="390.0" textAlignment="CENTER">
+                                          <HBox alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="246.0" />
+                                          <Label prefHeight="26.0" prefWidth="410.0" text="Course:">
+                                             <font>
+                                                <Font name="System Italic" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="courseNameLabel" prefHeight="26.0" prefWidth="552.0" text="Intro 101">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="390.0" textAlignment="CENTER">
                                              <font>
                                                 <Font name="System Bold" size="26.0" />
                                              </font>
                                           </Label>
-                                          <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="121.0" spacing="10.0">
-                                             <children>
-                                                <Button fx:id="backfromCourseInfoButton" mnemonicParsing="false" onAction="#backResponse" prefHeight="26.0" prefWidth="42.0" text="Back" textAlignment="CENTER" />
-                                                <Button fx:id="refreshCourseInfoButton" mnemonicParsing="false" onAction="#refreshResponse" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
-                                             </children>
-                                          </HBox>
+                                          <Button fx:id="backfromCourseInfoButton" mnemonicParsing="false" onAction="#backfromCourseInfoButtonResponse" prefHeight="25.0" prefWidth="375.0" text="Back" textAlignment="CENTER" />
+                                          <Button fx:id="refreshCourseInfoButton" mnemonicParsing="false" onAction="#refreshCourseInfoButtonResponse" prefHeight="26.0" prefWidth="390.0" text="Refresh" />
+                                          <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="114.0" spacing="10.0" />
                                        </children>
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
@@ -87,7 +95,7 @@
                                                             <Font name="System Italic" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="professorLabel" prefHeight="18.0" prefWidth="72.0" text="DNK">
+                                                      <Label fx:id="professorLabel" prefHeight="21.0" prefWidth="279.0" text="DNK">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -106,10 +114,10 @@
                                                 <VBox alignment="CENTER_LEFT" prefHeight="286.0" prefWidth="570.0" spacing="10.0">
                                                    <children>
                                                       <ComboBox fx:id="participantsSearchComboBox1" editable="true" onKeyReleased="#handleOnKeyPressed" prefHeight="26.0" prefWidth="548.0" promptText="Search for participants" />
-                                                      <TableView fx:id="participantsTableView" onMouseClicked="#clickItem" prefHeight="510.0" prefWidth="272.0">
+                                                      <TableView fx:id="participantsTableView" prefHeight="510.0" prefWidth="272.0">
                                                          <columns>
-                                                            <TableColumn fx:id="titleTableColumn1" prefWidth="103.99996644258499" text="Title" />
-                                                            <TableColumn fx:id="timeTableColumn1" prefWidth="81.5999755859375" text="Time" />
+                                                            <TableColumn fx:id="nameTableColumn" prefWidth="103.99996644258499" text="Title" />
+                                                            <TableColumn fx:id="registrationNumberTableColumn" prefWidth="81.5999755859375" text="Time" />
                                                          </columns>
                                                       </TableView>
                                                    </children>
@@ -119,7 +127,7 @@
                                                 </VBox>
                                                 <HBox alignment="CENTER_RIGHT">
                                                    <children>
-                                                      <Button fx:id="leaveCourseButton" mnemonicParsing="false" onAction="#backResponse" prefHeight="26.0" prefWidth="95.0" text="Leave course" textAlignment="CENTER" />
+                                                      <Button fx:id="leaveCourseButton" mnemonicParsing="false" onAction="#backfromCourseInfoButtonResponse" prefHeight="26.0" prefWidth="95.0" text="Leave course" textAlignment="CENTER" />
                                                    </children>
                                                    <VBox.margin>
                                                       <Insets right="10.0" />
@@ -162,8 +170,8 @@
                                           </Label>
                                           <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="121.0" spacing="10.0">
                                              <children>
-                                                <Button fx:id="backFromExamsScheduleButton" mnemonicParsing="false" onAction="#backResponse" prefHeight="26.0" prefWidth="42.0" text="Back" textAlignment="CENTER" />
-                                                <Button fx:id="refreshExamsScheduleButton" mnemonicParsing="false" onAction="#refreshResponse" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
+                                                <Button fx:id="backFromExamsScheduleButton" mnemonicParsing="false" onAction="#backFromExamsScheduleButtonResponse" prefHeight="26.0" prefWidth="42.0" text="Back" textAlignment="CENTER" />
+                                                <Button fx:id="refreshExamsScheduleButton" mnemonicParsing="false" onAction="#refreshExamsScheduleButtonResponse" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -180,7 +188,7 @@
                                  </HBox>
                                  <HBox prefHeight="573.0" prefWidth="590.0" spacing="5.0">
                                     <children>
-                                       <TableView fx:id="examsTableView" onMouseClicked="#clickItem" prefHeight="510.0" prefWidth="272.0">
+                                       <TableView fx:id="examsTableView" prefHeight="510.0" prefWidth="272.0">
                                           <columns>
                                              <TableColumn fx:id="titleTableColumn" prefWidth="103.99996644258499" text="Title" />
                                              <TableColumn fx:id="timeTableColumn" prefWidth="81.5999755859375" text="Time" />
@@ -303,8 +311,8 @@
                                           </Label>
                                           <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="121.0" spacing="10.0">
                                              <children>
-                                                <Button fx:id="backFromDiscussionForumButton" mnemonicParsing="false" onAction="#backResponse" prefHeight="26.0" prefWidth="42.0" text="Back" textAlignment="CENTER" />
-                                                <Button fx:id="refreshDiscussionForumButton" mnemonicParsing="false" onAction="#refreshResponse" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
+                                                <Button fx:id="backFromDiscussionForumButton" mnemonicParsing="false" onAction="#backFromDiscussionForumButtonResponse" prefHeight="26.0" prefWidth="42.0" text="Back" textAlignment="CENTER" />
+                                                <Button fx:id="refreshDiscussionForumButton" mnemonicParsing="false" onAction="#refreshDiscussionForumButtonResponse" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
                                              </children>
                                           </HBox>
                                        </children>

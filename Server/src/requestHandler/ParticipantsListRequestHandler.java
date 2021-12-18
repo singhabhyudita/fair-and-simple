@@ -30,6 +30,7 @@ public class ParticipantsListRequestHandler extends RequestHandler {
         ArrayList<Student>students=new ArrayList<>();
         ResultSet resultSet;
         PreparedStatement preparedStatement= null;
+        ParticipantsListResponse participantsListResponse;
         try {
             preparedStatement = connection.prepareStatement(EnrollmentTable.QUERY_GET_STUDENTS_BY_COURSE_ID);
             preparedStatement.setInt(1,Integer.parseInt(participantsListRequest.getCourseId()));
@@ -39,15 +40,16 @@ public class ParticipantsListRequestHandler extends RequestHandler {
                 preparedStatement.setInt(1,resultSet.getInt(1));
                 ResultSet resultSet1=preparedStatement.executeQuery();
                 while (resultSet1.next()){
-                    students.add(new Student(resultSet1.getString(StudentTable.COLUMN_FIRST_NAME)+resultSet1.getString(StudentTable.COLUMN_LAST_NAME),
-                            resultSet1.getString(StudentTable.COLUMN_REGISTRATION_NUMBER)));
+                    students.add(new Student(resultSet1.getInt(StudentTable.COLUMN_REGISTRATION_NUMBER),resultSet1.getString(StudentTable.COLUMN_FIRST_NAME)+" "+resultSet1.getString(StudentTable.COLUMN_LAST_NAME)));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("sending students array "+ students.get(0).getName());
         try {
-            oos.writeObject(new ParticipantsListResponse(students));
+            participantsListResponse=new ParticipantsListResponse(students);
+            oos.writeObject(participantsListResponse);
             oos.flush();
         } catch (IOException e) {
             e.printStackTrace();
