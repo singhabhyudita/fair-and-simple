@@ -1,9 +1,14 @@
 package main;
 
+import entity.Status;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import request.Request;
 import response.Response;
 
@@ -15,6 +20,7 @@ import java.net.Socket;
 public class Main extends Application {
 
     private static String teacherId = "";
+    private static String teacherName = "";
     static ObjectOutputStream outputStream;
     private static ObjectInputStream inputStream;
     public static Object tempHolder = null;
@@ -28,10 +34,14 @@ public class Main extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("../views/TeacherLoginView.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 593);
+//            primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Teacher Login");
             primaryStage.setMinHeight(590);
             primaryStage.setMinWidth(600);
+//            primaryStage.setAlwaysOnTop(true);
+//            primaryStage.setMaximized(true);
+//            primaryStage.resizableProperty().setValue(Boolean.FALSE);
             primaryStage.show();
             connectToServer();
         } catch (IOException e) {
@@ -54,8 +64,16 @@ public class Main extends Application {
         return teacherId;
     }
 
+    public static String getTeacherName() {
+        return teacherName;
+    }
+
     public static void setTeacherId(String id) {
-        if(teacherId.equals("")) teacherId = id;
+        if(teacherId.equals("") || id.equals("")) teacherId = id;
+    }
+
+    public static void setTeacherName(String teacherName) {
+        Main.teacherName = teacherName;
     }
 
     public static void sendRequest(Request request) {

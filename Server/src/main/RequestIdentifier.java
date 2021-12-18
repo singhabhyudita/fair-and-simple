@@ -42,7 +42,9 @@ public class RequestIdentifier implements Runnable{
             System.out.println("Request came");
             if(request==null) break;
             else if(request instanceof LoginRequest){
-                userID=((LoginRequest) request).getUsername();
+                System.out.println("Login request");
+                RequestIdentifier.userID=((LoginRequest) request).getUsername();
+                System.out.println("Setting the userId static variable to " + RequestIdentifier.userID);
                 LoginRequestHandler loginRequestHandler=new LoginRequestHandler(oos,(LoginRequest)request,Server.getConnection());
                 loginRequestHandler.sendResponse();
             }
@@ -51,6 +53,9 @@ public class RequestIdentifier implements Runnable{
                 registerRequestHandler.sendResponse();
             }
             else if(request instanceof TeacherLoginRequest){
+                System.out.println("Login request");
+                RequestIdentifier.userID=((TeacherLoginRequest) request).getUsername();
+                System.out.println("Setting the userId static variable to " + RequestIdentifier.userID);
                 TeacherLoginRequestHandler teacherLoginRequestHandler=new TeacherLoginRequestHandler(Server.getConnection(),oos,(TeacherLoginRequest)request);
                 teacherLoginRequestHandler.sendResponse();
             }
@@ -74,8 +79,6 @@ public class RequestIdentifier implements Runnable{
             } else if(request instanceof TeacherExamRequest) {
                 TeacherExamRequestHandler handler = new TeacherExamRequestHandler(Server.getConnection(), oos, (TeacherExamRequest) request);
                 handler.sendResponse();
-            } else if(request instanceof LogOutRequest) {
-                break; // get out of the infinite loop.
             } else if(request instanceof TeacherChangePasswordRequest) {
                 TeacherChangePasswordRequestHandler handler = new TeacherChangePasswordRequestHandler(Server.getConnection(), oos, (TeacherChangePasswordRequest) request);
                 handler.sendResponse();
@@ -103,6 +106,10 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof ExamsListRequest){
                 ExamsListRequestHandler examsListRequestHandler=new ExamsListRequestHandler(Server.getConnection(),oos,(ExamsListRequest)request);
                 examsListRequestHandler.sendResponse();
+            }
+            else if(request instanceof CourseStudentRequest) {
+                CourseStudentRequestHandler courseStudentRequestHandler = new CourseStudentRequestHandler(Server.getConnection(), oos, (CourseStudentRequest) request);
+                courseStudentRequestHandler.sendResponse();
             }
             else{
                 Server.sendResponse(oos, null);

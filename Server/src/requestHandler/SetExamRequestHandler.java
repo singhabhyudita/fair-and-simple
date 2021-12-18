@@ -40,7 +40,7 @@ public class SetExamRequestHandler {
             setExam.setString(1, request.getCourseId());
             setExam.setString(2, request.getTeacherId());
             setExam.setString(3, request.getExamTitle());
-            setExam.setString(4, request.getExamTitle()); // temporary.
+            setExam.setString(4, request.getDescription());
             setExam.setString(5, String.valueOf(request.getQuestions().size()));
             setExam.setObject(6, request.getStartTime());
             setExam.setObject(7, request.getEndTime());

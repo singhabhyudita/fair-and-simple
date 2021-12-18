@@ -1,6 +1,7 @@
 package requestHandler;
 
 import main.RequestIdentifier;
+import main.Server;
 import request.JoinCourseRequest;
 import response.JoinCourseResponse;
 import table.CoursesTable;
@@ -28,25 +29,23 @@ public class JoinCourseRequestHandler extends RequestHandler {
     public void sendResponse()  {
         ResultSet resultSet = null;
         int result=0;
+        int courseId = -1;
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(CoursesTable.GET_COURSE_ID_BY_COURSE_CODE);
-            preparedStatement.setInt(1,Integer.parseInt(joinCourseRequest.getCourseCode()));
+            preparedStatement.setString(1,joinCourseRequest.getCourseCode());
             resultSet=preparedStatement.executeQuery();
             while (resultSet.next()){
                 preparedStatement=connection.prepareStatement(EnrollmentTable.QUERY_JOIN_COURSE_BY_ID);
-                preparedStatement.setInt(1,resultSet.getInt(1));
+                courseId = resultSet.getInt(1);
+                System.out.println("Course ID = " + courseId);
+                preparedStatement.setInt(1,courseId);
                 preparedStatement.setInt(2,Integer.parseInt(RequestIdentifier.userID));
                 result=preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
-            if(result==0)oos.writeObject(new JoinCourseResponse("",""));
-            else oos.writeObject(new JoinCourseResponse("Successful",String.valueOf(resultSet.getInt(1))));
-            oos.flush();
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        }
+            if(result==0) Server.sendResponse(oos, new JoinCourseResponse("", ""));
+            else Server.sendResponse(oos, new JoinCourseResponse("Successful", String.valueOf(courseId)));
     }
 }

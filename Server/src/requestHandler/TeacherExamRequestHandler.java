@@ -40,7 +40,9 @@ public class TeacherExamRequestHandler {
                         allExams.getString(ExamTable.COURSE_ID_COLUMN),
                         allExams.getString(CoursesTable.COURSE_NAME_COLUMN),
                         allExams.getString(ExamTable.TITLE_COLUMN),
-                        allExams.getDate(ExamTable.START_TIME_COLUMN),
+                        allExams.getString(ExamTable.DESCRIPTION_COLUMN),
+                        allExams.getTimestamp(ExamTable.START_TIME_COLUMN),
+                        allExams.getTimestamp(ExamTable.END_TIME_COLUMN),
                         allExams.getInt(ExamTable.MAXIMUM_MARKS_COLUMN)
                         ));
             }

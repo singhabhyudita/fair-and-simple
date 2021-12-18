@@ -85,6 +85,9 @@ public class CourseTabPaneController implements Initializable
         System.out.println("course details request sent");
         Course course= (Course) Main.getResponse();
         assert course != null;
+
+        System.out.println("Course Object = " + course);
+
         courseNameLabel.setText(course.getCourseName());
         courseCodeLabel.setText(course.getCourseCode());
         aboutCourseLabel.setText(course.getCourseDescription());
@@ -166,5 +169,14 @@ public class CourseTabPaneController implements Initializable
 
     public void sendButtonResponse(ActionEvent actionEvent) {
         //TODO: send messages
+    }
+
+    public void handleOnKeyPressed(KeyEvent keyEvent) {
+    }
+
+    public void clickItem(MouseEvent mouseEvent) {
+    }
+
+    public void sortResponse(ActionEvent actionEvent) {
     }
 }

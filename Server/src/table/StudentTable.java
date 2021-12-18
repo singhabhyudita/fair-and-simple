@@ -17,4 +17,6 @@ public class  StudentTable  {
     public static final String QUERY_CHANGE_PASSWORD= "UPDATE "+ TABLE_NAME + " SET "+ COLUMN_PASSWORD +
             " = ? WHERE "+ COLUMN_REGISTRATION_NUMBER + " = ? AND "+ COLUMN_PASSWORD +" = ?;";
     public static final  String QUERY_STUDENT_DETAILS_BY_ID=" SELECT * FROM "+TABLE_NAME+ " WHERE "+COLUMN_REGISTRATION_NUMBER+" =?;";
+    public static final String QUERY_STUDENT_BY_COURSE_ID= " SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_REGISTRATION_NUMBER
+            + " IN (" + EnrollmentTable.QUERY_GET_STUDENTS_BY_COURSE_ID + ");";
 }

@@ -1,5 +1,6 @@
 package controllers;
 
+import entity.Exam;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -7,7 +8,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.GuiUtil;
-import entity.Exam;
 
 import java.util.Date;
 
