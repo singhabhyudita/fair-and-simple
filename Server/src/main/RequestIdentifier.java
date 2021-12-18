@@ -74,8 +74,6 @@ public class RequestIdentifier implements Runnable{
             } else if(request instanceof TeacherExamRequest) {
                 TeacherExamRequestHandler handler = new TeacherExamRequestHandler(Server.getConnection(), oos, (TeacherExamRequest) request);
                 handler.sendResponse();
-            } else if(request instanceof LogOutRequest) {
-                break; // get out of the infinite loop.
             } else if(request instanceof TeacherChangePasswordRequest) {
                 TeacherChangePasswordRequestHandler handler = new TeacherChangePasswordRequestHandler(Server.getConnection(), oos, (TeacherChangePasswordRequest) request);
                 handler.sendResponse();
@@ -103,6 +101,34 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof ExamsListRequest){
                 ExamsListRequestHandler examsListRequestHandler=new ExamsListRequestHandler(Server.getConnection(),oos,(ExamsListRequest)request);
                 examsListRequestHandler.sendResponse();
+            }
+            else if (request instanceof CourseDetailsRequest){
+                CourseDetailsRequestHandler courseDetailsRequestHandler=new CourseDetailsRequestHandler(Server.getConnection(),oos,(CourseDetailsRequest)request);
+                courseDetailsRequestHandler.sendResponse();
+            }
+            else if (request instanceof ChangeProfilePicRequest){
+                ChangeProfilePicRequestHandler changeProfilePicRequestHandler=new ChangeProfilePicRequestHandler(Server.getConnection(),oos,(ChangeProfilePicRequest)request);
+                changeProfilePicRequestHandler.sendResponse();
+            }
+            else if( request instanceof GetProfilePicRequest){
+                GetProfilePicRequestHandler getProfilePicRequestHandler=new GetProfilePicRequestHandler(Server.getConnection(),oos,(GetProfilePicRequest)request);
+                getProfilePicRequestHandler.sendResponse();
+            }
+            else if(request instanceof UpcomingExamsRequest){
+                UpcomingExamsRequestHandler upcomingExamsRequestHandler=new UpcomingExamsRequestHandler(Server.getConnection(),oos,(UpcomingExamsRequest)request);
+                upcomingExamsRequestHandler.sendResponse();
+            }
+            else if(request instanceof ExamsHistoryRequest){
+                ExamsHistoryRequestHandler examsHistoryRequestHandler=new ExamsHistoryRequestHandler(Server.getConnection(),oos,(ExamsHistoryRequest)request);
+                examsHistoryRequestHandler.sendResponse();
+            }
+            else if(request instanceof ChangeTeacherProfilePicRequest){
+                ChangeTeacherProfilePicRequestHandler changeTeacherProfilePicRequestHandler=new ChangeTeacherProfilePicRequestHandler(Server.getConnection(),oos,(ChangeTeacherProfilePicRequest)request);
+                changeTeacherProfilePicRequestHandler.sendResponse();
+            }
+            else if(request instanceof GetTeacherProfilePicRequest){
+                GetTeacherProfilePicRequestHandler getTeacherProfilePicRequestHandler=new GetTeacherProfilePicRequestHandler(Server.getConnection(),oos,(GetTeacherProfilePicRequest)request);
+                getTeacherProfilePicRequestHandler.sendResponse();
             }
             else{
                 Server.sendResponse(oos, null);

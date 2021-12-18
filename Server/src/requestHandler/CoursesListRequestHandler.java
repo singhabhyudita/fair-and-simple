@@ -5,6 +5,7 @@ import main.RequestIdentifier;
 import response.CoursesListResponse;
 import table.CoursesTable;
 import table.EnrollmentTable;
+import table.TeacherTable;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -25,9 +26,10 @@ public class CoursesListRequestHandler extends RequestHandler {
 
     @Override
     public void sendResponse() {
-       PreparedStatement p1;
+       PreparedStatement p1,preparedStatement;
         ArrayList<Course>courses = new ArrayList<>();
-        ResultSet s1,s2;
+        ResultSet s1,s2,s3;
+        String teacherid,name;
         try {
             p1=connection.prepareStatement(EnrollmentTable.QUERY_GET_COURSES_BY_ID);
             p1.setInt(1,Integer.parseInt(RequestIdentifier.userID));
@@ -37,7 +39,15 @@ public class CoursesListRequestHandler extends RequestHandler {
                p2.setInt(1,s1.getInt(1));
                s2=p2.executeQuery();
                while (s2.next()){
-                   courses.add(new Course(s2.getString(CoursesTable.TEACHER_ID_COLUMN),s2.getString(CoursesTable.COURSE_ID_COLUMN),
+                   teacherid=s2.getString(CoursesTable.TEACHER_ID_COLUMN);
+
+                   preparedStatement=connection.prepareStatement(TeacherTable.GET_TEACHER_NAME_BY_ID);
+                   preparedStatement.setString(1,teacherid);
+                   s3=preparedStatement.executeQuery();
+                   s3.next();
+
+                   name=s3.getString(1)+" "+s3.getString(2);
+                   courses.add(new Course(teacherid,name,s2.getString(CoursesTable.COURSE_ID_COLUMN),
                            s2.getString(CoursesTable.COURSE_NAME_COLUMN),s2.getString(CoursesTable.COURSE_CODE_COLUMN),
                            s2.getString(CoursesTable.COURSE_DESC_COLUMN)));
                }

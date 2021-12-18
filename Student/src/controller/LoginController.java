@@ -59,6 +59,8 @@ public class LoginController implements Initializable {
             }
             currentStage.setScene(scene);
             currentStage.setTitle("Welcome");
+            ProfileScreenController profileScreenController=homepageLoader.getController();
+            profileScreenController.first(response.getFirstName()+" "+response.getLastName());
         }
     }
 

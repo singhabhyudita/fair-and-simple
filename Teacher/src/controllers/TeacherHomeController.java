@@ -17,6 +17,10 @@ import javafx.stage.Stage;
 import main.GuiUtil;
 import main.Main;
 import request.*;
+import response.CreateCourseResponse;
+import response.TeacherChangePasswordResponse;
+import response.TeacherCoursesResponse;
+import response.TeacherExamResponse;
 
 import java.io.IOException;
 import java.util.Date;
