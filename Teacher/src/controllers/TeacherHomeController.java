@@ -5,12 +5,14 @@ import entity.Exam;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -19,8 +21,12 @@ import main.GuiUtil;
 import main.Main;
 import request.*;
 import response.*;
-
+import sun.awt.image.ToolkitImage;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,6 +94,10 @@ public class TeacherHomeController {
     public PasswordField confirmNewPasswordTextField;
     @FXML
     public Button selectImageButton;
+    @FXML
+    public Button confirmPicChangeButton;
+    @FXML
+    public ImageView changeProfilePicImageView;
 
     private TeacherExamResponse teacherExamResponse;
     private File selectedFile;
@@ -184,6 +194,7 @@ public class TeacherHomeController {
         heyNameLabel.setText("Hey " + Main.getTeacherName() + "!");
         populateTeacherCourses();
         populateExamTables();
+        setProfilePic();
     }
     @FXML
     public void createCourseButtonResponse(ActionEvent actionEvent) {
@@ -244,7 +255,7 @@ public class TeacherHomeController {
         upcomingMaxMarksTableColumn.setCellValueFactory(new PropertyValueFactory<>("maxMarks"));
         examsResultTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         examsResultDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        examResultCourseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
+        examResultCourseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
         Platform.runLater(() -> {
             TeacherExamRequest request = new TeacherExamRequest(Main.getTeacherId(), false);
             Main.sendRequest(request);
@@ -265,6 +276,7 @@ public class TeacherHomeController {
 
     public void changePasswordButtonResponse(ActionEvent actionEvent) {
     }
+    File selectedFile;
 
     public void selectImageButtonResponse(ActionEvent actionEvent) {
         FileChooser fc = new FileChooser();
@@ -274,17 +286,45 @@ public class TeacherHomeController {
     }
 
     public void confirmPicChangeButtonResponse(ActionEvent actionEvent) {
-        if(selectedFile == null) {
-            GuiUtil.alert(Alert.AlertType.ERROR, "Select a picture first.");
-            return;
+        try {
+            FileInputStream fis = new FileInputStream(selectedFile);
+            byte[] imageArray  = new byte[(int) selectedFile.length()];
+            fis.read(imageArray);
+            fis.close();
+            ChangeTeacherProfilePicRequest changeTeacherProfilePicRequest = new ChangeTeacherProfilePicRequest(imageArray);
+            Main.sendRequest(changeTeacherProfilePicRequest);
+            System.out.println("profile pic Request sent ");
+            ChangeTeacherProfilePicResponse changeProfilePicResponse = (ChangeTeacherProfilePicResponse) Main.receiveResponse();
+            System.out.println("response profile pic "+ changeProfilePicResponse);
+            assert changeProfilePicResponse != null;
+            if(changeProfilePicResponse.getResponse().equals("Successful")) {
+                JOptionPane.showMessageDialog(null,"Profile picture changed successfully!");
+                setProfilePic();
+            }
+            else {
+                JOptionPane.showMessageDialog(null,"Some error occurred.");
+            }
         }
-        TeacherChangeProfilePictureRequest request = new TeacherChangeProfilePictureRequest(selectedFile);
-        Main.sendRequest(request);
-        TeacherChangeProfilePictureResponse response = (TeacherChangeProfilePictureResponse) Main.receiveResponse();
-        if(response.isSuccess())
-            GuiUtil.alert(Alert.AlertType.INFORMATION, "Profile changed successfully!");
-        else
-            GuiUtil.alert(Alert.AlertType.ERROR, "Could not change the profile picture.");
+        catch(FileNotFoundException fileNotFoundException) {
+            JOptionPane.showMessageDialog(null,"Please select a valid image first!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setProfilePic();
+    }
+
+    private void setProfilePic() {
+        GetTeacherProfilePicRequest getTeacherProfilePicRequest = new GetTeacherProfilePicRequest();
+        Main.sendRequest(getTeacherProfilePicRequest);
+        GetTeacherProfilePicResponse getProfilePicResponse = (GetTeacherProfilePicResponse) Main.receiveResponse();
+        System.out.println("Image input stream received "+getProfilePicResponse);
+        BufferedImage bufferedImage;
+        Image image;
+        assert getProfilePicResponse != null;
+        bufferedImage=  ((ToolkitImage)getProfilePicResponse.getImageIcon().getImage()).getBufferedImage();
+        image = SwingFXUtils.toFXImage(bufferedImage, null);
+        profilePicImageView.setImage(image);
+        changeProfilePicImageView.setImage(image);
     }
 
     public void refreshButtonResponse(ActionEvent actionEvent) {

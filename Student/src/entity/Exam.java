@@ -1,7 +1,8 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 public class Exam implements Serializable {
     private final String examId;
@@ -9,17 +10,22 @@ public class Exam implements Serializable {
     private final String courseId;
     private final String courseName;
     private final String title;
-    private final Date date;
+    private final String description;
+    private final Timestamp date;
+    private final Timestamp endTime;
     private final Integer maxMarks;
 
 
-    public Exam(String examId, String teacherId, String courseId, String courseName, String title, Date date, Integer maxMarks) {
+    public Exam(String examId, String teacherId, String courseId, String courseName, String title, String description, Timestamp date, Timestamp endTime, Integer maxMarks) {
         this.examId = examId;
         this.teacherId = teacherId;
         this.courseId = courseId;
         this.courseName = courseName;
         this.title = title;
+        this.description = description;
         this.date = date;
+        this.endTime = endTime;
+
         this.maxMarks = maxMarks;
     }
 
@@ -39,8 +45,16 @@ public class Exam implements Serializable {
         return title;
     }
 
-    public Date getDate() {
+    public String getDescription() {
+        return description;
+    }
+
+    public Timestamp getDate() {
         return date;
+    }
+
+    public Timestamp getEndTime() {
+        return endTime;
     }
 
     public Integer getMaxMarks() {

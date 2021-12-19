@@ -43,7 +43,9 @@ public class UpcomingExamsRequestHandler extends RequestHandler {
                 String courseId=results.getString(ExamTable.COURSE_ID_COLUMN);
                 preparedStatement=connection.prepareStatement(CoursesTable.GET_COURSE_NAME_BY_COURSE_ID);
                 preparedStatement.setString(1,courseId);
-                courseName=preparedStatement.executeQuery().getString(1);
+                ResultSet set=preparedStatement.executeQuery();
+                set.next();
+                courseName=set.getString(1);
                 Exam exam = new Exam(
                         results.getString(ExamTable.EXAM_ID_COLUMN), //examID
                         results.getString(ExamTable.PROCTOR_ID_COLUMN), //teacherId
