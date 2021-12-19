@@ -18,4 +18,6 @@ public class ExamQuestionsTable {
             + "VALUES (?, ?, ?, ?, ?, ?, ?);";
     public static final String DELETE_QUESTIONS_BY_EXAM_ID = "DELETE FROM " + TABLE_NAME
             + " WHERE " + EXAM_ID_COLUMN + " = ?;";
+    public static final String GET_EXAM_QUESTIONS_BY_EXAM_ID = "SELECT * FROM " + TABLE_NAME
+            + " WHERE " + EXAM_ID_COLUMN + " = ?;";
 }

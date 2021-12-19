@@ -2,14 +2,12 @@ package requestHandler;
 
 import request.TeacherLoginRequest;
 import response.TeacherLoginResponse;
+import sun.misc.IOUtils;
 import table.TeacherTable;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.*;
+import java.nio.file.Files;
+import java.sql.*;
 
 public class TeacherLoginRequestHandler extends RequestHandler {
     Connection connection;
@@ -27,7 +25,7 @@ public class TeacherLoginRequestHandler extends RequestHandler {
         PreparedStatement preparedStatement;
         TeacherLoginResponse response = null;
         try {
-             preparedStatement=connection.prepareStatement(TeacherTable.QUERY_LOGIN);
+            preparedStatement=connection.prepareStatement(TeacherTable.QUERY_LOGIN);
             preparedStatement.setString(1,request.getUsername());
             preparedStatement.setString(2,request.getPassword());
             ResultSet resultSet=preparedStatement.executeQuery();

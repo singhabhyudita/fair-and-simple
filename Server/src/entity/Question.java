@@ -3,20 +3,26 @@ package entity;
 import java.io.Serializable;
 
 public class Question implements Serializable {
+    private final String questionID;
     private final String question;
     private final String optionA;
     private final String optionB;
     private final String optionC;
     private final String optionD;
-    private final int correctOption;
+    private final int correctOption; // can be marked option as well. depends on context.
 
-    public Question(String question, String optionA, String optionB, String optionC, String optionD, int correctOption) {
+    public Question(String questionID, String question, String optionA, String optionB, String optionC, String optionD, int correctOption) {
+        this.questionID = questionID;
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
         this.optionD = optionD;
         this.correctOption = correctOption;
+    }
+
+    public String getQuestionID() {
+        return questionID;
     }
 
     public String getQuestion() {

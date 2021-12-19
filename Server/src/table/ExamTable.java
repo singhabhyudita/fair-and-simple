@@ -29,6 +29,8 @@ public class ExamTable {
             + " INNER JOIN " + CoursesTable.TABLE_NAME + " ON "
             + TABLE_NAME + "." + COURSE_ID_COLUMN + " = "+CoursesTable.TABLE_NAME +"." + CoursesTable.COURSE_ID_COLUMN
             + " WHERE " + PROCTOR_ID_COLUMN + " = ?";
+    public static final String GET_EXAM_BY_EXAM_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + EXAM_ID_COLUMN +
+            " = ?;";
     public static final String GET_UPCOMING_EXAMS_STUDENT = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + COURSE_ID_COLUMN +" IN (" + "SELECT " + COURSE_ID_COLUMN + " FROM " + EnrollmentTable.TABLE_NAME
             + " WHERE " + EnrollmentTable.COLUMN_REGISTGRATION_NO + " = ? ) AND " + START_TIME_COLUMN + " >= ?;";

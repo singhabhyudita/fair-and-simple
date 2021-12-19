@@ -26,5 +26,4 @@ public class TeacherTable {
             + " WHERE " + COLUMN_TEACHER_ID + " = ?;";
     public static final String GET_PROFILE_PIC_BY_TEACHER_ID = "SELECT " + COLUMN_PROFILE_PIC + " FROM " + TABLE_NAME
             + " WHERE " + COLUMN_TEACHER_ID + " = ?;";
-
 }

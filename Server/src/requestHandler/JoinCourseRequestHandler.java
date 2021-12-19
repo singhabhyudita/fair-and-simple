@@ -1,6 +1,7 @@
 package requestHandler;
 
 import main.RequestIdentifier;
+import main.Server;
 import request.JoinCourseRequest;
 import response.JoinCourseResponse;
 import table.CoursesTable;
@@ -44,12 +45,7 @@ public class JoinCourseRequestHandler extends RequestHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
-            if(result==0)oos.writeObject(new JoinCourseResponse("",""));
-            else oos.writeObject(new JoinCourseResponse("Successful",String.valueOf(courseId)));
-            oos.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            if(result==0) Server.sendResponse(oos, new JoinCourseResponse("", ""));
+            else Server.sendResponse(oos, new JoinCourseResponse("Successful", String.valueOf(courseId)));
     }
 }
