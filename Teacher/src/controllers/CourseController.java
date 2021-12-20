@@ -95,9 +95,14 @@ public class CourseController {
     public TextArea descriptionTextArea;
     @FXML
     public Label endTimeLabel;
+    @FXML
     public TableView<Student> courseStudentTableView;
+    @FXML
     public TableColumn<Student, String> nameTableColumn;
+    @FXML
     public TableColumn<Student, String> registrationNumberTableColumn;
+    @FXML
+    public TextField proctorIDTextField;
 
     private String courseId;
     private List<Student> students;
@@ -221,6 +226,17 @@ public class CourseController {
             GuiUtil.alert(Alert.AlertType.WARNING, "Specify exam title!");
             return;
         }
+        if(proctorIDTextField.getText().length() == 0) {
+            GuiUtil.alert(Alert.AlertType.WARNING, "Specify the Proctor ID!");
+            return;
+        } else {
+            try {
+                Integer.parseInt(proctorIDTextField.getText());
+            } catch (NumberFormatException e) {
+                GuiUtil.alert(Alert.AlertType.WARNING, "Proctor ID has to be a number!");
+                return;
+            }
+        }
         if(startTimeHourTextField.getText().length() == 0 || startTimeMinTextField.getText().length() == 0) {
             GuiUtil.alert(Alert.AlertType.WARNING, "Specify exam start time!");
             return;
@@ -246,6 +262,7 @@ public class CourseController {
         System.out.println("month = " + date.getMonthValue());
         System.out.println("day = " + date.getDayOfMonth());
 
+        int proctorId = Integer.parseInt(proctorIDTextField.getText());
         Date startTime = new Date(date.getYear()-1900,
                 date.getMonthValue()-1,
                 date.getDayOfMonth(),
@@ -261,7 +278,7 @@ public class CourseController {
         String description=descriptionTextArea.getText();
         List<Question> questions = new ArrayList<>(questionsTableView.getItems());
         SetExamRequest newExam = new SetExamRequest(Main.getTeacherId(),
-                this.courseId, startTime, endTime, examTitle,description, questions);
+                this.courseId, proctorId, startTime, endTime, examTitle,description, questions);
         Platform.runLater(() -> {
 
             titleTextField.setEditable(false);

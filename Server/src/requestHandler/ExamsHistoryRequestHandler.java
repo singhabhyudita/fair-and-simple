@@ -50,8 +50,9 @@ public class ExamsHistoryRequestHandler extends RequestHandler {
                 courseName=set.getString(1);
                 Exam exam = new Exam(
                         results.getString(ExamTable.EXAM_ID_COLUMN), //examID
-                        results.getString(ExamTable.PROCTOR_ID_COLUMN), //teacherId
+                        results.getString(ExamTable.TEACHER_ID_COLUMN), //teacherId
                         courseId,
+                        results.getString(ExamTable.PROCTOR_ID_COLUMN),
                         courseName,
                         results.getString(ExamTable.TITLE_COLUMN), //title
                         results.getString(ExamTable.DESCRIPTION_COLUMN),

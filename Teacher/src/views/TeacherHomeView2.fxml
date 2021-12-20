@@ -87,12 +87,13 @@
                                                 <Font name="System Bold Italic" size="12.0" />
                                             </font>
                                         </TextField>
-                                        <TableView fx:id="upcomingExamsTableView" prefHeight="498.0" prefWidth="538.0">
+                                        <TableView fx:id="upcomingExamsTableView" prefHeight="475.0" prefWidth="524.0">
                                             <columns>
-                                                <TableColumn fx:id="upcomingCourseNameTableColumn" prefWidth="145.5999664068222" text="Course name" />
-                                                <TableColumn fx:id="upcomingTitleTableColumn" prefWidth="169.60003662109375" text="Title" />
-                                                <TableColumn fx:id="upcomingTimeTableColumn" prefWidth="135.199951171875" text="Time" />
-                                                <TableColumn fx:id="upcomingMaxMarksTableColumn" prefWidth="107.20004272460938" text="Max marks" />
+                                                <TableColumn fx:id="upcomingCourseNameTableColumn" prefWidth="106.60001981258392" text="Course name" />
+                                                <TableColumn fx:id="upcomingTitleTableColumn" prefWidth="92.5999984741211" text="Title" />
+                                                <TableColumn fx:id="upcomingTimeTableColumn" prefWidth="79.79998779296875" text="Time" />
+                                                <TableColumn fx:id="upcomingMaxMarksTableColumn" prefWidth="107.0" text="Max marks" />
+                                                <TableColumn fx:id="upcomingCheckButtonTableColumn" prefWidth="91.20003051757811" text="Check" />
                                             </columns>
                                         </TableView>
                                     </children>
@@ -138,6 +139,33 @@
                             </center></BorderPane>
                     </content>
                 </Tab>
+                <Tab text="Proctoring Duty">
+                <content>
+                    <BorderPane prefHeight="200.0" prefWidth="200.0">
+                        <center>
+                            <VBox alignment="CENTER" prefHeight="231.0" prefWidth="682.0" spacing="10.0" BorderPane.alignment="CENTER">
+                                <children>
+                                    <TextField fx:id="proctoringDutyExamsSearchBar" prefHeight="26.0" prefWidth="397.0" promptText="Search an exam">
+                                        <font>
+                                            <Font name="System Bold Italic" size="12.0" />
+                                        </font>
+                                    </TextField>
+                                    <TableView fx:id="proctoringDutyExamsTableView" prefHeight="475.0" prefWidth="524.0">
+                                        <columns>
+                                            <TableColumn fx:id="proctoringDutyCourseNameTableColumn" prefWidth="106.60001981258392" text="Course name" />
+                                            <TableColumn fx:id="proctoringDutyTitleTableColumn" prefWidth="92.5999984741211" text="Title" />
+                                            <TableColumn fx:id="proctoringDutyTimeTableColumn" prefWidth="79.79998779296875" text="Time" />
+                                            <TableColumn fx:id="proctoringDutyJoinButtonTableColumn" prefWidth="91.20003051757811" text="Join" />
+                                        </columns>
+                                    </TableView>
+                                </children>
+                                <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                </padding>
+                            </VBox>
+                        </center>
+                    </BorderPane>
+                </content></Tab>
                 <Tab text="Password">
                     <content>
                         <BorderPane prefHeight="200.0" prefWidth="200.0">

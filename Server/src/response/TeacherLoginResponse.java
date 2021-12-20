@@ -1,7 +1,5 @@
 package response;
 
-import java.io.File;
-
 public class TeacherLoginResponse extends Response {
     private String firstName,lastName,emailID,teacherID;
 

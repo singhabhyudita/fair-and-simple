@@ -34,8 +34,9 @@ public class TeacherExamRequestHandler {
                 if(request.isPastOnly() && allExams.getDate(ExamTable.START_TIME_COLUMN).after(new Date()))
                     continue;
                 exams.add(new Exam(allExams.getString(ExamTable.EXAM_ID_COLUMN),
-                        allExams.getString(ExamTable.PROCTOR_ID_COLUMN),
+                        allExams.getString(ExamTable.TEACHER_ID_COLUMN),
                         allExams.getString(ExamTable.COURSE_ID_COLUMN),
+                        allExams.getString(ExamTable.PROCTOR_ID_COLUMN),
                         allExams.getString(CoursesTable.COURSE_NAME_COLUMN),
                         allExams.getString(ExamTable.TITLE_COLUMN),
                         allExams.getString(ExamTable.DESCRIPTION_COLUMN),

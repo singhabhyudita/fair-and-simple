@@ -151,11 +151,14 @@ public class RequestIdentifier implements Runnable{
                 GetTeacherProfilePicRequestHandler getTeacherProfilePicRequestHandler = new GetTeacherProfilePicRequestHandler(Server.getConnection(), oos, (GetTeacherProfilePicRequest) request);
                 getTeacherProfilePicRequestHandler.sendResponse();
             }
+            else if(request instanceof ProctoringDutyRequest) {
+                ProctoringDutyRequestHandler requestHandler = new ProctoringDutyRequestHandler(Server.getConnection(), oos, (ProctoringDutyRequest) request);
+                requestHandler.sendResponse();
+            }
             else if(request instanceof GetQuestionsRequest) {
                 GetQuestionsRequestHandler getQuestionsRequestHandler = new GetQuestionsRequestHandler(Server.getConnection(),oos,(GetQuestionsRequest) request);
                 getQuestionsRequestHandler.sendResponse();
             }
-
             else{
                 Server.sendResponse(oos, null);
             }

@@ -34,11 +34,15 @@ public class GetTeacherProfilePicRequestHandler extends RequestHandler {
             ResultSet results = preparedStatement.executeQuery();
             while (results.next()){
                 Blob blob=results.getBlob(1);
-                ByteArrayInputStream inputStream= (ByteArrayInputStream) blob.getBinaryStream();
-                BufferedImage bufferedImage = ImageIO.read(inputStream);
-                System.out.println("Buffered image is "+bufferedImage);
-                ImageIcon imageIcon=new ImageIcon(bufferedImage);
-                getTeacherProfilePicResponse = new GetTeacherProfilePicResponse(imageIcon);
+                if(blob != null) {
+                    ByteArrayInputStream inputStream= (ByteArrayInputStream) blob.getBinaryStream();
+                    BufferedImage bufferedImage = ImageIO.read(inputStream);
+                    System.out.println("Buffered image is "+bufferedImage);
+                    ImageIcon imageIcon=new ImageIcon(bufferedImage);
+                    getTeacherProfilePicResponse = new GetTeacherProfilePicResponse(imageIcon);
+                } else {
+                    getTeacherProfilePicResponse = new GetTeacherProfilePicResponse(null);
+                }
             }
         }
         catch (SQLException | IOException e)

@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import main.GuiUtil;
 import main.Main;
 import request.*;
@@ -86,6 +87,20 @@ public class TeacherHomeController {
     public TableColumn<Exam, Date> upcomingTimeTableColumn;
     @FXML
     public TableColumn<Exam, Integer> upcomingMaxMarksTableColumn;
+    @FXML
+    public TextField proctoringDutyExamsSearchBar;
+    @FXML
+    public TableColumn<Exam, Button> upcomingCheckButtonTableColumn;
+    @FXML
+    public TableView<Exam> proctoringDutyExamsTableView;
+    @FXML
+    public TableColumn<Exam, String> proctoringDutyCourseNameTableColumn;
+    @FXML
+    public TableColumn<Exam, String> proctoringDutyTitleTableColumn;
+    @FXML
+    public TableColumn<Exam, Date> proctoringDutyTimeTableColumn;
+    @FXML
+    public TableColumn<Exam, String> proctoringDutyJoinButtonTableColumn;
     @FXML
     public PasswordField oldPasswordTextField;
     @FXML
@@ -194,6 +209,7 @@ public class TeacherHomeController {
         heyNameLabel.setText("Hey " + Main.getTeacherName() + "!");
         populateTeacherCourses();
         populateExamTables();
+        populateProctoringDutyExamTable();
         setProfilePic();
     }
     @FXML
@@ -274,6 +290,20 @@ public class TeacherHomeController {
         });
     }
 
+    private void populateProctoringDutyExamTable() {
+        ProctoringDutyRequest request = new ProctoringDutyRequest();
+        Main.sendRequest(request);
+        ProctoringDutyResponse response = (ProctoringDutyResponse) Main.receiveResponse();
+        proctoringDutyCourseNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+        proctoringDutyTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        proctoringDutyTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        proctoringDutyJoinButtonTableColumn.setCellValueFactory(new PropertyValueFactory<>("just_dummy"));
+        if(response != null){
+            ObservableList<Exam> examsToProctor = FXCollections.observableList(response.getExams());
+            proctoringDutyExamsTableView.setItems(examsToProctor);
+        }
+    }
+
     public void changePasswordButtonResponse(ActionEvent actionEvent) {
     }
 
@@ -319,11 +349,12 @@ public class TeacherHomeController {
         System.out.println("Image input stream received "+getProfilePicResponse);
         BufferedImage bufferedImage;
         Image image;
-        assert getProfilePicResponse != null;
-        bufferedImage=  ((ToolkitImage)getProfilePicResponse.getImageIcon().getImage()).getBufferedImage();
-        image = SwingFXUtils.toFXImage(bufferedImage, null);
-        profilePicImageView.setImage(image);
-        changeProfilePicImageView.setImage(image);
+        if(getProfilePicResponse != null && getProfilePicResponse.getImageIcon() != null) {
+            bufferedImage=  ((ToolkitImage)getProfilePicResponse.getImageIcon().getImage()).getBufferedImage();
+            image = SwingFXUtils.toFXImage(bufferedImage, null);
+            profilePicImageView.setImage(image);
+            changeProfilePicImageView.setImage(image);
+        }
     }
 
     public void refreshButtonResponse(ActionEvent actionEvent) {

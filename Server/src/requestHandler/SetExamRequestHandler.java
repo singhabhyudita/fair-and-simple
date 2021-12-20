@@ -38,20 +38,23 @@ public class SetExamRequestHandler {
 
             PreparedStatement setExam = connection.prepareStatement(ExamTable.ADD_EXAM_DETAILS);
             setExam.setString(1, request.getCourseId());
-            setExam.setString(2, request.getTeacherId());
+            setExam.setInt(2, request.getProctorId());
             setExam.setString(3, request.getExamTitle());
             setExam.setString(4, request.getDescription());
             setExam.setString(5, String.valueOf(request.getQuestions().size()));
             setExam.setObject(6, request.getStartTime());
             setExam.setObject(7, request.getEndTime());
+            setExam.setString(8, request.getTeacherId());
             int result = setExam.executeUpdate();
             if(result == 0) {
+                System.out.println("Returning from here 1111111");
                 Server.sendResponse(oos, new SetExamResponse(Status.OTHER));
                 return;
             }
 
             String examId = getExamId();
             if(examId == null) {
+                System.out.println("Returning from here 2222222");
                 Server.sendResponse(oos, new SetExamResponse(Status.OTHER));
                 return;
             }
@@ -68,6 +71,7 @@ public class SetExamRequestHandler {
                 int questionAdded = addQuestions.executeUpdate();
                 if(questionAdded == 0) {
                     deleteExamByID(examId);
+                    System.out.println("Returning from here 3333333");
                     Server.sendResponse(oos, new SetExamResponse(Status.OTHER));
                     return;
                 }
@@ -75,6 +79,7 @@ public class SetExamRequestHandler {
             Server.sendResponse(oos, new SetExamResponse(Status.EXAM_CREATED));
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Returning from here 4444444");
             Server.sendResponse(oos, new SetExamResponse(Status.OTHER));
         }
     }

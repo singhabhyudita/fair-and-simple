@@ -3,7 +3,6 @@ package entity;
 import java.io.Serializable;
 
 public class Question implements Serializable {
-
     private String questionId;
     private String question;
     private String optionA;
@@ -29,6 +28,7 @@ public class Question implements Serializable {
     public void setQuestionId(String questionId) {
         this.questionId = questionId;
     }
+
     public String getQuestion() {
         return question;
     }

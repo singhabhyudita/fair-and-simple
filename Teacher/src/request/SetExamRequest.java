@@ -8,15 +8,17 @@ import java.util.List;
 public class SetExamRequest extends Request {
     private final String teacherId;
     private final String courseId;
+    private final int proctorId;
     private final Date startTime;
     private final Date endTime;
     private final String examTitle;
     private final String description;
     private final List<Question> questions;
 
-    public SetExamRequest(String teacherId, String courseId, Date startTime, Date endTime, String examTitle, String description, List<Question> questions) {
+    public SetExamRequest(String teacherId, String courseId, int proctorId, Date startTime, Date endTime, String examTitle, String description, List<Question> questions) {
         this.teacherId = teacherId;
         this.courseId = courseId;
+        this.proctorId = proctorId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.examTitle = examTitle;
@@ -30,6 +32,10 @@ public class SetExamRequest extends Request {
 
     public String getCourseId() {
         return courseId;
+    }
+
+    public int getProctorId() {
+        return proctorId;
     }
 
     public Date getStartTime() {

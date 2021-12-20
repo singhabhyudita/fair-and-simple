@@ -171,11 +171,11 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="endTimeHourTextField" layoutX="385.0" layoutY="78.0" prefHeight="26.0" prefWidth="33.0" promptText="HH" />
-                        <TextField fx:id="endTimeMinTextField" layoutX="419.0" layoutY="78.0" prefHeight="26.0" prefWidth="37.0" promptText="MM" />
-                        <TextField fx:id="startTimeHourTextField" layoutX="168.0" layoutY="78.0" prefHeight="26.0" prefWidth="33.0" promptText="HH" />
-                        <TextField fx:id="startTimeMinTextField" layoutX="202.0" layoutY="78.0" prefHeight="26.0" prefWidth="37.0" promptText="MM" />
-                        <TableView fx:id="questionsTableView" layoutY="209.0" prefHeight="274.0" prefWidth="600.0">
+                        <TextField fx:id="endTimeHourTextField" layoutX="385.0" layoutY="78.0" prefHeight="26.0" prefWidth="45.0" promptText="HH" />
+                        <TextField fx:id="endTimeMinTextField" layoutX="432.0" layoutY="78.0" prefHeight="26.0" prefWidth="45.0" promptText="MM" />
+                        <TextField fx:id="startTimeHourTextField" layoutX="168.0" layoutY="78.0" prefHeight="26.0" prefWidth="45.0" promptText="HH" />
+                        <TextField fx:id="startTimeMinTextField" layoutX="215.0" layoutY="78.0" prefHeight="26.0" prefWidth="45.0" promptText="MM" />
+                        <TableView fx:id="questionsTableView" layoutY="270.0" prefHeight="213.0" prefWidth="600.0">
                           <columns>
                             <TableColumn fx:id="questionTableColumn" prefWidth="285.19999998807907" text="Question" />
                             <TableColumn fx:id="optionATableColumn" prefWidth="67.20001220703125" text="A" />
@@ -193,7 +193,13 @@
                           </buttons>
                         </ButtonBar>
                         <Button fx:id="okExamButton" layoutX="14.0" layoutY="500.0" mnemonicParsing="false" onAction="#okExamResponse" prefHeight="26.0" prefWidth="78.0" text="OK" />
-                        <TextArea fx:id="descriptionTextArea" layoutX="42.0" layoutY="109.0" prefHeight="93.0" prefWidth="524.0" promptText="description" />
+                        <TextArea fx:id="descriptionTextArea" layoutX="38.0" layoutY="160.0" prefHeight="93.0" prefWidth="524.0" promptText="description" />
+                        <Label layoutX="69.0" layoutY="120.0" text="Proctor ID :">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="proctorIDTextField" layoutX="164.0" layoutY="120.0" prefHeight="26.0" prefWidth="194.0" promptText="Proctor's teacher id..." />
                      </children></AnchorPane>
                 </content>
             </Tab>
