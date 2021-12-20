@@ -276,7 +276,6 @@ public class TeacherHomeController {
 
     public void changePasswordButtonResponse(ActionEvent actionEvent) {
     }
-    File selectedFile;
 
     public void selectImageButtonResponse(ActionEvent actionEvent) {
         FileChooser fc = new FileChooser();

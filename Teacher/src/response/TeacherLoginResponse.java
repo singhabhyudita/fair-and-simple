@@ -3,15 +3,13 @@ package response;
 import java.io.File;
 
 public class TeacherLoginResponse extends Response {
-  private String firstName,lastName,emailID,teacherID;
-  private File image;
+    private String firstName,lastName,emailID,teacherID;
 
-    public TeacherLoginResponse(String firstName, String lastName, String emailID, String teacherID, File image) {
+    public TeacherLoginResponse(String firstName, String lastName, String emailID, String teacherID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailID = emailID;
         this.teacherID = teacherID;
-        this.image = image;
     }
 
     public String getFirstName() {
@@ -44,13 +42,5 @@ public class TeacherLoginResponse extends Response {
 
     public void setTeacherID(String teacherID) {
         this.teacherID = teacherID;
-    }
-
-    public File getImage() {
-        return image;
-    }
-
-    public void setImage(File image) {
-        this.image = image;
     }
 }

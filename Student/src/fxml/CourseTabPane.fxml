@@ -116,13 +116,8 @@
                                                       <ComboBox fx:id="participantsSearchComboBox1" editable="true" onKeyReleased="#handleOnKeyPressed" prefHeight="26.0" prefWidth="548.0" promptText="Search for participants" />
                                                       <TableView fx:id="participantsTableView" prefHeight="510.0" prefWidth="272.0">
                                                          <columns>
-<<<<<<< HEAD
                                                             <TableColumn fx:id="nameTableColumn" prefWidth="273.9999809265137" text="Name" />
                                                             <TableColumn fx:id="registrationNumberTableColumn" prefWidth="275.3333740234375" text="Registration Number" />
-=======
-                                                            <TableColumn fx:id="nameTableColumn" prefWidth="103.99996644258499" text="Title" />
-                                                            <TableColumn fx:id="registrationNumberTableColumn" prefWidth="81.5999755859375" text="Time" />
->>>>>>> 1b53e4842c54504540b432792a0702d1a73cf878
                                                          </columns>
                                                       </TableView>
                                                    </children>

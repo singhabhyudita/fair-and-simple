@@ -24,7 +24,7 @@ public class RegisterRequestHandler extends requestHandler.RequestHandler {
     @Override
     public void sendResponse() {
         PreparedStatement preparedStatement;
-        File file=new File("..\\images\\sample.png");
+        File file=new File("src/images/sample.png");
         FileInputStream fis;
         int result = 0;
         try {

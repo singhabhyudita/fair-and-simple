@@ -1,21 +1,12 @@
 package requestHandler;
-
-import entity.Question;
-import main.Server;
+import main.RequestIdentifier;
 import request.SubmitExamRequest;
-import response.AttemptExamResponse;
-import response.SubmitExamResponse;
-import table.ExamQuestionsTable;
-import table.ExamTable;
+import table.ResultTable;
 
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class SubmitExamRequestHandler extends RequestHandler {
 
@@ -31,27 +22,15 @@ public class SubmitExamRequestHandler extends RequestHandler {
 
     @Override
     public void sendResponse() {
+        System.out.println("Exam id: "+request.getExam());
         try {
-            PreparedStatement getQuestions = connection.prepareStatement(ExamTable.GET_EXAM_BY_EXAM_ID);
-            getQuestions.setString(1, request.getExamId());
-            ResultSet questionsSet = getQuestions.executeQuery();
-            HashMap<String, Integer> markedAnswer = new HashMap<>();
-            HashMap<String, Boolean> corrected = new HashMap<>();
-            for(Question q : request.getQuestions()) {
-                markedAnswer.put(q.getQuestionID(), q.getCorrectOption()); // correct option means marked option in this context.
-            }
-            int marks = 0;
-            while(questionsSet.next()) {
-                String questionId = questionsSet.getString(ExamQuestionsTable.QUESTION_ID_COLUMN);
-                Integer correctOption = questionsSet.getInt(ExamQuestionsTable.CORRECT_OPTION_COLUMN);
-                corrected.put(questionId, markedAnswer.get(questionId).equals(correctOption));
-                if(markedAnswer.get(questionId).equals(correctOption)) marks += 1;
-            }
-            SubmitExamResponse response = new SubmitExamResponse(corrected, marks, request.getExamId());
-            Server.sendResponse(oos, response);
-        } catch (SQLException e) {
+            PreparedStatement addResultMarks = connection.prepareStatement(ResultTable.ADD_RESULT_MARKS);
+            addResultMarks.setString(1, RequestIdentifier.userID);
+            addResultMarks.setString(2,request.getExam().getExamId());
+            addResultMarks.setInt(3,request.getNumberOfRightAnswers());
+            addResultMarks.executeUpdate();
+        } catch(SQLException e) {
             e.printStackTrace();
-            Server.sendResponse(oos, null);
         }
     }
 }

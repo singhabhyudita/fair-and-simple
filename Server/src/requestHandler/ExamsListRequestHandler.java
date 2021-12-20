@@ -3,7 +3,6 @@ package requestHandler;
 import entity.Exam;
 import request.ExamsListRequest;
 import response.ExamsListResponse;
-import sun.applet.AppletResourceLoader;
 import table.ExamTable;
 
 import java.io.IOException;

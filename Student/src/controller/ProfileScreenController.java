@@ -2,6 +2,7 @@ package controller;
 
 import entity.Course;
 import entity.Exam;
+import entity.GuiUtil;
 import entity.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -29,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ProfileScreenController implements Initializable
@@ -257,7 +260,7 @@ public class ProfileScreenController implements Initializable
                 new PropertyValueFactory<Exam, String>("title")
         );
         upcomingTimeTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, Time>("startTime")
+                new PropertyValueFactory<Exam, Time>("date")
         );
         upcomingMaxMarksTableColumn.setCellValueFactory(
                 new PropertyValueFactory<Exam, Integer>("maxMarks")
@@ -335,6 +338,33 @@ public class ProfileScreenController implements Initializable
         setUpcomingExamsList();
         setExamsHistoryTableView();
         setProfilePic();
+    }
+
+    public void onExamClicked(MouseEvent mouseEvent) {
+        if(mouseEvent.getClickCount() == 2)
+        {
+            Exam exam = (Exam)upcomingExamsTableView.getSelectionModel().getSelectedItem();
+            if(exam.getDate().getTime() - (new Date()).getTime() > 0)
+            {
+                GuiUtil.alert(Alert.AlertType.WARNING,"Exam hasn't started yet!");
+            }
+            else
+            {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/QuestionsScreenFXML.fxml"));
+                Stage currentStage=(Stage)heyNameLabel.getScene().getWindow();
+                Scene scene=null;
+
+                try {
+                    scene=new Scene(fxmlLoader.load());
+                    QuestionsScreenController questionsScreenController= fxmlLoader.getController();
+                    questionsScreenController.setQuiz(exam);
+                    currentStage.setScene(scene);
+                    currentStage.setTitle(exam.getTitle());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
 

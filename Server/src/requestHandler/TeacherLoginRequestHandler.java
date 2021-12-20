@@ -2,11 +2,8 @@ package requestHandler;
 
 import request.TeacherLoginRequest;
 import response.TeacherLoginResponse;
-import sun.misc.IOUtils;
 import table.TeacherTable;
-
 import java.io.*;
-import java.nio.file.Files;
 import java.sql.*;
 
 public class TeacherLoginRequestHandler extends RequestHandler {

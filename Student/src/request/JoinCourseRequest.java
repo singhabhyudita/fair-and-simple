@@ -1,6 +1,7 @@
 package request;
 
 import java.io.Serializable;
+
 public class JoinCourseRequest extends Request implements Serializable {
     private String courseCode;
 

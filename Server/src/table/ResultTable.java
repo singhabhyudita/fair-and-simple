@@ -8,4 +8,7 @@ public class ResultTable {
 
     public static final String GET_MARKS_BY_EXAM_ID = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + EXAM_ID_COLUMN + " = ?;";
+    public static final String ADD_RESULT_MARKS = "INSERT INTO " + TABLE_NAME
+            + " VALUES (NULL,?,?,?)";
+
 }
