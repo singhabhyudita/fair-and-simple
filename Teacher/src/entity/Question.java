@@ -28,7 +28,6 @@ public class Question implements Serializable {
     public void setQuestionId(String questionId) {
         this.questionId = questionId;
     }
-
     public String getQuestion() {
         return question;
     }
