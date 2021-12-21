@@ -116,7 +116,6 @@ public class TeacherHomeController {
     public Button confirmPicChangeButton;
     @FXML
     public ImageView changeProfilePicImageView;
-
     private TeacherExamResponse teacherExamResponse;
     private File selectedFile;
 
@@ -343,6 +342,8 @@ public class TeacherHomeController {
         }
         setProfilePic();
     }
+
+
 
     private void setProfilePic() {
         GetTeacherProfilePicRequest getTeacherProfilePicRequest = new GetTeacherProfilePicRequest();

@@ -12,17 +12,20 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Server {
 
     private static Connection connection;
     private static RandomString randomString;
+    public static ArrayList<ObjectOutputStream>socketArrayList=new ArrayList<>();
 
     public static void main(String[] args) {
-        ServerSocket serverSocket= null;
-        Socket socket;
+        ServerSocket serverSocket= null,chatServerSocket=null;
+        Socket socket,chatSocket;
         try {
             serverSocket=new ServerSocket(6969);
+            chatServerSocket=new ServerSocket(6970);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,9 +34,16 @@ public class Server {
                 System.out.println("Listening for clients");
                 assert serverSocket != null;
                 socket=serverSocket.accept();
-                System.out.println("connection established with client");
+                System.out.println("request socket created");
+                System.out.println(socket);
                 Thread thread=new Thread(new RequestIdentifier(socket));
                 thread.start();
+
+                chatSocket=chatServerSocket.accept();
+                ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
+                System.out.println(chatSocket);
+                System.out.println("connection established with client");
+                socketArrayList.add(objectOutputStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }

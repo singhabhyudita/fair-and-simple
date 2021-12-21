@@ -1,5 +1,6 @@
 package main;
 
+import entity.Message;
 import request.*;
 import requestHandler.*;
 
@@ -150,6 +151,11 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof GetTeacherProfilePicRequest) {
                 GetTeacherProfilePicRequestHandler getTeacherProfilePicRequestHandler = new GetTeacherProfilePicRequestHandler(Server.getConnection(), oos, (GetTeacherProfilePicRequest) request);
                 getTeacherProfilePicRequestHandler.sendResponse();
+            }
+            else if(request instanceof Message) {
+                SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);
+                sendMessageRequestHandler.sendResponse();
+                sendMessageRequestHandler.sendToAll();// send the message to every connected person
             }
             else if(request instanceof ProctoringDutyRequest) {
                 ProctoringDutyRequestHandler requestHandler = new ProctoringDutyRequestHandler(Server.getConnection(), oos, (ProctoringDutyRequest) request);

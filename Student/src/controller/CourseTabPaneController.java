@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,12 +24,18 @@ import org.controlsfx.control.Notifications;
 import request.*;
 import response.*;
 import entity.*;
+import util.ChatUtil;
+
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class CourseTabPaneController implements Initializable
 {
@@ -54,6 +61,10 @@ public class CourseTabPaneController implements Initializable
     public Button refreshCourseInfoButton;
     @FXML
     public Button leaveCourseButton;
+    @FXML
+    public Tab discussionForumTab;
+    @FXML
+    public TextField sendTextField;
     @FXML
     private Text instructionsText;
     @FXML
@@ -122,14 +133,14 @@ public class CourseTabPaneController implements Initializable
         courseCodeLabel.setText(course.getCourseCode());
         aboutCourseLabel.setText(course.getCourseDescription());
         professorLabel.setText(course.getTeacherName());
-        // Populating the Title and Time column in TableView with Classes.Exam object properties
-//        titleTableColumn.setCellValueFactory(
-//                new PropertyValueFactory<Exam, String>("title")
-//        );
-//        timeTableColumn.setCellValueFactory(
-//                new PropertyValueFactory<Exam, String>("startTime")
-//        );
-//        updateExamsScheduleTable();
+//         Populating the Title and Time column in TableView with Classes.Exam object properties
+        titleTableColumn.setCellValueFactory(
+                new PropertyValueFactory<Exam, String>("title")
+        );
+        timeTableColumn.setCellValueFactory(
+                new PropertyValueFactory<Exam, String>("date")
+        );
+        updateExamsScheduleTable();
 
         nameTableColumn.setCellValueFactory(
                 new PropertyValueFactory<Student, String>("name")
@@ -138,7 +149,6 @@ public class CourseTabPaneController implements Initializable
                 new PropertyValueFactory<Student, Integer>("registrationNumber")
         );
         updateParticipantsTable();
-
     }
 
     @FXML
@@ -162,11 +172,14 @@ public class CourseTabPaneController implements Initializable
         observableParticipantsList = FXCollections.observableList(participantsListResponse.getParticipantsList());
         participantsTableView.setItems(observableParticipantsList);
     }
+
+    ExamsListResponse examsListResponse;
+
     public void updateExamsScheduleTable(){
         //Sending request to server to fetch list of exams
         ExamsListRequest examsListRequest = new ExamsListRequest(courseId);
         Main.sendRequest(examsListRequest);
-        ExamsListResponse examsListResponse = (ExamsListResponse) Main.getResponse();
+        examsListResponse = (ExamsListResponse) Main.getResponse();
 
         //Setting list of exams as Observable list in Exams Table
         observableExamsList = FXCollections.observableList(examsListResponse.getExamsList());
@@ -187,8 +200,15 @@ public class CourseTabPaneController implements Initializable
         examsTableView.setItems(sortedData);
     }
 
-    public void sendButtonResponse(ActionEvent actionEvent) {
+    public void sendButtonResponse() {
         //TODO: send messages
+        String text=sendTextField.getText();
+        Main.sendRequest(new Message(Main.userRegistrationNumber,name,courseId,text,null,
+                new Timestamp(System.currentTimeMillis()),true));
+        System.out.println("message sent is : "+text);
+        SendMessageResponse sendMessageResponse=(SendMessageResponse)Main.getResponse();
+        assert sendMessageResponse != null;
+        System.out.println(sendMessageResponse.getResponse());
     }
 
     public void refreshDiscussionForumButtonResponse(ActionEvent actionEvent) {
@@ -247,22 +267,52 @@ public class CourseTabPaneController implements Initializable
     }
 
     public void backfromCourseInfoButtonResponse(ActionEvent actionEvent) {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
-            scene=new Scene(loader.load());
+            scene = new Scene(loader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage stage= (Stage) backfromCourseInfoButton.getScene().getWindow();
+        Stage stage = (Stage) backfromCourseInfoButton.getScene().getWindow();
         stage.setTitle("Profile");
         stage.setScene(scene);
-        ProfileScreenController profileScreenController=loader.getController();
+        ProfileScreenController profileScreenController = loader.getController();
         profileScreenController.first(name);
     }
-    public void handleOnKeyPressed(KeyEvent keyEvent) {
+    public void clickItem(MouseEvent mouseEvent) {
     }
 
     public void sortResponse(ActionEvent actionEvent) {
     }
+
+    public void handleOnKeyPressed(KeyEvent keyEvent) {
+    }
+
+    public void onExamClicked(MouseEvent mouseEvent) {
+        Exam selectedExam = (Exam) examsTableView.getSelectionModel().getSelectedItem();
+        examTitleLabel.setText(selectedExam.getTitle());
+        instructionsText.setText(selectedExam.getDescription());
+        Timestamp startTime = new Timestamp(selectedExam.getDate().getTime());
+        Timestamp endTime = new Timestamp(selectedExam.getEndTime().getTime());
+        startTimeLabel.setText(startTime.toString());
+        Duration duration=Duration.between(startTime.toLocalDateTime(),endTime.toLocalDateTime());
+        long minutes=duration.toMinutes();
+        durationLabel.setText(String.valueOf(minutes));
+        maxMarksLabel.setText(selectedExam.getMaxMarks().toString());
+    }
+
+    public void onChatClicked(Event event) {
+        System.out.println("Inside on chat clicked method");
+//        ArrayList<Message>senderMessages,otherMessages;
+//        Main.sendRequest(new DisplayMessagesRequest(courseId));
+//        System.out.println("Display Message Request Sent");
+//        DisplayMessagesResponse displayMessagesResponse=(DisplayMessagesResponse)Main.getResponse();
+//        System.out.println("Display Messages Response received");
+//        assert displayMessagesResponse != null;
+//        senderMessages=displayMessagesResponse.getSenderMessages();
+//        otherMessages=displayMessagesResponse.getOtherMessages();
+//        //TODO: display the messages
+    }
+
 }
