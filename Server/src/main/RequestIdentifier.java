@@ -159,6 +159,10 @@ public class RequestIdentifier implements Runnable{
                 GetQuestionsRequestHandler getQuestionsRequestHandler = new GetQuestionsRequestHandler(Server.getConnection(),oos,(GetQuestionsRequest) request);
                 getQuestionsRequestHandler.sendResponse();
             }
+            else if(request instanceof ProctoringRequest) {
+                ProctoringRequestHandler requestHandler = new ProctoringRequestHandler(Server.getConnection(), oos, (ProctoringRequest) request);
+                requestHandler.sendResponse();
+            }
             else{
                 Server.sendResponse(oos, null);
             }

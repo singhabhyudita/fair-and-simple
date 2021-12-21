@@ -60,6 +60,7 @@ public class LoginController implements Initializable {
             currentStage.setScene(scene);
             currentStage.setTitle("Welcome");
             ProfileScreenController profileScreenController=homepageLoader.getController();
+            Main.userRegistrationNumber = String.valueOf(response.getRegistrationNo());
             profileScreenController.first(response.getFirstName()+" "+response.getLastName());
         }
     }

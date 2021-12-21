@@ -40,6 +40,8 @@ public class LoginRequestHandler extends RequestHandler {
                 preparedStatement.setString(1,loginRequest.getUsername());
                 preparedStatement.execute();
             }
+            System.out.println("Wassssupppp\n");
+            System.out.println("Sending = " +  response);
             try {
                 oos.writeObject(response);
                 oos.flush();

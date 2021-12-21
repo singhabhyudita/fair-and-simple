@@ -1,10 +1,9 @@
 package controller;
 
+import com.github.sarxos.webcam.Webcam;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
-import entity.Exam;
-import entity.Main;
-import entity.Student;
+import entity.*;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
@@ -17,17 +16,21 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
-import entity.Question;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 import request.GetQuestionsRequest;
 import request.SubmitExamRequest;
 import response.GetQuestionsResponse;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -76,6 +79,9 @@ public class QuestionsScreenController implements Initializable {
     @FXML
     private JFXButton submit;
 
+    private Webcam webcam;
+    private DatagramSocket sendVideoSocket;
+
     //    listeners
 
 
@@ -101,8 +107,8 @@ public class QuestionsScreenController implements Initializable {
     //    METHODS AND CONSTRUCTOR
     public void setQuiz(Exam exam) {
         this.exam = exam;
+        System.out.println("Now this.exam = " + this.exam);
         this.title.setText(this.exam.getTitle());
-        this.getData();
     }
 
     private String format(long value) {
@@ -134,7 +140,7 @@ public class QuestionsScreenController implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("After 1 sec...");
+//                        System.out.println("After 1 sec...");
                         convertTime();
                         if (totalSec <= 0) {
                             timer.cancel();
@@ -155,17 +161,53 @@ public class QuestionsScreenController implements Initializable {
         timer.schedule(timerTask, 0, 1000);
     }
 
-    private void getData() {
-        if (exam != null) {
-            GetQuestionsRequest getQuestionsRequest = new GetQuestionsRequest(exam.getExamId());
-            Main.sendRequest(getQuestionsRequest);
-            GetQuestionsResponse getQuestionsResponse = (GetQuestionsResponse) Main.getResponse();
-            this.questionList = getQuestionsResponse.getQuestionsList();
+    public void setData(int proctorPort, List<Question> questions) {
+            while(!setupProctoringStuff(proctorPort)) {
+                GuiUtil.alert(Alert.AlertType.ERROR, "Could not access you camera. Close all other applications and try again!!");
+            }
+            this.questionList = questions;
             Collections.shuffle(this.questionList);
             renderProgress();
             setNextQuestion();
             setTimer();
+    }
+
+    private boolean setupProctoringStuff(int proctorPort) {
+        for(Webcam w : Webcam.getWebcams()) {
+            try {
+                webcam = Webcam.getWebcamByName(w.getName());
+                webcam.open();
+                break;
+            } catch (Exception ignored) {}
         }
+        if(webcam == null)
+            return false;
+        try {
+            sendVideoSocket = new DatagramSocket();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        Thread videoThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DatagramPacket packet;
+                while(true) {
+//                    try {
+//                        Thread.sleep(500);
+                        BufferedImage image = webcam.getImage();
+                        String registrationNumber = Main.userRegistrationNumber;
+                        byte [] imageByte = UdpUtil.bufferedImageToByteArray(image);
+                        byte [] registrationNumberByte = UdpUtil.objectToByteArray(registrationNumber);
+                        System.out.println("image being sent by Registraiton number = " + registrationNumber);
+                        Object [] wrapped = {registrationNumberByte, imageByte};
+                        UdpUtil.sendObjectToPort(wrapped, proctorPort);
+//                    } catch (InterruptedException ignored) {}
+                }
+            }
+        });
+        videoThread.setDaemon(true);
+        videoThread.start();
+        return true;
     }
 
     private void renderProgress() {

@@ -1,9 +1,6 @@
 package controller;
 
-import entity.Course;
-import entity.Exam;
-import entity.GuiUtil;
-import entity.Main;
+import entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -31,7 +28,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ProfileScreenController implements Initializable
@@ -350,6 +349,11 @@ public class ProfileScreenController implements Initializable
             }
             else
             {
+                GetQuestionsResponse response = getData(exam);
+                if(response.getProctorPort() == -1) {
+                    GuiUtil.alert(Alert.AlertType.ERROR, "Exam will start only after the proctor joins!");
+                    return;
+                }
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/QuestionsScreenFXML.fxml"));
                 Stage currentStage=(Stage)heyNameLabel.getScene().getWindow();
                 Scene scene=null;
@@ -358,6 +362,7 @@ public class ProfileScreenController implements Initializable
                     scene=new Scene(fxmlLoader.load());
                     QuestionsScreenController questionsScreenController= fxmlLoader.getController();
                     questionsScreenController.setQuiz(exam);
+                    questionsScreenController.setData(response.getProctorPort(), response.getQuestionsList());
                     currentStage.setScene(scene);
                     currentStage.setTitle(exam.getTitle());
                 } catch (IOException e) {
@@ -365,6 +370,15 @@ public class ProfileScreenController implements Initializable
                 }
             }
         }
+    }
+
+    private GetQuestionsResponse getData(Exam exam) {
+        if (exam != null) {
+            GetQuestionsRequest getQuestionsRequest = new GetQuestionsRequest(exam.getExamId());
+            Main.sendRequest(getQuestionsRequest);
+            return (GetQuestionsResponse) Main.getResponse();
+        }
+        return null;
     }
 }
 

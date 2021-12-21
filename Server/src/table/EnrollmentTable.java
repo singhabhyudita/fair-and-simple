@@ -10,4 +10,7 @@ public class EnrollmentTable {
             COLUMN_REGISTGRATION_NO +" =?;";
     public static final String QUERY_GET_STUDENTS_BY_COURSE_ID="SELECT "+ COLUMN_REGISTGRATION_NO + " FROM "+
             TABLE_NAME+ " WHERE "+COLUMN_COURSE_ID+" =?";
+    public static final String QUERY_GET_STUDENTS_BY_EXAM_ID="SELECT "+ COLUMN_REGISTGRATION_NO + " FROM "+
+            TABLE_NAME+ " WHERE "+COLUMN_COURSE_ID+" IN (SELECT " + ExamTable.COURSE_ID_COLUMN + " FROM "
+            + ExamTable.TABLE_NAME + " WHERE " + ExamTable.EXAM_ID_COLUMN + " = ?)";
 }

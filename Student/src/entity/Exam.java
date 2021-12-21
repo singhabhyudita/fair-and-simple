@@ -3,11 +3,11 @@ package entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-
 public class Exam implements Serializable {
     private final String examId;
     private final String teacherId;
     private final String courseId;
+    private final String proctorId;
     private final String courseName;
     private final String title;
     private final String description;
@@ -16,16 +16,16 @@ public class Exam implements Serializable {
     private final Integer maxMarks;
 
 
-    public Exam(String examId, String teacherId, String courseId, String courseName, String title, String description, Timestamp date, Timestamp endTime, Integer maxMarks) {
+    public Exam(String examId, String teacherId, String courseId, String proctorId, String courseName, String title, String description, Timestamp date, Timestamp endTime, Integer maxMarks) {
         this.examId = examId;
         this.teacherId = teacherId;
         this.courseId = courseId;
+        this.proctorId = proctorId;
         this.courseName = courseName;
         this.title = title;
         this.description = description;
         this.date = date;
         this.endTime = endTime;
-
         this.maxMarks = maxMarks;
     }
 
@@ -39,6 +39,10 @@ public class Exam implements Serializable {
 
     public String getCourseId() {
         return courseId;
+    }
+
+    public String getProctorId() {
+        return proctorId;
     }
 
     public String getTitle() {

@@ -29,6 +29,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -99,8 +104,6 @@ public class TeacherHomeController {
     public TableColumn<Exam, String> proctoringDutyTitleTableColumn;
     @FXML
     public TableColumn<Exam, Date> proctoringDutyTimeTableColumn;
-    @FXML
-    public TableColumn<Exam, String> proctoringDutyJoinButtonTableColumn;
     @FXML
     public PasswordField oldPasswordTextField;
     @FXML
@@ -297,7 +300,6 @@ public class TeacherHomeController {
         proctoringDutyCourseNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
         proctoringDutyTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         proctoringDutyTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        proctoringDutyJoinButtonTableColumn.setCellValueFactory(new PropertyValueFactory<>("just_dummy"));
         if(response != null){
             ObservableList<Exam> examsToProctor = FXCollections.observableList(response.getExams());
             proctoringDutyExamsTableView.setItems(examsToProctor);
@@ -365,5 +367,43 @@ public class TeacherHomeController {
         courseNameTextField.clear();
         courseDescriptionTextArea.clear();
         courseCodeTextField.clear();
+    }
+
+    public void onExamToProctorClick(MouseEvent mouseEvent) {
+        System.out.println("Yoyo");
+        if(mouseEvent.getClickCount() == 2) {
+            Exam exam = proctoringDutyExamsTableView.getSelectionModel().getSelectedItem();
+            Timestamp startTime = exam.getDate();
+            if(startTime.getTime() - (new Date().getTime()) <= 15*60*1000) { // 15 min into ms.
+                DatagramSocket videoFeedSocket = null;
+                try {
+                    videoFeedSocket = new DatagramSocket(0);
+                    ProctoringRequest request = new ProctoringRequest(exam.getExamId(), videoFeedSocket.getLocalPort(), InetAddress.getLocalHost());
+                    Main.sendRequest(request);
+                    ProctoringResponse response = (ProctoringResponse) Main.receiveResponse();
+                    if(response.isSetupDone()) {
+                        try {
+                            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../views/ProctorView.fxml"));
+                            Scene scene = new Scene(loader.load());
+                            Stage stage = new Stage();
+                            stage.setScene(scene);
+                            stage.setTitle("Proctoring - Course: " + exam.getCourseName() + " Exam: " + exam.getTitle());
+                            stage.setMaximized(true);
+                            stage.show();
+                            ProctorController controller = loader.getController();
+                            controller.callFirst(videoFeedSocket, response.getStudents());
+                        } catch(IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        GuiUtil.alert(Alert.AlertType.ERROR, "Could not start proctoring due to a server error!");
+                    }
+                } catch (SocketException | UnknownHostException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                GuiUtil.alert(Alert.AlertType.WARNING, "You can access the proctoring screen only when there are less than 15 minutes remaining for the commencement of the exam.");
+            }
+        }
     }
 }

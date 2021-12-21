@@ -4,6 +4,7 @@ import entity.Question;
 import request.GetQuestionsRequest;
 import response.GetQuestionsResponse;
 import table.ExamQuestionsTable;
+import table.ProctorPortTable;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -30,7 +31,14 @@ public class GetQuestionsRequestHandler extends RequestHandler{
         ResultSet resultSet;
         PreparedStatement preparedStatement= null;
         GetQuestionsResponse getQuestionsResponse;
+        int proctorPort = -1;
         try {
+            preparedStatement = connection.prepareStatement(ProctorPortTable.GET_PORT_BY_EXAM_ID);
+            preparedStatement.setString(1, getQuestionsRequest.getExamId());
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                proctorPort = resultSet.getInt(ProctorPortTable.COLUMN_PROCTOR_PORT);
+            }
             preparedStatement = connection.prepareStatement(ExamQuestionsTable.GET_EXAM_QUESTIONS_BY_EXAM_ID);
             preparedStatement.setInt(1,Integer.parseInt(getQuestionsRequest.getExamId()));
             resultSet=preparedStatement.executeQuery();
@@ -50,7 +58,8 @@ public class GetQuestionsRequestHandler extends RequestHandler{
         }
         System.out.println("sending questions array "+ questions.get(0).getOptionA());
         try {
-            getQuestionsResponse=new GetQuestionsResponse(questions);
+            getQuestionsResponse=new GetQuestionsResponse(questions, proctorPort);
+            System.out.println("Get questions resposne");
             oos.writeObject(getQuestionsResponse);
             oos.flush();
         } catch (IOException e) {

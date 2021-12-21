@@ -150,12 +150,11 @@
                                             <Font name="System Bold Italic" size="12.0" />
                                         </font>
                                     </TextField>
-                                    <TableView fx:id="proctoringDutyExamsTableView" prefHeight="475.0" prefWidth="524.0">
+                                    <TableView fx:id="proctoringDutyExamsTableView" onMouseClicked="#onExamToProctorClick" prefHeight="475.0" prefWidth="524.0">
                                         <columns>
-                                            <TableColumn fx:id="proctoringDutyCourseNameTableColumn" prefWidth="106.60001981258392" text="Course name" />
-                                            <TableColumn fx:id="proctoringDutyTitleTableColumn" prefWidth="92.5999984741211" text="Title" />
-                                            <TableColumn fx:id="proctoringDutyTimeTableColumn" prefWidth="79.79998779296875" text="Time" />
-                                            <TableColumn fx:id="proctoringDutyJoinButtonTableColumn" prefWidth="91.20003051757811" text="Join" />
+                                            <TableColumn fx:id="proctoringDutyCourseNameTableColumn" prefWidth="132.0" text="Course name" />
+                                            <TableColumn fx:id="proctoringDutyTitleTableColumn" prefWidth="237.0" text="Title" />
+                                            <TableColumn fx:id="proctoringDutyTimeTableColumn" prefWidth="111.0" text="Time" />
                                         </columns>
                                     </TableView>
                                 </children>

@@ -30,7 +30,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("../views/TeacherLoginView.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 590, 600);

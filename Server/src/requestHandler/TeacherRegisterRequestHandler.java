@@ -35,6 +35,7 @@ public class TeacherRegisterRequestHandler extends RequestHandler {
             preparedStatement.setString(5,registerRequest.getPassword());
             fis=new FileInputStream(file);
             preparedStatement.setBinaryStream(6,fis);
+            System.out.println(preparedStatement);
             result=preparedStatement.executeUpdate();
         } catch (SQLException | FileNotFoundException e) {
             e.printStackTrace();
