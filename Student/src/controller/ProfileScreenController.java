@@ -332,29 +332,6 @@ public class ProfileScreenController implements Initializable
     public void first(String name) {
         this.name=name;
         heyNameLabel.setText("Hey, "+name);
-        System.out.println("inside the first method after login trying to create chat socket");
-
-        System.out.println("now chat socket");
-        Socket chatSocket;
-        ObjectInputStream chatois = null;
-        try {
-            chatSocket = new Socket("localhost",6970);
-            System.out.println(chatSocket);
-            ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
-            System.out.println("created chat oos");
-            System.out.println(objectOutputStream);
-            objectOutputStream.flush();
-            InputStream is = chatSocket.getInputStream();
-            System.out.println("chat input stream created");
-             chatois=new ObjectInputStream(is);
-            System.out.println(chatois);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("chat object input stream created");
-
-        Thread t=new Thread(new ChatUtil(chatois));
-        t.start();
         setCoursesList();
         setUpcomingExamsList();
         setExamsHistoryTableView();

@@ -16,6 +16,7 @@ public class RequestIdentifier implements Runnable{
     ObjectInputStream ois=null;
     public static String userID;
 
+
     public RequestIdentifier(Socket socket){
         this.socket=socket;
         try {
@@ -168,6 +169,10 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof ProctoringRequest) {
                 ProctoringRequestHandler requestHandler = new ProctoringRequestHandler(Server.getConnection(), oos, (ProctoringRequest) request);
                 requestHandler.sendResponse();
+            }
+            else if(request instanceof DisplayMessagesRequest) {
+                DisplayMessagesRequestHandler displayMessagesRequestHandler = new DisplayMessagesRequestHandler(Server.getConnection(), oos, (DisplayMessagesRequest) request);
+                displayMessagesRequestHandler.sendResponse();
             }
             else{
                 Server.sendResponse(oos, null);

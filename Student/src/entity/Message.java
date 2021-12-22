@@ -11,15 +11,17 @@ public class Message extends Request implements Serializable {
     private String senderID;
     private String senderName;
     private String courseID;
+    private String courseName;
     private String text;
     private ImageIcon image;
     private Timestamp sentAt;
     private Boolean isStudent;
 
-    public Message(String senderID, String senderName, String courseID, String text, ImageIcon image, Timestamp sentAt, Boolean isStudent) {
+    public Message(String senderID, String senderName, String courseID, String courseName, String text, ImageIcon image, Timestamp sentAt, Boolean isStudent) {
         this.senderID = senderID;
         this.senderName = senderName;
         this.courseID = courseID;
+        this.courseName = courseName;
         this.text = text;
         this.image = image;
         this.sentAt = sentAt;
@@ -80,5 +82,13 @@ public class Message extends Request implements Serializable {
 
     public void setSenderID(String senderID) {
         this.senderID = senderID;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }

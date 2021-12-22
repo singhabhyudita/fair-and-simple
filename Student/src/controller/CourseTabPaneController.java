@@ -25,20 +25,19 @@ import request.*;
 import response.*;
 import entity.*;
 import util.ChatUtil;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class CourseTabPaneController implements Initializable
-{
+public class CourseTabPaneController implements Initializable {
+    @FXML
+    public TabPane courseTabPane;
     @FXML
     public Label courseNameLabel;
     @FXML
@@ -104,7 +103,7 @@ public class CourseTabPaneController implements Initializable
     public ObservableList<Student> observableParticipantsList;
 
     private SortedList<Exam> sortedData;
-    private String courseId,name;
+    private String courseId, name;
 
     public String getCourseId() {
         return courseId;
@@ -117,14 +116,18 @@ public class CourseTabPaneController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chatScrollPane.vvalueProperty().bind(chatContainer.heightProperty());
+        Main.chatVBox = chatContainer;
+        System.out.println("And the chat container is : " + chatContainer);
     }
-    public void first(String courseId,String name) throws InterruptedException {
+
+    public void first(String courseId, String name) throws InterruptedException {
+        Main.chatVBox = chatContainer;
         this.courseId = courseId;
-        this.name=name;
+        this.name = name;
         Main.sendRequest(new CourseDetailsRequest(courseId));
-        System.out.println("course details request sent "+ courseId);
-        Course course= (Course) Main.getResponse();
-        System.out.println("Course object selected is "+course);
+        System.out.println("course details request sent " + courseId);
+        Course course = (Course) Main.getResponse();
+        System.out.println("Course object selected is " + course);
         assert course != null;
 
         System.out.println("Course Object = " + course);
@@ -155,6 +158,7 @@ public class CourseTabPaneController implements Initializable
     public void refreshExamsScheduleButtonResponse(ActionEvent e) {
         updateExamsScheduleTable();
     }
+
     @FXML
     public void refreshCourseInfoButtonResponse(ActionEvent e) {
         updateParticipantsTable();
@@ -163,11 +167,11 @@ public class CourseTabPaneController implements Initializable
     public void updateParticipantsTable() {
         //Sending request to server to fetch list of participants of this course
         ParticipantsListRequest participantsListRequest = new ParticipantsListRequest(courseId);
-        System.out.println("participants list requested for course id "+courseId);
+        System.out.println("participants list requested for course id " + courseId);
         Main.sendRequest(participantsListRequest);
 
         ParticipantsListResponse participantsListResponse = (ParticipantsListResponse) Main.getResponse();
-        System.out.println("participants list response received "+participantsListResponse);
+        System.out.println("participants list response received " + participantsListResponse);
         assert participantsListResponse != null;
         observableParticipantsList = FXCollections.observableList(participantsListResponse.getParticipantsList());
         participantsTableView.setItems(observableParticipantsList);
@@ -175,7 +179,7 @@ public class CourseTabPaneController implements Initializable
 
     ExamsListResponse examsListResponse;
 
-    public void updateExamsScheduleTable(){
+    public void updateExamsScheduleTable() {
         //Sending request to server to fetch list of exams
         ExamsListRequest examsListRequest = new ExamsListRequest(courseId);
         Main.sendRequest(examsListRequest);
@@ -202,71 +206,78 @@ public class CourseTabPaneController implements Initializable
 
     public void sendButtonResponse() {
         //TODO: send messages
-        String text=sendTextField.getText();
-        Main.sendRequest(new Message(Main.userRegistrationNumber,name,courseId,text,null,
-                new Timestamp(System.currentTimeMillis()),true));
-        System.out.println("message sent is : "+text);
-        SendMessageResponse sendMessageResponse=(SendMessageResponse)Main.getResponse();
+        String text = sendTextField.getText().trim();
+        if(text == "")
+            return;
+        sendTextField.clear();
+        Main.sendRequest(new Message(Main.userRegistrationNumber, name, courseId, courseNameLabel.getText(),text, null,
+                new Timestamp(System.currentTimeMillis()), true));
+        System.out.println("Main.userRegistrationNumber:" + Main.userRegistrationNumber);
+        SendMessageResponse sendMessageResponse = (SendMessageResponse) Main.getResponse();
         assert sendMessageResponse != null;
+
         System.out.println(sendMessageResponse.getResponse());
     }
 
     public void refreshDiscussionForumButtonResponse(ActionEvent actionEvent) {
-        ArrayList <Message> messages = new ArrayList<>();
-        messages.add(new Message("1","Saurabh","1","I am Saurabh.",null,new Timestamp((new Date()).getTime()),true));
-        for(Message message : messages) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
-            try {
-                Node node = fxmlLoader.load();
-                SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
-                singleChatCardFXMLController.messageLabel.setText(message.getText());
-                singleChatCardFXMLController.nameLabel.setText(message.getSenderName());
-                singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
-                singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web("#bee2f7"),
-                        CornerRadii.EMPTY,
-                        Insets.EMPTY)));
-                chatContainer.getChildren().add(node);
-                Notifications.create()
-                        .title("Message received!")
-                        .text("Message has been received!")
-                        .showInformation();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        ArrayList <Message> messages = new ArrayList<>();
+//        messages.add(new Message("1","Saurabh","1","I am Saurabh.",null,new Timestamp((new Date()).getTime()),true));
+//        for(Message message : messages) {
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
+//            try {
+//                Node node = fxmlLoader.load();
+//                SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
+//                singleChatCardFXMLController.messageLabel.setText(message.getText());
+//                singleChatCardFXMLController.nameLabel.setText(message.getSenderName());
+//                singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+//                singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web("#bee2f7"),
+//                        CornerRadii.EMPTY,
+//                        Insets.EMPTY)));
+//                chatContainer.getChildren().add(node);
+//                Notifications.create()
+//                        .title("Message received!")
+//                        .text("Message has been received!")
+//                        .showInformation();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public void backFromDiscussionForumButtonResponse(ActionEvent actionEvent) {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
+        Main.chatVBox = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
-            scene=new Scene(loader.load());
+            scene = new Scene(loader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage stage= (Stage) backFromDiscussionForumButton.getScene().getWindow();
+        Stage stage = (Stage) backFromDiscussionForumButton.getScene().getWindow();
+        ProfileScreenController profileScreenController = loader.getController();
+        profileScreenController.first(name);
         stage.setTitle("Profile");
         stage.setScene(scene);
-        ProfileScreenController profileScreenController=loader.getController();
-        profileScreenController.first(name);
     }
 
     public void backFromExamsScheduleButtonResponse(ActionEvent actionEvent) {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
+        Main.chatVBox = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
-            scene=new Scene(loader.load());
+            scene = new Scene(loader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage stage= (Stage) backFromExamsScheduleButton.getScene().getWindow();
+        Stage stage = (Stage) backFromExamsScheduleButton.getScene().getWindow();
+        ProfileScreenController profileScreenController = loader.getController();
+        profileScreenController.first(name);
         stage.setTitle("Profile");
         stage.setScene(scene);
-        ProfileScreenController profileScreenController=loader.getController();
-        profileScreenController.first(name);
     }
 
     public void backfromCourseInfoButtonResponse(ActionEvent actionEvent) {
+        Main.chatVBox = null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
@@ -275,11 +286,12 @@ public class CourseTabPaneController implements Initializable
             e.printStackTrace();
         }
         Stage stage = (Stage) backfromCourseInfoButton.getScene().getWindow();
-        stage.setTitle("Profile");
-        stage.setScene(scene);
         ProfileScreenController profileScreenController = loader.getController();
         profileScreenController.first(name);
+        stage.setTitle("Profile");
+        stage.setScene(scene);
     }
+
     public void clickItem(MouseEvent mouseEvent) {
     }
 
@@ -296,23 +308,34 @@ public class CourseTabPaneController implements Initializable
         Timestamp startTime = new Timestamp(selectedExam.getDate().getTime());
         Timestamp endTime = new Timestamp(selectedExam.getEndTime().getTime());
         startTimeLabel.setText(startTime.toString());
-        Duration duration=Duration.between(startTime.toLocalDateTime(),endTime.toLocalDateTime());
-        long minutes=duration.toMinutes();
+        Duration duration = Duration.between(startTime.toLocalDateTime(), endTime.toLocalDateTime());
+        long minutes = duration.toMinutes();
         durationLabel.setText(String.valueOf(minutes));
         maxMarksLabel.setText(selectedExam.getMaxMarks().toString());
     }
 
     public void onChatClicked(Event event) {
-        System.out.println("Inside on chat clicked method");
-//        ArrayList<Message>senderMessages,otherMessages;
-//        Main.sendRequest(new DisplayMessagesRequest(courseId));
-//        System.out.println("Display Message Request Sent");
-//        DisplayMessagesResponse displayMessagesResponse=(DisplayMessagesResponse)Main.getResponse();
-//        System.out.println("Display Messages Response received");
-//        assert displayMessagesResponse != null;
-//        senderMessages=displayMessagesResponse.getSenderMessages();
-//        otherMessages=displayMessagesResponse.getOtherMessages();
-//        //TODO: display the messages
-    }
+        Main.sendRequest(new DisplayMessagesRequest(courseId));
+        DisplayMessagesResponse displayMessagesResponse = (DisplayMessagesResponse) Main.getResponse();
+        ArrayList<Message> messages = displayMessagesResponse.getMessages();
 
+        for (Message message : messages) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
+            try {
+                Node node = fxmlLoader.load();
+                SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
+                singleChatCardFXMLController.messageLabel.setText(message.getText());
+                singleChatCardFXMLController.nameLabel.setText(message.getSenderName());
+                singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
+                        (message.getSenderID() == Main.userRegistrationNumber) ? "#f55f78" : "#bee2f7"),
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY)));
+                chatContainer.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }

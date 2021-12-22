@@ -1,6 +1,7 @@
 package entity;
 
 import controller.LoginController;
+import javafx.scene.layout.VBox;
 import request.Request;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ public class Main extends Application {
     public static ObjectInputStream ois=null;
     static ObjectOutputStream oos=null;
     public static String userRegistrationNumber;
+    public static VBox chatVBox = null;
 
     public static void main(String[] args) {
         launch(args);

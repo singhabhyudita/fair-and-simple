@@ -13,5 +13,12 @@ public class MessageTable {
     public final static String ADD_MESSAGE_QUERY="INSERT INTO "+TABLE_NAME+" ("+COLUMN_SENDER_ID+","+
             COLUMN_COURSE_ID+","+COLUMN_TEXT+","+COLUMN_IMAGE+","+COLUMN_SENT_AT+","+COLUMN_IS_STUDENT+") VALUES (?,?,?,?,?,?);";
     public final static String GET_MESSAGES_BY_COURSE_ID="SELECT * FROM "+TABLE_NAME+" WHERE "+COLUMN_COURSE_ID+" = ?;";
-
+    public final static String GET_STUDENT_MESSAGES = "SELECT * FROM " + TABLE_NAME + " INNER JOIN "+ StudentTable.TABLE_NAME
+            +" ON " + TABLE_NAME + "." + COLUMN_SENDER_ID +" = "+ StudentTable.TABLE_NAME+"."+StudentTable.COLUMN_REGISTRATION_NUMBER
+            +" INNER JOIN "+CoursesTable.TABLE_NAME + " ON "+CoursesTable.TABLE_NAME+"."+CoursesTable.COURSE_ID_COLUMN+" = "+TABLE_NAME + "." +COLUMN_COURSE_ID
+            +" WHERE "+MessageTable.TABLE_NAME+"."+COLUMN_COURSE_ID + " = ?";
+    public final static String GET_TEACHER_MESSAGES = "SELECT * FROM " + TABLE_NAME + " INNER JOIN "+ TeacherTable.TABLE_NAME
+            +" ON " + TABLE_NAME + "." + COLUMN_SENDER_ID +" = "+ TeacherTable.TABLE_NAME+"."+TeacherTable.COLUMN_TEACHER_ID
+            +" INNER JOIN "+CoursesTable.TABLE_NAME + " ON "+CoursesTable.TABLE_NAME +"."+CoursesTable.COURSE_ID_COLUMN+" = "+TABLE_NAME + "." +COLUMN_COURSE_ID
+            +" WHERE "+MessageTable.TABLE_NAME+"."+COLUMN_COURSE_ID + " = ?";
 }

@@ -12,8 +12,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.ChatUtil;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -46,8 +51,8 @@ public class LoginController implements Initializable {
         if (response != null && response.getFirstName() == null) {
             System.out.println("Wrong Info");
         }
-        else {
-            assert response != null;
+        else if(response !=null){
+            startMessageThread();
             System.out.println("Registration number is "+response.getRegistrationNo());
             FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
             Stage currentStage=(Stage)loginButton.getScene().getWindow();
@@ -63,6 +68,26 @@ public class LoginController implements Initializable {
             Main.userRegistrationNumber = String.valueOf(response.getRegistrationNo());
             profileScreenController.first(response.getFirstName()+" "+response.getLastName());
         }
+    }
+
+    private void startMessageThread() {
+        Socket chatSocket;
+        ObjectInputStream chatois = null;
+        try {
+            chatSocket = new Socket("localhost",6970);
+            System.out.println(chatSocket);
+            ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
+            System.out.println(objectOutputStream);
+            objectOutputStream.flush();
+            InputStream is = chatSocket.getInputStream();
+            chatois=new ObjectInputStream(is);
+            System.out.println(chatois);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Thread t=new Thread(new ChatUtil(chatois));
+        t.start();
     }
 
     public void switchToSignup(ActionEvent actionEvent) {

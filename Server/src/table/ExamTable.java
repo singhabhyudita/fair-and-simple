@@ -34,10 +34,10 @@ public class ExamTable {
             " = ?;";
     public static final String GET_UPCOMING_EXAMS_STUDENT = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + COURSE_ID_COLUMN +" IN (" + "SELECT " + COURSE_ID_COLUMN + " FROM " + EnrollmentTable.TABLE_NAME
-            + " WHERE " + EnrollmentTable.COLUMN_REGISTGRATION_NO + " = ? ) AND " + START_TIME_COLUMN + " >= ?;";
+            + " WHERE " + EnrollmentTable.COLUMN_REGISTGRATION_NO + " = ? ) AND " + END_TIME_COLUMN + " >= ?;";
     public static final String GET_EXAMS_HISTORY_STUDENT = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + COURSE_ID_COLUMN +" IN (" + "SELECT " + COURSE_ID_COLUMN + " FROM " + EnrollmentTable.TABLE_NAME
-            + " WHERE " + EnrollmentTable.COLUMN_REGISTGRATION_NO + " = ? ) AND " + START_TIME_COLUMN + " < ?;";
+            + " WHERE " + EnrollmentTable.COLUMN_REGISTGRATION_NO + " = ? ) AND " + END_TIME_COLUMN + " < ?;";
     public static final String GET_PROCTORING_DUTY_BY_TEACHER_ID = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + PROCTOR_ID_COLUMN + " = ?;";
 //    public static final String GET_EXAM_BY_TEACHER_ID = "SELECT * FROM " + TABLE_NAME + " WHERE "

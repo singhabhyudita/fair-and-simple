@@ -67,6 +67,7 @@ public class SendMessageRequestHandler extends RequestHandler {
             try {
                 //if(s.getOutputStream().equals(oos))continue;
                 oos.writeObject(message);
+                oos.flush();
                 System.out.println("message object sent");
             } catch (IOException e) {
                 e.printStackTrace();
