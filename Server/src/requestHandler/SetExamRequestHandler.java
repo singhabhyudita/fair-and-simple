@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SetExamRequestHandler {
+public class SetExamRequestHandler extends RequestHandler{
     private final Connection connection;
     private final ObjectOutputStream oos;
     private final SetExamRequest request;
@@ -24,7 +24,7 @@ public class SetExamRequestHandler {
         this.request = request;
     }
 
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         try {
             PreparedStatement getClashingExams = connection.prepareStatement(ExamTable.GET_CLASHING_EXAMS_BY_TEACHER);
             getClashingExams.setString(1, request.getTeacherId());

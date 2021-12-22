@@ -81,23 +81,23 @@ public class RequestIdentifier implements Runnable{
                 teacherRegisterRequestHandler.sendResponse(userID);
             } else if(request instanceof TeacherCoursesRequest) {
                 TeacherCoursesRequestHandler handler = new TeacherCoursesRequestHandler(Server.getConnection(), oos, (TeacherCoursesRequest) request);
-                handler.sendResposne();
+                handler.sendResponse(userID);
             } else if(request instanceof CreateCourseRequest) {
                 System.out.println("Request is a create team request by teacher " + ((CreateCourseRequest) request).getTeacherId());
                 CreateCourseRequestHandler handler = new CreateCourseRequestHandler(Server.getConnection(), oos, (CreateCourseRequest) request);
-                handler.sendResponse();
+                handler.sendResponse(userID);
             } else if(request instanceof ExamResultRequest) {
                 ExamResultRequestHandler handler = new ExamResultRequestHandler(Server.getConnection(), oos, (ExamResultRequest) request);
-                handler.sendResponse();
+                handler.sendResponse(userID);
             } else if(request instanceof SetExamRequest) {
                 SetExamRequestHandler handler = new SetExamRequestHandler(Server.getConnection(), oos, (SetExamRequest) request);
-                handler.sendResponse();
+                handler.sendResponse(userID);
             } else if(request instanceof TeacherExamRequest) {
                 TeacherExamRequestHandler handler = new TeacherExamRequestHandler(Server.getConnection(), oos, (TeacherExamRequest) request);
-                handler.sendResponse();
+                handler.sendResponse(userID);
             } else if(request instanceof TeacherChangePasswordRequest) {
                 TeacherChangePasswordRequestHandler handler = new TeacherChangePasswordRequestHandler(Server.getConnection(), oos, (TeacherChangePasswordRequest) request);
-                handler.sendResponse();
+                handler.sendResponse(userID);
             }
             else if(request instanceof JoinCourseRequest){
                 JoinCourseRequestHandler joinCourseRequestHandler=new JoinCourseRequestHandler(Server.getConnection(),oos,(JoinCourseRequest)request);
@@ -183,6 +183,10 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof ProctoringRequest) {
                 ProctoringRequestHandler requestHandler = new ProctoringRequestHandler(Server.getConnection(), oos, (ProctoringRequest) request);
                 requestHandler.sendResponse(userID);
+            }
+            else if(request instanceof DisplayMessagesRequest) {
+                DisplayMessagesRequestHandler displayMessagesRequestHandler = new DisplayMessagesRequestHandler(Server.getConnection(), oos, (DisplayMessagesRequest) request);
+                displayMessagesRequestHandler.sendResponse(userID);
             }
             else if(request instanceof DisplayMessagesRequest) {
                 DisplayMessagesRequestHandler displayMessagesRequestHandler = new DisplayMessagesRequestHandler(Server.getConnection(), oos, (DisplayMessagesRequest) request);

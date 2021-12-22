@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeacherCoursesRequestHandler {
+public class TeacherCoursesRequestHandler extends RequestHandler {
     private final Connection connection;
     private final ObjectOutputStream oos;
     private final TeacherCoursesRequest teacherCoursesRequest;
@@ -25,7 +25,7 @@ public class TeacherCoursesRequestHandler {
         this.teacherCoursesRequest = request;
     }
 
-    public void sendResposne() {
+    public void sendResponse(String userID) {
         ResultSet courseResultSet = null,resultSet;
         PreparedStatement preparedStatement;
         String teacherId,name = null;

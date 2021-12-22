@@ -90,6 +90,7 @@ public class SendMessageRequestHandler extends RequestHandler {
                     oos.flush();
                     System.out.println("message object sent");
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

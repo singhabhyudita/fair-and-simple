@@ -117,6 +117,8 @@ public class CourseTabPaneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chatScrollPane.vvalueProperty().bind(chatContainer.heightProperty());
+        Main.chatVBox = chatContainer;
+        System.out.println("And the chat container is : " + chatContainer);
     }
 
     public void first(String courseId, String name) throws InterruptedException {

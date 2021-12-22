@@ -5,7 +5,7 @@ import request.ExamResultRequest;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 
-public class ExamResultRequestHandler {
+public class ExamResultRequestHandler extends RequestHandler {
     private final Connection connection;
     private final ObjectOutputStream oos;
     private final ExamResultRequest request;
@@ -15,6 +15,6 @@ public class ExamResultRequestHandler {
         this.request = request;
     }
 
-    public void sendResponse() {
+    public void sendResponse(String userID) {
     }
 }

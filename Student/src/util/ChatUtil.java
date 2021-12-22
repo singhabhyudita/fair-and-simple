@@ -47,7 +47,6 @@ public class ChatUtil implements Runnable {
             final Message message = message2;
             System.out.println("Message received from sender id "+ message.getSenderID()+": "+message.getText());
 
-            // TODO
 
             if(Main.chatVBox == null || !message.getCourseID().equals(Main.lastOpenCourseId)) {
                 if(!Objects.equals(message.getSenderID(), Main.userRegistrationNumber)) {

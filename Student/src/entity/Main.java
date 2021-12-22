@@ -18,6 +18,7 @@ public class Main extends Application {
     static ObjectOutputStream oos=null;
     public static String userRegistrationNumber;
     public static VBox chatVBox = null;
+
     public static String lastOpenCourseId = null;
     public static final String myColor = "#f55f78";
     public static final String otherColor = "#bee2f7";

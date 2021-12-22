@@ -5,7 +5,6 @@ import main.Server;
 import request.DisplayMessagesRequest;
 import response.DisplayMessagesResponse;
 import table.*;
-
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

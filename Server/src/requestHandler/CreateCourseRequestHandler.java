@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CreateCourseRequestHandler {
+public class CreateCourseRequestHandler extends RequestHandler{
     private final Connection connection;
     private final  ObjectOutputStream oos;
     private final CreateCourseRequest request;
@@ -22,7 +22,7 @@ public class CreateCourseRequestHandler {
         this.request = request;
     }
 
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         try {
             PreparedStatement createTeamStatement = connection.prepareStatement(CoursesTable.ADD_COURSE_QUERY);
             String teamCode = generateRandomCode();

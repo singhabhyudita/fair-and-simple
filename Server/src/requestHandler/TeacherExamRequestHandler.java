@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TeacherExamRequestHandler {
+public class TeacherExamRequestHandler extends RequestHandler{
     private final Connection connection;
     private final ObjectOutputStream oos;
     private final TeacherExamRequest request;
@@ -24,7 +24,7 @@ public class TeacherExamRequestHandler {
         this.request = request;
     }
 
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         try {
             PreparedStatement getAllExams = connection.prepareStatement(ExamTable.GET_EXAM_BY_TEACHER_ID);
             getAllExams.setString(1, request.getTeacherId());

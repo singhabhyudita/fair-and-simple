@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TeacherChangePasswordRequestHandler {
+public class TeacherChangePasswordRequestHandler extends RequestHandler{
     private final Connection connection;
     private final ObjectOutputStream oos;
     private final TeacherChangePasswordRequest request;
@@ -21,7 +21,7 @@ public class TeacherChangePasswordRequestHandler {
         this.request = request;
     }
 
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         try {
             PreparedStatement getTeacher = connection.prepareStatement(TeacherTable.GET_TEACHER_BY_ID_PASSWORD);
             getTeacher.setString(1, request.getTeacherID());
