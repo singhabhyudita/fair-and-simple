@@ -1,5 +1,6 @@
 package main;
 
+import entity.RegistrationStreamWrapper;
 import response.CreateCourseResponse;
 import response.Response;
 import util.RandomString;
@@ -18,7 +19,7 @@ public class Server {
 
     private static Connection connection;
     private static RandomString randomString;
-    public static ArrayList<ObjectOutputStream>socketArrayList=new ArrayList<>();
+    public static ArrayList<RegistrationStreamWrapper>socketArrayList=new ArrayList<>();
 
     public static void main(String[] args) {
         ServerSocket serverSocket= null,chatServerSocket=null;
@@ -36,14 +37,9 @@ public class Server {
                 socket=serverSocket.accept();
                 System.out.println("request socket created");
                 System.out.println(socket);
-                Thread thread=new Thread(new RequestIdentifier(socket));
+                Thread thread=new Thread(new RequestIdentifier(socket, chatServerSocket));
                 thread.start();
 
-                chatSocket=chatServerSocket.accept();
-                ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
-                System.out.println(chatSocket);
-                System.out.println("connection established with client");
-                socketArrayList.add(objectOutputStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -55,7 +51,7 @@ public class Server {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url="jdbc:mysql://localhost:3306/fairnsimple";
-            connection= DriverManager.getConnection(url,"root","12345678");
+            connection= DriverManager.getConnection(url,"utkarsh","Hello@123");
             System.out.println("Database connected!!");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

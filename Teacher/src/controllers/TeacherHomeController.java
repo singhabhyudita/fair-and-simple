@@ -343,8 +343,6 @@ public class TeacherHomeController {
         setProfilePic();
     }
 
-
-
     private void setProfilePic() {
         GetTeacherProfilePicRequest getTeacherProfilePicRequest = new GetTeacherProfilePicRequest();
         Main.sendRequest(getTeacherProfilePicRequest);

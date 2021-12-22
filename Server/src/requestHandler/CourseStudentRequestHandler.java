@@ -27,7 +27,7 @@ public class CourseStudentRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         String courseId = request.getCourseId();
         System.out.println("Requesting students with course id = " + courseId);
         PreparedStatement statement = null;

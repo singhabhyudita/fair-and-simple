@@ -52,6 +52,7 @@ public class LoginController implements Initializable {
             System.out.println("Wrong Info");
         }
         else if(response !=null){
+            Main.userRegistrationNumber = String.valueOf(response.getRegistrationNo());
             startMessageThread();
             System.out.println("Registration number is "+response.getRegistrationNo());
             FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
@@ -65,7 +66,6 @@ public class LoginController implements Initializable {
             currentStage.setScene(scene);
             currentStage.setTitle("Welcome");
             ProfileScreenController profileScreenController=homepageLoader.getController();
-            Main.userRegistrationNumber = String.valueOf(response.getRegistrationNo());
             profileScreenController.first(response.getFirstName()+" "+response.getLastName());
         }
     }
@@ -78,6 +78,7 @@ public class LoginController implements Initializable {
             System.out.println(chatSocket);
             ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
             System.out.println(objectOutputStream);
+            objectOutputStream.writeObject(Main.userRegistrationNumber);
             objectOutputStream.flush();
             InputStream is = chatSocket.getInputStream();
             chatois=new ObjectInputStream(is);

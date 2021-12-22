@@ -18,6 +18,9 @@ public class Main extends Application {
     static ObjectOutputStream oos=null;
     public static String userRegistrationNumber;
     public static VBox chatVBox = null;
+    public static String lastOpenCourseId = null;
+    public static final String myColor = "#f55f78";
+    public static final String otherColor = "#bee2f7";
 
     public static void main(String[] args) {
         launch(args);
@@ -29,8 +32,8 @@ public class Main extends Application {
             System.out.println("Creating a new connection");
             socket=new Socket("localhost",6969);
             System.out.println(socket);
-            ois=new ObjectInputStream(socket.getInputStream());
             oos=new ObjectOutputStream(socket.getOutputStream());
+            ois=new ObjectInputStream(socket.getInputStream());
 
             System.out.println("Connection established and io streams created");
 

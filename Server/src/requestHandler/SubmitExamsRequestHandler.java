@@ -2,7 +2,7 @@ package requestHandler;
 
 public class SubmitExamsRequestHandler extends RequestHandler {
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
 
     }
 }

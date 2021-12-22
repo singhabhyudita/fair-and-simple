@@ -27,10 +27,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.Time;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ProfileScreenController implements Initializable
 {
@@ -60,11 +57,12 @@ public class ProfileScreenController implements Initializable
         System.out.println("Image input stream received "+getProfilePicResponse);
         BufferedImage bufferedImage;
         Image image;
-        assert getProfilePicResponse != null;
-        bufferedImage=  ((ToolkitImage)getProfilePicResponse.getImageIcon().getImage()).getBufferedImage();
-        image = SwingFXUtils.toFXImage(bufferedImage, null);
-        profilePicImageView.setImage(image);
-        changeProfilePicImageView.setImage(image);
+        if(getProfilePicResponse != null) {
+            bufferedImage=  ((ToolkitImage)getProfilePicResponse.getImageIcon().getImage()).getBufferedImage();
+            image = SwingFXUtils.toFXImage(bufferedImage, null);
+            profilePicImageView.setImage(image);
+            changeProfilePicImageView.setImage(image);
+        }
     }
 
     // Join a course

@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -16,9 +17,11 @@ import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Objects;
+
+import entity.Message;
 
 public class ChatUtil implements Runnable {
-
 
     ObjectInputStream ois;
 
@@ -44,23 +47,37 @@ public class ChatUtil implements Runnable {
             final Message message = message2;
             System.out.println("Message received from sender id "+ message.getSenderID()+": "+message.getText());
 
+            // TODO
+
+            if(Main.chatVBox == null || !message.getCourseID().equals(Main.lastOpenCourseId)) {
+                if(!Objects.equals(message.getSenderID(), Main.userRegistrationNumber)) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            Notifications.create()
+                                    .title("Message from " + message.getSenderName() + " in " + message.getCourseName())
+                                    .text(message.getText())
+                                    .show();
+                        }
+                    });
+                }
+            }
+
 //            if(Main.chatVBox != null)
-            if(Main.chatVBox != null){
+            if(Main.chatVBox != null && message.getCourseID().equals(Main.lastOpenCourseId)){
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        Notifications.create()
-                                .title("Message from " + message.getSenderName() + " in " + message.getCourseName())
-                                .text(message.getText())
-                                .show();
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
                         try {
                             Node node = fxmlLoader.load();
                             SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
                             singleChatCardFXMLController.messageLabel.setText(message.getText());
+                            singleChatCardFXMLController.messageLabel.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
                             singleChatCardFXMLController.nameLabel.setText(message.getSenderName());
                             singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
-                            singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web("#bee2f7"),
+                            singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
+                                    (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),
                                     CornerRadii.EMPTY,
                                     Insets.EMPTY)));
                             Main.chatVBox.getChildren().add(node);

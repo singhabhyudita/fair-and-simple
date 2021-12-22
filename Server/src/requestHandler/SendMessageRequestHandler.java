@@ -1,9 +1,11 @@
 package requestHandler;
 
 import entity.Message;
+import entity.RegistrationStreamWrapper;
 import main.RequestIdentifier;
 import main.Server;
 import response.SendMessageResponse;
+import table.EnrollmentTable;
 import table.MessageTable;
 
 import java.awt.image.BufferedImage;
@@ -13,8 +15,10 @@ import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SendMessageRequestHandler extends RequestHandler {
     private Connection connection;
@@ -28,14 +32,14 @@ public class SendMessageRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         PreparedStatement preparedStatement;
         InputStream is=null;
         BufferedImage bufferedImage;
         ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
         try {
             preparedStatement=connection.prepareStatement(MessageTable.ADD_MESSAGE_QUERY);
-            preparedStatement.setString(1, RequestIdentifier.userID);
+            preparedStatement.setString(1, userID);
             preparedStatement.setString(2,message.getCourseID());
             preparedStatement.setString(3,message.getText());
 
@@ -58,17 +62,34 @@ public class SendMessageRequestHandler extends RequestHandler {
         }
     }
     public void sendToAll(){
-        ArrayList<ObjectOutputStream>socketArrayList= Server.socketArrayList;
-        ObjectOutputStream objectOutputStream;
+        List<String> registrationNumbers = new ArrayList<>();
+        try {
+            PreparedStatement getRegistrationNumbers = connection.prepareStatement(EnrollmentTable.QUERY_GET_STUDENTS_BY_COURSE_ID);
+            getRegistrationNumbers.setString(1, message.getCourseID());
+            ResultSet enrolledStudents = getRegistrationNumbers.executeQuery();
+            while(enrolledStudents.next()) {
+                registrationNumbers.add(enrolledStudents.getString(EnrollmentTable.COLUMN_REGISTGRATION_NO));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        /**
+         * Wrapper - oos registration no.
+         * courseId -> registration no.
+         */
+        ArrayList<RegistrationStreamWrapper>socketArrayList= Server.socketArrayList;
         System.out.println("inside send to all");
-        for (ObjectOutputStream oos:socketArrayList) {
+        for (RegistrationStreamWrapper w:socketArrayList) {
+            ObjectOutputStream oos = w.getOos();
             System.out.println("Caht oos  here:");
             System.out.println(oos.toString());
             try {
                 //if(s.getOutputStream().equals(oos))continue;
-                oos.writeObject(message);
-                oos.flush();
-                System.out.println("message object sent");
+                if(registrationNumbers.contains(w.getRegistrationNumber())) {
+                    oos.writeObject(message);
+                    oos.flush();
+                    System.out.println("message object sent");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

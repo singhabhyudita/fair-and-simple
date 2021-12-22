@@ -25,14 +25,14 @@ public class CoursesListRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
        PreparedStatement p1,preparedStatement;
         ArrayList<Course>courses = new ArrayList<>();
         ResultSet s1,s2,s3;
         String teacherid,name;
         try {
             p1=connection.prepareStatement(EnrollmentTable.QUERY_GET_COURSES_BY_ID);
-            p1.setInt(1,Integer.parseInt(RequestIdentifier.userID));
+            p1.setInt(1,Integer.parseInt(userID));
             s1=p1.executeQuery();
             while (s1.next()){
                PreparedStatement p2=connection.prepareStatement(CoursesTable.GET_COURSES_BY_COURSE_ID);

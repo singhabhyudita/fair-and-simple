@@ -26,7 +26,7 @@ public class GetQuestionsRequestHandler extends RequestHandler{
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         ArrayList<Question> questions=new ArrayList<>();
         ResultSet resultSet;
         PreparedStatement preparedStatement= null;

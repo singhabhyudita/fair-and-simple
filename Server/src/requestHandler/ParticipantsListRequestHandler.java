@@ -26,7 +26,7 @@ public class ParticipantsListRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         ArrayList<Student>students=new ArrayList<>();
         ResultSet resultSet;
         PreparedStatement preparedStatement= null;

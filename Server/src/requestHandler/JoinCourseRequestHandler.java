@@ -7,7 +7,6 @@ import response.JoinCourseResponse;
 import table.CoursesTable;
 import table.EnrollmentTable;
 
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +25,7 @@ public class JoinCourseRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse()  {
+    public void sendResponse(String userID)  {
         ResultSet resultSet = null;
         int result=0;
         int courseId = 0;
@@ -39,7 +38,7 @@ public class JoinCourseRequestHandler extends RequestHandler {
                 courseId = resultSet.getInt(1);
                 System.out.println("Course ID = " + courseId);
                 preparedStatement.setInt(1,courseId);
-                preparedStatement.setInt(2,Integer.parseInt(RequestIdentifier.userID));
+                preparedStatement.setInt(2,Integer.parseInt(userID));
                 result=preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {

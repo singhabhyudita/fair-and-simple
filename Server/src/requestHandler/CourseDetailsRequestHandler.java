@@ -24,7 +24,7 @@ public class CourseDetailsRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         PreparedStatement preparedStatement,preparedStatement1;
         ResultSet resultSet,resultSet1;
         String teacherId,name;

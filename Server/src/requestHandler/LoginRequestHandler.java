@@ -23,7 +23,7 @@ public class LoginRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse()  {
+    public void sendResponse(String userID)  {
         PreparedStatement preparedStatement;
 
         try {

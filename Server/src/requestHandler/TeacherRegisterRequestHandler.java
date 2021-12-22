@@ -21,7 +21,7 @@ public class TeacherRegisterRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         PreparedStatement preparedStatement;
         File file=new File("src/images/sample.png");
         FileInputStream fis;

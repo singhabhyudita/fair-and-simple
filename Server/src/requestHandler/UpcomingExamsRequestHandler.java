@@ -26,12 +26,12 @@ public class UpcomingExamsRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         UpcomingExamsResponse upcomingExamsResponse = null;
         try
         {
             PreparedStatement preparedStatement=connection.prepareStatement(ExamTable.GET_UPCOMING_EXAMS_STUDENT);
-            preparedStatement.setString(1, RequestIdentifier.userID);
+            preparedStatement.setString(1, userID);
             preparedStatement.setDate(2,new java.sql.Date(System.currentTimeMillis()));
             System.out.println(preparedStatement.toString());
             ResultSet results = preparedStatement.executeQuery();

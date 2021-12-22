@@ -27,7 +27,7 @@ public class ProctoringRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         try {
             PreparedStatement statement = connection.prepareStatement(ProctorPortTable.ADD_PROCTOR_PORT_FOR_EXAM);
             statement.setString(1, request.getExamId());

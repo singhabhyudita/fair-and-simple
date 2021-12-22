@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.ObjectOutputStream;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -25,7 +24,7 @@ public class TeacherChangeProfilePictureRequestHandler extends RequestHandler{
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         File image = request.getImage();
         try {
             FileInputStream fis = new FileInputStream(image);

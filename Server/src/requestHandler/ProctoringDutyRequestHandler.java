@@ -4,7 +4,6 @@ import entity.Exam;
 import main.RequestIdentifier;
 import main.Server;
 import request.ProctoringDutyRequest;
-import request.Request;
 import response.ProctoringDutyResponse;
 import table.CoursesTable;
 import table.ExamTable;
@@ -29,10 +28,10 @@ public class ProctoringDutyRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(ExamTable.GET_PROCTORING_DUTY_BY_TEACHER_ID);
-            preparedStatement.setString(1, RequestIdentifier.userID);
+            preparedStatement.setString(1, userID);
             ResultSet results = preparedStatement.executeQuery();
             List<Exam> exams = new ArrayList<>();
             while(results.next()) {

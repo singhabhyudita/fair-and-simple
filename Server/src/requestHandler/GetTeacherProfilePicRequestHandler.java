@@ -25,12 +25,12 @@ public class GetTeacherProfilePicRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         GetTeacherProfilePicResponse getTeacherProfilePicResponse = null;
         try
         {
             PreparedStatement preparedStatement=connection.prepareStatement(TeacherTable.GET_PROFILE_PIC_BY_TEACHER_ID);
-            preparedStatement.setString(1, RequestIdentifier.userID);
+            preparedStatement.setString(1, userID);
             ResultSet results = preparedStatement.executeQuery();
             while (results.next()){
                 Blob blob=results.getBlob(1);

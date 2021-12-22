@@ -22,7 +22,7 @@ public class RegisterRequestHandler extends requestHandler.RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         PreparedStatement preparedStatement;
         File file=new File("src/images/sample.png");
         FileInputStream fis;

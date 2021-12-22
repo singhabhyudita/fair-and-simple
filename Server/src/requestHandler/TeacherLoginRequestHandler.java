@@ -18,7 +18,7 @@ public class TeacherLoginRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse()  {
+    public void sendResponse(String userID)  {
         PreparedStatement preparedStatement;
         TeacherLoginResponse response = null;
         try {

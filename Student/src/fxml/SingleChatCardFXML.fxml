@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SingleChatCardFXMLController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SingleChatCardFXMLController">
    <children>
       <HBox fx:id="nameHBox" alignment="CENTER" prefHeight="10.0" prefWidth="591.0" spacing="20.0">
          <children>
@@ -32,9 +30,6 @@
       </HBox>
       <Separator prefWidth="200.0" />
       <Label fx:id="messageLabel" alignment="TOP_LEFT" prefHeight="214.0" prefWidth="582.0" text="Message" wrapText="true">
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
          <font>
             <Font size="15.0" />
          </font>

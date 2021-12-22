@@ -3,7 +3,6 @@ package requestHandler;
 import main.RequestIdentifier;
 import request.ChangePasswordRequest;
 import response.ChangePasswordResponse;
-import response.CoursesListResponse;
 import table.StudentTable;
 
 import java.io.IOException;
@@ -24,12 +23,12 @@ public class ChangePasswordRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         int result=0;
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(StudentTable.QUERY_CHANGE_PASSWORD);
             preparedStatement.setString(1,changePasswordRequest.getNewPassword());
-            preparedStatement.setInt(2,Integer.parseInt(RequestIdentifier.userID));
+            preparedStatement.setInt(2,Integer.parseInt(userID));
             preparedStatement.setString(3,changePasswordRequest.getOldPassword());
             result=preparedStatement.executeUpdate();
         } catch (SQLException e) {

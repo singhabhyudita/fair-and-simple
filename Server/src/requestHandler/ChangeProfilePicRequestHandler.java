@@ -25,14 +25,14 @@ public class ChangeProfilePicRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         ChangeProfilePicResponse changeProfilePicResponse = new ChangeProfilePicResponse("Failed");
         InputStream fis= new ByteArrayInputStream(request.getImage());
         try
         {
             PreparedStatement preparedStatement=connection.prepareStatement(StudentTable.UPDATE_PROFILE_PIC_STUDENT);
             preparedStatement.setBlob(1, fis);
-            preparedStatement.setString(2, RequestIdentifier.userID);
+            preparedStatement.setString(2, userID);
 
             int affectedRows=preparedStatement.executeUpdate();
             if(affectedRows==1) changeProfilePicResponse.setResponse("Successful");

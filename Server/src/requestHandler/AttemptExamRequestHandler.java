@@ -28,7 +28,7 @@ public class AttemptExamRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         try {
             PreparedStatement getQuestions = connection.prepareStatement(ExamTable.GET_EXAM_BY_EXAM_ID);
             getQuestions.setString(1, request.getExamId());

@@ -25,7 +25,7 @@ public class ExamsListRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         ArrayList<Exam>exams=new ArrayList<>();
         ResultSet resultSet;
         try {

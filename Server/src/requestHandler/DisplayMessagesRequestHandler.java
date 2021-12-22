@@ -1,23 +1,17 @@
 package requestHandler;
 
 import entity.Message;
-import entity.Question;
-import entity.Student;
 import main.Server;
 import request.DisplayMessagesRequest;
-import request.GetQuestionsRequest;
 import response.DisplayMessagesResponse;
-import response.GetQuestionsResponse;
 import table.*;
 
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DisplayMessagesRequestHandler extends RequestHandler {
     private Connection connection;
@@ -31,7 +25,7 @@ public class DisplayMessagesRequestHandler extends RequestHandler {
     }
 
     @Override
-    public void sendResponse() {
+    public void sendResponse(String userID) {
         ArrayList<Message> studentMessages = new ArrayList<>();
         ArrayList<Message> teacherMessages = new ArrayList<>();
         ResultSet resultSet;

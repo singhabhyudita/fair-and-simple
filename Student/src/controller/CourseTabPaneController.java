@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -116,12 +117,11 @@ public class CourseTabPaneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chatScrollPane.vvalueProperty().bind(chatContainer.heightProperty());
-        Main.chatVBox = chatContainer;
-        System.out.println("And the chat container is : " + chatContainer);
     }
 
     public void first(String courseId, String name) throws InterruptedException {
         Main.chatVBox = chatContainer;
+        Main.lastOpenCourseId = courseId;
         this.courseId = courseId;
         this.name = name;
         Main.sendRequest(new CourseDetailsRequest(courseId));
@@ -246,6 +246,7 @@ public class CourseTabPaneController implements Initializable {
 
     public void backFromDiscussionForumButtonResponse(ActionEvent actionEvent) {
         Main.chatVBox = null;
+        Main.lastOpenCourseId = null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
@@ -262,6 +263,7 @@ public class CourseTabPaneController implements Initializable {
 
     public void backFromExamsScheduleButtonResponse(ActionEvent actionEvent) {
         Main.chatVBox = null;
+        Main.lastOpenCourseId = null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
@@ -278,6 +280,7 @@ public class CourseTabPaneController implements Initializable {
 
     public void backfromCourseInfoButtonResponse(ActionEvent actionEvent) {
         Main.chatVBox = null;
+        Main.lastOpenCourseId = null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
@@ -315,6 +318,7 @@ public class CourseTabPaneController implements Initializable {
     }
 
     public void onChatClicked(Event event) {
+        chatContainer.getChildren().clear();
         Main.sendRequest(new DisplayMessagesRequest(courseId));
         DisplayMessagesResponse displayMessagesResponse = (DisplayMessagesResponse) Main.getResponse();
         ArrayList<Message> messages = displayMessagesResponse.getMessages();
@@ -325,10 +329,11 @@ public class CourseTabPaneController implements Initializable {
                 Node node = fxmlLoader.load();
                 SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
                 singleChatCardFXMLController.messageLabel.setText(message.getText());
+                singleChatCardFXMLController.messageLabel.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
                 singleChatCardFXMLController.nameLabel.setText(message.getSenderName());
                 singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
                 singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
-                        (message.getSenderID() == Main.userRegistrationNumber) ? "#f55f78" : "#bee2f7"),
+                        (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),
                         CornerRadii.EMPTY,
                         Insets.EMPTY)));
                 chatContainer.getChildren().add(node);
