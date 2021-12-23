@@ -279,8 +279,7 @@ public class CourseController {
         List<Question> questions = new ArrayList<>(questionsTableView.getItems());
         SetExamRequest newExam = new SetExamRequest(Main.getTeacherId(),
                 this.courseId, proctorId, startTime, endTime, examTitle,description, questions);
-        Platform.runLater(() -> {
-
+        System.out.println("Here exam request set.");
             titleTextField.setEditable(false);
             examDatePicker.setEditable(false);
             startTimeHourTextField.setEditable(false);
@@ -292,7 +291,9 @@ public class CourseController {
             editButton.setDisable(true);
             deleteButton.setDisable(true);
 
+            System.out.println("Sending request");
             Main.sendRequest(newExam);
+            System.out.println("Waiting for response");
             SetExamResponse response = (SetExamResponse) Main.receiveResponse();
             if(response == null || response.getStatus() == Status.OTHER) {
                 GuiUtil.alert(Alert.AlertType.WARNING, "Could not schedule exam due to unexpected error!");
@@ -314,7 +315,6 @@ public class CourseController {
                 editButton.setDisable(false);
                 deleteButton.setDisable(false);
             }
-        });
     }
 
     public void backResponse(ActionEvent actionEvent) {

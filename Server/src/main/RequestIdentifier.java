@@ -136,7 +136,7 @@ public class RequestIdentifier implements Runnable{
                 requestHandler.sendResponse(userID);
             }
             else if(request instanceof SubmitExamRequest) {
-                SubmitExamRequestHandler requestHandler = new SubmitExamRequestHandler(Server.getConnection(), oos, (SubmitExamRequest) request);
+                SubmitExamRequestHandler requestHandler = new SubmitExamRequestHandler(Server.getConnection(), oos, ois, (SubmitExamRequest) request);
                 requestHandler.sendResponse(userID);
             }
             else if (request instanceof CourseDetailsRequest){
@@ -183,10 +183,6 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof ProctoringRequest) {
                 ProctoringRequestHandler requestHandler = new ProctoringRequestHandler(Server.getConnection(), oos, (ProctoringRequest) request);
                 requestHandler.sendResponse(userID);
-            }
-            else if(request instanceof DisplayMessagesRequest) {
-                DisplayMessagesRequestHandler displayMessagesRequestHandler = new DisplayMessagesRequestHandler(Server.getConnection(), oos, (DisplayMessagesRequest) request);
-                displayMessagesRequestHandler.sendResponse(userID);
             }
             else if(request instanceof DisplayMessagesRequest) {
                 DisplayMessagesRequestHandler displayMessagesRequestHandler = new DisplayMessagesRequestHandler(Server.getConnection(), oos, (DisplayMessagesRequest) request);

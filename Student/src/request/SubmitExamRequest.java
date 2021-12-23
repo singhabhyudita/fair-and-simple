@@ -1,16 +1,19 @@
 package request;
 
 import entity.Exam;
+import entity.Question;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.List;
 
 public class SubmitExamRequest extends Request implements Serializable {
     private Exam exam;
-    private Integer numberOfRightAnswers;
+    private List<Question> objectiveAnswers;
 
-    public SubmitExamRequest(Exam exam, Integer numberOfRightAnswers) {
+    public SubmitExamRequest(Exam exam, List<Question> objectiveAnswers) {
         this.exam = exam;
-        this.numberOfRightAnswers = numberOfRightAnswers;
+        this.objectiveAnswers = objectiveAnswers;
     }
 
     public Exam getExam() {
@@ -21,11 +24,11 @@ public class SubmitExamRequest extends Request implements Serializable {
         this.exam = exam;
     }
 
-    public Integer getNumberOfRightAnswers() {
-        return numberOfRightAnswers;
+    public List<Question> getObjectiveAnswers() {
+        return objectiveAnswers;
     }
 
-    public void setNumberOfRightAnswers(Integer numberOfRightAnswers) {
-        this.numberOfRightAnswers = numberOfRightAnswers;
+    public void setObjectiveAnswers(List<Question> objectiveAnswers) {
+        this.objectiveAnswers = objectiveAnswers;
     }
 }

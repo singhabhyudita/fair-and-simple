@@ -42,23 +42,21 @@ public class CreateTeamController {
             teamDescriptionTextArea.setEditable(false);
             createTeamButton.setDisable(true);
             backButton.setDisable(true);
-            Platform.runLater(() -> {
-                CreateCourseRequest request = new CreateCourseRequest(Main.getTeacherId(), teamDescriptionTextArea.getText(), teamNameTextField.getText());
-                Main.sendRequest(request);
-                CreateCourseResponse response = (CreateCourseResponse) Main.receiveResponse();
-                System.out.println("Response = " + response);
-                if(response == null) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Could Not create a team. Please try again.");
-                    alert.showAndWait();
-                    teamNameTextField.setEditable(true);
-                    teamDescriptionTextArea.setEditable(true);
-                    backButton.setDisable(false);
-                    createTeamButton.setDisable(false);
-                } else {
-                    teamCodeTextField.setText(response.getTeamCode());
-                    backButton.setDisable(false);
-                }
-            });
+            CreateCourseRequest request = new CreateCourseRequest(Main.getTeacherId(), teamDescriptionTextArea.getText(), teamNameTextField.getText());
+            Main.sendRequest(request);
+            CreateCourseResponse response = (CreateCourseResponse) Main.receiveResponse();
+            System.out.println("Response = " + response);
+            if(response == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Could Not create a team. Please try again.");
+                alert.showAndWait();
+                teamNameTextField.setEditable(true);
+                teamDescriptionTextArea.setEditable(true);
+                backButton.setDisable(false);
+                createTeamButton.setDisable(false);
+            } else {
+                teamCodeTextField.setText(response.getTeamCode());
+                backButton.setDisable(false);
+            }
         }
     }
 

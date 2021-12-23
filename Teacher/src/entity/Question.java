@@ -10,8 +10,9 @@ public class Question implements Serializable {
     private String optionC;
     private String optionD;
     private int correctOption;
+    private boolean isObjective;
 
-    public Question(String questionId,String question, String optionA, String optionB, String optionC, String optionD, int correctOption) {
+    public Question(String questionId,String question, String optionA, String optionB, String optionC, String optionD, int correctOption, boolean isObjective) {
         this.questionId = questionId;
         this.question = question;
         this.optionA = optionA;
@@ -19,6 +20,7 @@ public class Question implements Serializable {
         this.optionC = optionC;
         this.optionD = optionD;
         this.correctOption = correctOption;
+        this.isObjective = isObjective;
     }
 
     public String getQuestionId() {
@@ -52,6 +54,10 @@ public class Question implements Serializable {
         return correctOption;
     }
 
+    public boolean isObjective() {
+        return isObjective;
+    }
+
     public void setQuestion(String question) {
         this.question = question;
     }
@@ -74,6 +80,10 @@ public class Question implements Serializable {
 
     public void setCorrectOption(int correctOption) {
         this.correctOption = correctOption;
+    }
+
+    public void setObjective(boolean objective) {
+        isObjective = objective;
     }
 
     @Override

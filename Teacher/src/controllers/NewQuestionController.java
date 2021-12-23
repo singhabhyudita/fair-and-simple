@@ -32,19 +32,22 @@ public class NewQuestionController {
     public TextArea questionTextArea;
     @FXML
     public ToggleGroup correctAnswerToggleGroup;
+    @FXML
+    public ToggleButton objectiveToggleButton;
 
     @FXML
     public void okQuestionResponse(ActionEvent actionEvent) {
-        if(optionATextField.getText().length() == 0
-                || optionBTextField.getText().length() == 0
-                || optionCTextField.getText().length() == 0
-                || optionDTextField.getText().length() == 0)
+        if(!objectiveToggleButton.isSelected() &&
+                (optionATextField.getText().length() == 0
+                        || optionBTextField.getText().length() == 0
+                        || optionCTextField.getText().length() == 0
+                        || optionDTextField.getText().length() == 0))
         {
             Alert alert = new Alert(Alert.AlertType.WARNING, "All options have to be specified.");
             alert.showAndWait();
             return;
         }
-        if(correctAnswerToggleGroup.getSelectedToggle() == null) {
+        if(!objectiveToggleButton.isSelected() && correctAnswerToggleGroup.getSelectedToggle() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Select a right answer.");
             alert.showAndWait();
             return;
@@ -54,18 +57,22 @@ public class NewQuestionController {
             alert.showAndWait();
             return;
         }
-        int ans = 1;
+        int ans = -1;
         RadioButton selectedToggle = (RadioButton) correctAnswerToggleGroup.getSelectedToggle();
-        if(selectedToggle.getText().equals("B")) ans = 2;
-        else if(selectedToggle.getText().equals("C")) ans = 3;
-        else if(selectedToggle.getText().equals("D")) ans = 4;
+        if(selectedToggle != null) {
+            if(selectedToggle.getText().equals("A")) ans = 1;
+            else if(selectedToggle.getText().equals("B")) ans = 2;
+            else if(selectedToggle.getText().equals("C")) ans = 3;
+            else if(selectedToggle.getText().equals("D")) ans = 4;
+        }
         Main.tempHolder = new Question("", //Question ID can't be given here
                 questionTextArea.getText(),
                 optionATextField.getText(),
                 optionBTextField.getText(),
                 optionCTextField.getText(),
                 optionDTextField.getText(),
-                ans);
+                ans,
+                !objectiveToggleButton.isSelected());
         ((Stage) cancelQuestionButton.getScene().getWindow()).close();
     }
 
@@ -83,5 +90,29 @@ public class NewQuestionController {
         else if(selectedOption == 2) optionBRadioButton.setSelected(true);
         else if(selectedOption == 3) optionCRadioButton.setSelected(true);
         else if(selectedOption == 4) optionDRadioButton.setSelected(true);
+    }
+
+    public void objectiveToggleResponse(ActionEvent actionEvent) {
+        if(objectiveToggleButton.isSelected()) {
+            objectiveToggleButton.setText("Subjective");
+            optionARadioButton.setVisible(false);
+            optionBRadioButton.setVisible(false);
+            optionCRadioButton.setVisible(false);
+            optionDRadioButton.setVisible(false);
+            optionATextField.setVisible(false);
+            optionBTextField.setVisible(false);
+            optionCTextField.setVisible(false);
+            optionDTextField.setVisible(false);
+        } else {
+            objectiveToggleButton.setText("Objective");
+            optionARadioButton.setVisible(true);
+            optionBRadioButton.setVisible(true);
+            optionCRadioButton.setVisible(true);
+            optionDRadioButton.setVisible(true);
+            optionATextField.setVisible(true);
+            optionBTextField.setVisible(true);
+            optionCTextField.setVisible(true);
+            optionDTextField.setVisible(true);
+        }
     }
 }

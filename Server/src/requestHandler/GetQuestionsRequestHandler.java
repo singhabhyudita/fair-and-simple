@@ -50,8 +50,9 @@ public class GetQuestionsRequestHandler extends RequestHandler{
                                 resultSet.getString(ExamQuestionsTable.OPTION_B_COLUMN),
                                 resultSet.getString(ExamQuestionsTable.OPTION_C_COLUMN),
                                 resultSet.getString(ExamQuestionsTable.OPTION_D_COLUMN),
-                                resultSet.getInt(ExamQuestionsTable.CORRECT_OPTION_COLUMN)
-                            ));
+                                resultSet.getInt(ExamQuestionsTable.CORRECT_OPTION_COLUMN),
+                            resultSet.getInt(ExamQuestionsTable.CORRECT_OPTION_COLUMN) != -1
+                    ));
             }
         } catch (SQLException e) {
             e.printStackTrace();

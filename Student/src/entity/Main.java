@@ -15,13 +15,13 @@ import java.net.Socket;
 public class Main extends Application {
     public static Socket socket=null,chatSocket=null;
     public static ObjectInputStream ois=null;
-    static ObjectOutputStream oos=null;
+    public static ObjectOutputStream oos=null;
     public static String userRegistrationNumber;
     public static VBox chatVBox = null;
-
     public static String lastOpenCourseId = null;
     public static final String myColor = "#f55f78";
     public static final String otherColor = "#bee2f7";
+    public static String userFullName = "Pionel Pepsi";
 
     public static void main(String[] args) {
         launch(args);

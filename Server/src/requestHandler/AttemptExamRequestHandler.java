@@ -42,7 +42,8 @@ public class AttemptExamRequestHandler extends RequestHandler {
                         questionsSet.getString(ExamQuestionsTable.OPTION_B_COLUMN),
                         questionsSet.getString(ExamQuestionsTable.OPTION_C_COLUMN),
                         questionsSet.getString(ExamQuestionsTable.OPTION_D_COLUMN),
-                        0 // Won't send correct option when questions are fetched for the exam. Checking will happen server-side.
+                        0, // Won't send correct option when questions are fetched for the exam. Checking will happen server-side.
+                        questionsSet.getInt(ExamQuestionsTable.CORRECT_OPTION_COLUMN) != -1
                 ));
             }
             AttemptExamResponse response = new AttemptExamResponse(questions, request.getExamId());

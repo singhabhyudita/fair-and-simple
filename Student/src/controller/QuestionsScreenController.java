@@ -3,6 +3,7 @@ package controller;
 import com.github.sarxos.webcam.Webcam;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextArea;
 import entity.*;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -20,23 +21,30 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 import request.GetQuestionsRequest;
 import request.SubmitExamRequest;
 import response.GetQuestionsResponse;
+import response.SubmitExamResponse;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
 public class QuestionsScreenController implements Initializable {
+
     private class QuestionsObservable {
         Property<String> question = new SimpleStringProperty();
         Property<String> optionA = new SimpleStringProperty();
@@ -44,15 +52,24 @@ public class QuestionsScreenController implements Initializable {
         Property<String> optionC = new SimpleStringProperty();
         Property<String> optionD = new SimpleStringProperty();
         Property<String> answer = new SimpleStringProperty();
+        boolean isObjective = false;
 
         public void setQuestion(Question question) {
             this.question.setValue(question.getQuestion());
-            this.optionA.setValue(question.getOptionA());
-            this.optionB.setValue(question.getOptionB());
-            this.optionC.setValue(question.getOptionC());
-            this.optionD.setValue(question.getOptionD());
-            this.answer.setValue(((Integer)question.getCorrectOption()).toString());
+            if(question.isObjective()) {
+                this.optionA.setValue(question.getOptionA());
+                this.optionB.setValue(question.getOptionB());
+                this.optionC.setValue(question.getOptionC());
+                this.optionD.setValue(question.getOptionD());
+                this.answer.setValue(((Integer)question.getCorrectOption()).toString());
+                isObjective = true;
+            }
         }
+
+        public boolean isObjective() {
+            return isObjective;
+        }
+
     }
 
     //    FXML FIELDS
@@ -78,14 +95,16 @@ public class QuestionsScreenController implements Initializable {
     private JFXButton next;
     @FXML
     private JFXButton submit;
+    @FXML
+    public VBox subjectiveVBox;
+    @FXML
+    public JFXTextArea subjectiveAnswerTextArea;
+    @FXML
+    public VBox objectiveVBox;
 
     private Webcam webcam;
     private DatagramSocket sendVideoSocket;
 
-    //    listeners
-
-
-    //NON FXML FIELDS
     private Exam exam;
     private List<Question> questionList;
     private Question currentQuestion;
@@ -94,20 +113,18 @@ public class QuestionsScreenController implements Initializable {
     private Map<Question, String> studentAnswers = new HashMap<>();
     private Integer numberOfRightAnswers = 0;
     private Student student;
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
+    private List<Question> objectiveAnswers;
+    private File answerFile;
+    private FileWriter writer;
+    private BufferedWriter bufferedWriter;
 
     //    timer fields
     private long min, sec, hr, totalSec = 0; //250 4 min 10 sec
     private Timer timer;
 
-
     //    METHODS AND CONSTRUCTOR
     public void setQuiz(Exam exam) {
         this.exam = exam;
-        System.out.println("Now this.exam = " + this.exam);
         this.title.setText(this.exam.getTitle());
     }
 
@@ -115,18 +132,15 @@ public class QuestionsScreenController implements Initializable {
         if (value < 10) {
             return 0 + "" + value;
         }
-
         return value + "";
     }
 
     public void convertTime() {
-
         min = TimeUnit.SECONDS.toMinutes(totalSec);
         sec = totalSec - (min * 60);
         hr = TimeUnit.MINUTES.toHours(min);
         min = min - (hr * 60);
         time.setText(format(hr) + ":" + format(min) + ":" + format(sec));
-
         totalSec--;
     }
 
@@ -140,12 +154,10 @@ public class QuestionsScreenController implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-//                        System.out.println("After 1 sec...");
                         convertTime();
                         if (totalSec <= 0) {
                             timer.cancel();
                             time.setText("00:00:00");
-                            // saveing data to database
                             submit(null);
                             Notifications.create()
                                     .title("Error")
@@ -161,15 +173,23 @@ public class QuestionsScreenController implements Initializable {
         timer.schedule(timerTask, 0, 1000);
     }
 
-    public void setData(int proctorPort, List<Question> questions) {
-            while(!setupProctoringStuff(proctorPort)) {
-                GuiUtil.alert(Alert.AlertType.ERROR, "Could not access you camera. Close all other applications and try again!!");
-            }
-            this.questionList = questions;
-            Collections.shuffle(this.questionList);
-            renderProgress();
-            setNextQuestion();
-            setTimer();
+    public void setData(int proctorPort, List<Question> questions, String examId) {
+        while(!setupProctoringStuff(proctorPort)) {
+            GuiUtil.alert(Alert.AlertType.ERROR, "Could not access you camera. Close all other applications and try again!!");
+        }
+        this.questionList = questions;
+        objectiveAnswers = new ArrayList<>();
+        answerFile = new File(Main.userRegistrationNumber + "_" + examId + "_subjective_answer.txt");
+        try {
+            writer = new FileWriter(answerFile);
+            bufferedWriter = new BufferedWriter(writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Collections.shuffle(this.questionList);
+        renderProgress();
+        setNextQuestion();
+        setTimer();
     }
 
     private boolean setupProctoringStuff(int proctorPort) {
@@ -183,7 +203,7 @@ public class QuestionsScreenController implements Initializable {
         if(webcam == null)
             return false;
         try {
-            sendVideoSocket = new DatagramSocket();
+            this.sendVideoSocket = new DatagramSocket();
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -192,8 +212,8 @@ public class QuestionsScreenController implements Initializable {
             public void run() {
                 DatagramPacket packet;
                 while(true) {
-//                    try {
-//                        Thread.sleep(500);
+                    try {
+                        Thread.sleep(500);
                         BufferedImage image = webcam.getImage();
                         String registrationNumber = Main.userRegistrationNumber;
                         byte [] imageByte = UdpUtil.bufferedImageToByteArray(image);
@@ -201,7 +221,7 @@ public class QuestionsScreenController implements Initializable {
                         System.out.println("image being sent by Registraiton number = " + registrationNumber);
                         Object [] wrapped = {registrationNumberByte, imageByte};
                         UdpUtil.sendObjectToPort(wrapped, proctorPort);
-//                    } catch (InterruptedException ignored) {}
+                    } catch (InterruptedException ignored) {}
                 }
             }
         });
@@ -212,9 +232,7 @@ public class QuestionsScreenController implements Initializable {
 
     private void renderProgress() {
         for (int i = 0; i < this.questionList.size(); i++) {
-            FXMLLoader fxmlLoader = new FXMLLoader(
-                    getClass()
-                            .getResource("../fxml/ProgressCircleFXML.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/ProgressCircleFXML.fxml"));
             try {
                 Node node = fxmlLoader.load();
                 ProgressCircleFXMLController progressCircleFXMLController = fxmlLoader.getController();
@@ -231,12 +249,8 @@ public class QuestionsScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.showNextQuestionButton();
         this.hideSubmitQuizButton();
-
         this.questionsObservable = new QuestionsObservable();
         bindFields();
-
-        this.optionA.setSelected(true);
-
     }
 
     private void bindFields() {
@@ -246,77 +260,55 @@ public class QuestionsScreenController implements Initializable {
         this.optionB.textProperty().bind(this.questionsObservable.optionB);
         this.optionA.textProperty().bind(this.questionsObservable.optionA);
     }
-    public String getRightAnswer(Question question) {
-        if(question.getCorrectOption() == 1) {
-            return question.getOptionA();
+
+    public Integer getSelectedOptionIndex() {
+        if(this.optionA.isSelected()) {
+            return 1;
+        } else if(this.optionB.isSelected()) {
+            return 2;
+        } else if(this.optionC.isSelected()) {
+            return 3;
+        } else if(this.optionD.isSelected()) {
+            return 4;
         }
-        else if(question.getCorrectOption() == 2) {
-            return question.getOptionB();
-        }
-        else if(question.getCorrectOption() == 3) {
-            return question.getOptionC();
-        }
-        return question.getOptionD();
+        return 0;
     }
 
     public void nextQuestions(ActionEvent actionEvent) {
-        boolean isRight = false;
-        {
-            // checking answer
-            JFXRadioButton selectedButton = (JFXRadioButton) options.getSelectedToggle();
-            String userAnswer = selectedButton.getText();
-            String rightAnswer = getRightAnswer(this.currentQuestion);
-            if (userAnswer.trim().equalsIgnoreCase(rightAnswer.trim())) {
-                isRight = true;
-                this.numberOfRightAnswers++;
-            }
-
-            // saving Answer to hashMap
-            studentAnswers.put(this.currentQuestion, userAnswer);
-        }
-        Node circleNode = this.progressPane.getChildren().get(currentIndex - 1);
-        ProgressCircleFXMLController controller = (ProgressCircleFXMLController) circleNode.getUserData();
-
-
-        if (isRight) {
-            controller.setRightAnsweredColor();
+        if(currentQuestion.isObjective()) {
+            objectiveAnswers.add(new Question(
+                    currentQuestion.getQuestionId(),
+                    currentQuestion.getQuestion(),
+                    currentQuestion.getOptionA(),
+                    currentQuestion.getOptionB(),
+                    currentQuestion.getOptionC(),
+                    currentQuestion.getOptionD(),
+                    getSelectedOptionIndex(),
+                    true));
         } else {
-            controller.setWrongAnsweredColor();
+            writeToFile(currentQuestion.getQuestionId() + " ===> " + subjectiveAnswerTextArea.getText());
         }
         this.setNextQuestion();
     }
 
     private void setNextQuestion() {
         if (!(currentIndex >= questionList.size())) {
-
             {
-                // chaning the color
                 Node circleNode = this.progressPane.getChildren().get(currentIndex);
                 ProgressCircleFXMLController controller = (ProgressCircleFXMLController) circleNode.getUserData();
                 controller.setCurrentQuestionColor();
             }
-
             this.currentQuestion = this.questionList.get(currentIndex);
-            //Shuffling options
-//            List<String> options = new ArrayList<>();
-//            options.add(this.currentQuestion.getOptionA());
-//            options.add(this.currentQuestion.getOptionB());
-//            options.add(this.currentQuestion.getOptionC());
-//            options.add(this.currentQuestion.getOptionD());
-//            Collections.shuffle(options);
-//
-//            this.currentQuestion.setOptionA(options.get(0));
-//            this.currentQuestion.setOptionB(options.get(1));
-//            this.currentQuestion.setOptionC(options.get(2));
-//            this.currentQuestion.setOptionD(options.get(3));
-
-//            this.question.setText(this.currentQuestion.getQuestion());
-//            this.optionA.setText(options.get(0));
-//            this.optionB.setText(options.get(1));
-//            this.optionC.setText(options.get(2));
-//            this.optionD.setText(options.get(3));
-
             this.questionsObservable.setQuestion(this.currentQuestion);
+            if(!this.currentQuestion.isObjective()) {
+                subjectiveVBox.setVisible(true);
+                subjectiveAnswerTextArea.setVisible(true);
+                objectiveVBox.setVisible(false);
+            } else {
+                subjectiveVBox.setVisible(false);
+                subjectiveAnswerTextArea.setVisible(false);
+                objectiveVBox.setVisible(true);
+            }
             currentIndex++;
         } else {
             hideNextQuestionButton();
@@ -341,11 +333,32 @@ public class QuestionsScreenController implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) {
-        System.out.println("I am inside submit! I am inside submit! I am inside submit! I am inside submit! I am inside submit! I am inside submit! ");
-        System.out.println("in submit() : " + this.exam.getExamId());
-        SubmitExamRequest submitExamRequest = new SubmitExamRequest(this.exam,numberOfRightAnswers);
+        SubmitExamRequest submitExamRequest = new SubmitExamRequest(exam, objectiveAnswers);
         Main.sendRequest(submitExamRequest);
-        openResultScreen();
+        SubmitExamResponse response = (SubmitExamResponse) Main.getResponse();
+        if(response.isSendFileStream()) {
+            try {
+                byte [] answerByte = Files.readAllBytes(answerFile.toPath());
+                Main.oos.writeObject(answerByte);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            GuiUtil.alert(Alert.AlertType.ERROR, "Kuch locha ho gaya. Fail tum.");
+        }
+        FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
+        Stage currentStage=(Stage)submit.getScene().getWindow();
+        Scene scene=null;
+        try {
+            scene=new Scene(homepageLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        currentStage.setScene(scene);
+        currentStage.setTitle("Welcome");
+        ProfileScreenController profileScreenController=homepageLoader.getController();
+        profileScreenController.first(Main.userFullName);
+//        openResultScreen();
     }
 
 
@@ -362,5 +375,14 @@ public class QuestionsScreenController implements Initializable {
         }
         stage.setScene(scene);
         stage.setTitle("Your result");
+    }
+
+    private void writeToFile(String answer) {
+        try {
+            bufferedWriter.write(answer);
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
