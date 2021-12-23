@@ -5,6 +5,7 @@ import entity.Message;
 import java.util.ArrayList;
 
 public class DisplayMessagesResponse extends Response {
+
     public ArrayList<Message> getMessages() {
         return messages;
     }

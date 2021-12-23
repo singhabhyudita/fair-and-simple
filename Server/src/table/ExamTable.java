@@ -40,6 +40,9 @@ public class ExamTable {
             + " WHERE " + EnrollmentTable.COLUMN_REGISTGRATION_NO + " = ? ) AND " + END_TIME_COLUMN + " < ?;";
     public static final String GET_PROCTORING_DUTY_BY_TEACHER_ID = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + PROCTOR_ID_COLUMN + " = ?;";
+    public  static final String GET_EXAM_IN_NEXT_15_MINS="SELECT * FROM " + TABLE_NAME +
+            " INNER JOIN " + CoursesTable.TABLE_NAME + " on " + CoursesTable.TABLE_NAME + "." + CoursesTable.COURSE_ID_COLUMN +" = " + TABLE_NAME + "." + COURSE_ID_COLUMN +
+            " where TIMESTAMPDIFF(minute, CURRENT_TIMESTAMP(), " + TABLE_NAME + "." + START_TIME_COLUMN + ") <= 15 AND TIMESTAMPDIFF(minute, CURRENT_TIMESTAMP(), " + TABLE_NAME + "." + START_TIME_COLUMN + ") > 14;";
 //    public static final String GET_EXAM_BY_TEACHER_ID = "SELECT * FROM " + TABLE_NAME + " WHERE "
 //            + TEACHER_ID_COLUMN + " = ?";
 }

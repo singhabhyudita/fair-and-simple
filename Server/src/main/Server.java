@@ -4,6 +4,7 @@ import entity.RegistrationStreamWrapper;
 import response.CreateCourseResponse;
 import response.Response;
 import util.RandomString;
+import util.SendNotification;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -40,6 +41,8 @@ public class Server {
                 Thread thread=new Thread(new RequestIdentifier(socket, chatServerSocket));
                 thread.start();
 
+                Thread notification=new Thread(new SendNotification());
+                notification.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -51,7 +54,7 @@ public class Server {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url="jdbc:mysql://localhost:3306/fairnsimple";
-            connection= DriverManager.getConnection(url,"utkarsh","Hello@123");
+            connection= DriverManager.getConnection(url,"root","060801&ABab");
             System.out.println("Database connected!!");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

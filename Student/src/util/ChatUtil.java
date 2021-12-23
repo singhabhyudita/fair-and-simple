@@ -2,8 +2,10 @@ package util;
 
 import controller.SingleChatCardFXMLController;
 import controller.SingleImageChatCardFXMLController;
+import controller.SingleNotificationCardFXMLController;
 import entity.Main;
 import entity.Message;
+import entity.Notification;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
@@ -11,23 +13,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import org.controlsfx.control.Notifications;
+import sun.awt.image.ToolkitImage;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Objects;
-
-import entity.Message;
-import sun.awt.image.ToolkitImage;
-
-import javax.swing.*;
-
 public class ChatUtil implements Runnable {
 
     ObjectInputStream ois;
@@ -53,8 +49,32 @@ public class ChatUtil implements Runnable {
             }
             final Message message = message2;
             System.out.println("Message received from sender id "+ message.getSenderID()+": "+message.getText());
+            if(message instanceof Notification){
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Notifications.create()
+                                .title("Notification from " + message.getSenderName() + " in " + message.getCourseName())
+                                .text(message.getText())
+                                .show();
 
-            if(Main.chatVBox == null || !message.getCourseID().equals(Main.lastOpenCourseId)) {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleNotificationCardFXML.fxml"));
+                        try {
+                            Node node = fxmlLoader.load();
+                            SingleNotificationCardFXMLController singleNotificationCardFXMLController = fxmlLoader.getController();
+                            singleNotificationCardFXMLController.courseLabel.setText(message.getCourseName());
+                            singleNotificationCardFXMLController.messageLabel.setText(message.getText());
+                            singleNotificationCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                            Main.notificationVbox.getChildren().add(node);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                return;
+            }
+
+             if(Main.chatVBox == null || !message.getCourseID().equals(Main.lastOpenCourseId)) {
                 if(!Objects.equals(message.getSenderID(), Main.userRegistrationNumber)) {
                     Platform.runLater(new Runnable() {
                         @Override

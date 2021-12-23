@@ -21,4 +21,8 @@ public class MessageTable {
             +" ON " + TABLE_NAME + "." + COLUMN_SENDER_ID +" = "+ TeacherTable.TABLE_NAME+"."+TeacherTable.COLUMN_TEACHER_ID
             +" INNER JOIN "+CoursesTable.TABLE_NAME + " ON "+CoursesTable.TABLE_NAME +"."+CoursesTable.COURSE_ID_COLUMN+" = "+TABLE_NAME + "." +COLUMN_COURSE_ID
             +" WHERE "+MessageTable.TABLE_NAME+"."+COLUMN_COURSE_ID + " = ?";
+    public  final static String GET_NOTIFICATION="SELECT * FROM "+ TABLE_NAME+" INNER JOIN "+CoursesTable.TABLE_NAME+" ON "+ TABLE_NAME+"."
+            +COLUMN_COURSE_ID+" = "+CoursesTable.TABLE_NAME+"."+CoursesTable.COURSE_ID_COLUMN + " WHERE "+TABLE_NAME+"."+COLUMN_COURSE_ID
+            +" IN ( SELECT "+COLUMN_COURSE_ID+ " FROM "+EnrollmentTable.TABLE_NAME+" WHERE "+EnrollmentTable.COLUMN_REGISTGRATION_NO+" = ?) AND "
+            +COLUMN_SENDER_ID+" IS NULL ;";
 }

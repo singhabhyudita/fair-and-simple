@@ -42,6 +42,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -237,34 +238,11 @@ public class CourseTabPaneController implements Initializable {
         System.out.println("Main.userRegistrationNumber:" + Main.userRegistrationNumber);
         SendMessageResponse sendMessageResponse = (SendMessageResponse) Main.getResponse();
         assert sendMessageResponse != null;
-
         selectedFile = null;
         System.out.println(sendMessageResponse.getResponse());
     }
 
-    public void refreshDiscussionForumButtonResponse(ActionEvent actionEvent) {
-//        ArrayList <Message> messages = new ArrayList<>();
-//        messages.add(new Message("1","Saurabh","1","I am Saurabh.",null,new Timestamp((new Date()).getTime()),true));
-//        for(Message message : messages) {
-//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
-//            try {
-//                Node node = fxmlLoader.load();
-//                SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
-//                singleChatCardFXMLController.messageLabel.setText(message.getText());
-//                singleChatCardFXMLController.nameLabel.setText(message.getSenderName());
-//                singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
-//                singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web("#bee2f7"),
-//                        CornerRadii.EMPTY,
-//                        Insets.EMPTY)));
-//                chatContainer.getChildren().add(node);
-//                Notifications.create()
-//                        .title("Message received!")
-//                        .text("Message has been received!")
-//                        .showInformation();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+    public void refreshDiscussionForumButtonResponse(ActionEvent actionEvent){
     }
 
     public void backFromDiscussionForumButtonResponse(ActionEvent actionEvent) {
@@ -317,7 +295,6 @@ public class CourseTabPaneController implements Initializable {
         stage.setTitle("Profile");
         stage.setScene(scene);
     }
-
     public void clickItem(MouseEvent mouseEvent) {
     }
 
