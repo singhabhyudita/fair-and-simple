@@ -34,7 +34,7 @@ public class ExamsHistoryRequestHandler extends RequestHandler {
         {
             PreparedStatement preparedStatement=connection.prepareStatement(ExamTable.GET_EXAMS_HISTORY_STUDENT);
             preparedStatement.setString(1, userID);
-            preparedStatement.setDate(2,new java.sql.Date(System.currentTimeMillis()));
+            preparedStatement.setTimestamp(2,new java.sql.Timestamp(System.currentTimeMillis()));
             System.out.println(preparedStatement.toString());
             ResultSet results = preparedStatement.executeQuery();
 

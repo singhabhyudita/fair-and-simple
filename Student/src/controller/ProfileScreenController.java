@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import request.*;
@@ -38,8 +39,8 @@ public class ProfileScreenController implements Initializable
 
     //This will be called before Profile Screen is loaded and when refresh is called
     public void refreshButtonResponse() {
-       setUpcomingExamsList();
-        setExamsHistoryTableView();
+        setUpcomingExamsList();
+        setExamsHistory();
         setCoursesList();
         setProfilePic();
     }
@@ -200,129 +201,90 @@ public class ProfileScreenController implements Initializable
 
     //Show the exams history of the user
     @FXML
-    private TableColumn historyCourseNameTableColumn;
-    @FXML
-    private TableColumn historyTitleTableColumn;
-    @FXML
-    private TableColumn historyMarksTableColumn;
-    @FXML
-    private TableColumn historyMaxMarksTableColumn;
-    @FXML
-    private TableView examsHistoryTableView;
-    public ObservableList<Exam> observableExamsHistoryList;
+    public FlowPane examHistoryContainer;
 
-    private void setExamsHistoryTableView() {
-        historyCourseNameTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, String>("courseName")
-        );
-        historyTitleTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, String>("title")
-        );
-        historyMarksTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, String>("marks")
-        );
-        historyMaxMarksTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, String>("maxMarks")
-        );
-
+    private void setExamsHistory() {
         //Sending request to server to fetch user's exam history
+        examHistoryContainer.getChildren().clear();
         ExamsHistoryRequest examsHistoryRequest = new ExamsHistoryRequest();
         Main.sendRequest(examsHistoryRequest);
         ExamsHistoryResponse examsHistoryResponse = (ExamsHistoryResponse) Main.getResponse();
 
-        //Setting list of exams as Observable list in Exams Table
-        observableExamsHistoryList = FXCollections.observableList(examsHistoryResponse.getExamsList());
-        examsHistoryTableView.setItems(observableExamsHistoryList);
+        ArrayList<Exam> exams = examsHistoryResponse.getExamsList();
+        for (Exam exam : exams) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleExamHistoryCardFXML.fxml"));
+            try {
+                Node node = fxmlLoader.load();
+                SingleExamHistoryCardFXMLController singleExamHistoryCardFXMLController = fxmlLoader.getController();
+                singleExamHistoryCardFXMLController.setCourseLabel(exam.getCourseName());
+                singleExamHistoryCardFXMLController.setMarksLabel(exam.getMaxMarks() + "/" + exam.getMaxMarks());
+                singleExamHistoryCardFXMLController.setTitleLabel(exam.getTitle());
+                examHistoryContainer.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
     //Show the upcoming exams of the user
     @FXML
-    private TableColumn upcomingCourseNameTableColumn;
-    @FXML
-    private TableColumn upcomingTitleTableColumn;
-    @FXML
-    private TableColumn upcomingTimeTableColumn;
-    @FXML
-    private TableColumn upcomingMaxMarksTableColumn;
-    @FXML
-    private TableView upcomingExamsTableView;
-    public ObservableList<Exam> observableUpcomingExamsList;
+    public FlowPane examListContainer;
+
 
     private void setUpcomingExamsList() {
-        upcomingCourseNameTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, String>("courseName")
-        );
-        upcomingTitleTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, String>("title")
-        );
-        upcomingTimeTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, Time>("date")
-        );
-        upcomingMaxMarksTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Exam, Integer>("maxMarks")
-        );
-
         //Sending request to server to fetch user's upcoming exams
+        examListContainer.getChildren().clear();
         UpcomingExamsRequest upcomingExamsRequest = new UpcomingExamsRequest();
         Main.sendRequest(upcomingExamsRequest);
         UpcomingExamsResponse upcomingExamsResponse = (UpcomingExamsResponse) Main.getResponse();
 
         //Setting list of exams as Observable list in Exams Table
         assert upcomingExamsResponse != null;
-        observableUpcomingExamsList = FXCollections.observableList(upcomingExamsResponse.getExamsList());
-        upcomingExamsTableView.setItems(observableUpcomingExamsList);
+        ArrayList<Exam> exams = upcomingExamsResponse.getExamsList();
+        for(Exam exam : exams){
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/QuizCardLayoutFXML.fxml"));
+            try {
+                Node node = fxmlLoader.load();
+                QuizCardLayoutFXMLController quizCardLayoutFXMLController = fxmlLoader.getController();
+                quizCardLayoutFXMLController.setExam(exam);
+                quizCardLayoutFXMLController.setNoq(exam.getMaxMarks() + "");
+                quizCardLayoutFXMLController.setCourse(exam.getCourseName());
+                examListContainer.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
 
     //Show the course the user is registered for
     @FXML
-    private TableColumn courseNameTableColumn;
-    @FXML
-    private TableColumn professorNameTableColumn;
-    @FXML
-    private TableView coursesTableView;
-    public ObservableList<Course> observableCoursesList;
+    public FlowPane courseContainer;
 
     private void setCoursesList() {
-        courseNameTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Course, String>("courseName")
-        );
-        professorNameTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Course, String>("courseDescription")
-        );
-
         //Sending request to server to fetch user's enrolled courses
+        courseContainer.getChildren().clear();
         CoursesListRequest coursesListRequest = new CoursesListRequest();
         Main.sendRequest(coursesListRequest);
         CoursesListResponse coursesListResponse = (CoursesListResponse) Main.getResponse();
 
-        //Setting list of courses as observable
-        System.out.println("Courses list response received, trying to populate the table");
-        assert coursesListResponse != null;
-        observableCoursesList = FXCollections.observableList(coursesListResponse.getCoursesList());
-        coursesTableView.setItems(observableCoursesList);
+        ArrayList <Course> courses = coursesListResponse.getCoursesList();
+
+        for(Course course : courses){
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/CourseCardLayoutFXML.fxml"));
+            try {
+                Node node = fxmlLoader.load();
+                CourseCardLayoutFXMLController courseCardLayoutFXMLController = fxmlLoader.getController();
+                courseCardLayoutFXMLController.setAboutLabel(course.getCourseDescription());
+                courseCardLayoutFXMLController.setProfessorNameLabel(course.getTeacherName());
+                courseCardLayoutFXMLController.setCourseLabel(course.getCourseName());
+                courseCardLayoutFXMLController.setName(this.name);
+                courseCardLayoutFXMLController.setCourse(course);
+                courseContainer.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public void onCourseClicked(MouseEvent mouseEvent) {
-        FXMLLoader courseLoader=new FXMLLoader(getClass().getResource("../fxml/CourseTabPane.fxml"));
-        Course course= (Course) coursesTableView.getSelectionModel().getSelectedItem();
-        Scene scene=null;
-        try {
-             scene=new Scene(courseLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage stage = (Stage) selectImageButton.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Course");
-        CourseTabPaneController courseTabPaneController=courseLoader.getController();
-        try {
-            System.out.println("Trying to load course");
-            courseTabPaneController.first(course.getCourseId(),name);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
     private String name;
     @FXML
     public Label heyNameLabel;
@@ -332,41 +294,8 @@ public class ProfileScreenController implements Initializable
         heyNameLabel.setText("Hey, "+name);
         setCoursesList();
         setUpcomingExamsList();
-        setExamsHistoryTableView();
+        setExamsHistory();
         setProfilePic();
-    }
-
-    public void onExamClicked(MouseEvent mouseEvent) {
-        if(mouseEvent.getClickCount() == 2)
-        {
-            Exam exam = (Exam)upcomingExamsTableView.getSelectionModel().getSelectedItem();
-            if(exam.getDate().getTime() - (new Date()).getTime() > 0)
-            {
-                GuiUtil.alert(Alert.AlertType.WARNING,"Exam hasn't started yet!");
-            }
-            else
-            {
-                GetQuestionsResponse response = getData(exam);
-                if(response.getProctorPort() == -1) {
-                    GuiUtil.alert(Alert.AlertType.ERROR, "Exam will start only after the proctor joins!");
-                    return;
-                }
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/QuestionsScreenFXML.fxml"));
-                Stage currentStage=(Stage)heyNameLabel.getScene().getWindow();
-                Scene scene=null;
-
-                try {
-                    scene=new Scene(fxmlLoader.load());
-                    QuestionsScreenController questionsScreenController= fxmlLoader.getController();
-                    questionsScreenController.setQuiz(exam);
-                    questionsScreenController.setData(response.getProctorPort(), response.getQuestionsList());
-                    currentStage.setScene(scene);
-                    currentStage.setTitle(exam.getTitle());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     private GetQuestionsResponse getData(Exam exam) {
