@@ -4,15 +4,17 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="568.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SingleChatCardFXMLController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="568.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SingleNotificationCardFXMLController">
    <children>
       <HBox fx:id="nameHBox" alignment="CENTER" prefHeight="10.0" prefWidth="591.0" spacing="20.0">
          <children>
-            <Label fx:id="nameLabel" prefHeight="22.0" prefWidth="440.0" text="Name" wrapText="true">
+            <Label fx:id="courseLabel" prefHeight="22.0" prefWidth="440.0" text="Course" wrapText="true">
                <font>
                   <Font name="System Bold Italic" size="10.0" />
                </font>
@@ -31,11 +33,20 @@
          </children>
       </HBox>
       <Separator prefWidth="200.0" />
-      <Label fx:id="messageLabel" alignment="TOP_LEFT" prefHeight="214.0" prefWidth="582.0" text="Message" wrapText="true">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <ImageView fitHeight="40.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/notification.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="messageLabel" alignment="TOP_LEFT" prefHeight="214.0" prefWidth="582.0" text="Message" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
    </children>
    <padding>
       <Insets left="5.0" right="5.0" top="5.0" />

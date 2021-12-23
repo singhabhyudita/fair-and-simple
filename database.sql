@@ -42,4 +42,4 @@ examID int, marksObtained int, foreign key (registrationNo) references student(r
 foreign key (examID) references exam(examID) on delete set null);
 
 create table message(messageID int primary key auto_increment, senderID int, courseID int, text varchar(10000),
-image blob,sentAt timestamp, isStudent bool, foreign key (courseID) references fairnsimple.course(courseID));
+image longblob,sentAt timestamp, isStudent bool, foreign key (courseID) references fairnsimple.course(courseID));

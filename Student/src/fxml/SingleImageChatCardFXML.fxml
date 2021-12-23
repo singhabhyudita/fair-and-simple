@@ -4,11 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="568.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SingleChatCardFXMLController">
+<VBox fx:id="vBox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SingleImageChatCardFXMLController">
    <children>
       <HBox fx:id="nameHBox" alignment="CENTER" prefHeight="10.0" prefWidth="591.0" spacing="20.0">
          <children>
@@ -31,11 +32,7 @@
          </children>
       </HBox>
       <Separator prefWidth="200.0" />
-      <Label fx:id="messageLabel" alignment="TOP_LEFT" prefHeight="214.0" prefWidth="582.0" text="Message" wrapText="true">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
+      <ImageView fx:id="imageView" fitHeight="287.0" fitWidth="411.0" pickOnBounds="true" preserveRatio="true" />
    </children>
    <padding>
       <Insets left="5.0" right="5.0" top="5.0" />

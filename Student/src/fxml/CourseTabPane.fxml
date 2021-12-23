@@ -339,8 +339,9 @@
                                     </ScrollPane>
                                     <HBox alignment="CENTER" prefHeight="38.0" prefWidth="368.0" spacing="10.0">
                                        <children>
-                                          <TextField fx:id="sendTextField" alignment="CENTER" prefHeight="26.0" prefWidth="524.0" promptText="Enter text here..." />
-                                          <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendButtonResponse" text="Send" />
+                                          <TextField fx:id="sendTextField" alignment="CENTER" prefHeight="26.0" prefWidth="429.0" promptText="Enter text here..." />
+                                          <Button fx:id="uploadImageButton" mnemonicParsing="false" onAction="#uploadButtonResponse" prefHeight="26.0" prefWidth="70.0" text="Upload" />
+                                          <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendButtonResponse" prefHeight="26.0" prefWidth="82.0" text="Send" />
                                        </children>
                                     </HBox>
                                  </children>

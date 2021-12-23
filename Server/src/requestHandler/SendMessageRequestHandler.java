@@ -5,14 +5,13 @@ import entity.RegistrationStreamWrapper;
 import main.RequestIdentifier;
 import main.Server;
 import response.SendMessageResponse;
+import sun.awt.image.ToolkitImage;
 import table.EnrollmentTable;
 import table.MessageTable;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,11 +41,11 @@ public class SendMessageRequestHandler extends RequestHandler {
             preparedStatement.setString(1, userID);
             preparedStatement.setString(2,message.getCourseID());
             preparedStatement.setString(3,message.getText());
-
-//            bufferedImage=  ((ToolkitImage)message.getImage().getImage()).getBufferedImage();
-//            ImageIO.write(bufferedImage,"jpg",byteArrayOutputStream);
-//            is=new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-
+            if(message.getImage() !=null) {
+                bufferedImage = ((ToolkitImage) message.getImage().getImage()).getBufferedImage();
+                ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
+                is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            }
             preparedStatement.setBlob(4,is);
             preparedStatement.setTimestamp(5,message.getSentAt());
             preparedStatement.setBoolean(6,message.getStudent());
@@ -61,6 +60,7 @@ public class SendMessageRequestHandler extends RequestHandler {
             e.printStackTrace();
         }
     }
+
     public void sendToAll(){
         List<String> registrationNumbers = new ArrayList<>();
         try {

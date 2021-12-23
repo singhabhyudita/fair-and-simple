@@ -1,25 +1,32 @@
 package util;
 
 import controller.SingleChatCardFXMLController;
+import controller.SingleImageChatCardFXMLController;
 import entity.Main;
 import entity.Message;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import org.controlsfx.control.Notifications;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Objects;
 
 import entity.Message;
+import sun.awt.image.ToolkitImage;
+
+import javax.swing.*;
 
 public class ChatUtil implements Runnable {
 
@@ -67,21 +74,43 @@ public class ChatUtil implements Runnable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
-                        try {
-                            Node node = fxmlLoader.load();
-                            SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
-                            singleChatCardFXMLController.messageLabel.setText(message.getText());
-                            singleChatCardFXMLController.messageLabel.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
-                            singleChatCardFXMLController.nameLabel.setText(message.getSenderName());
-                            singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
-                            singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
-                                    (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),
-                                    CornerRadii.EMPTY,
-                                    Insets.EMPTY)));
-                            Main.chatVBox.getChildren().add(node);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        if(message.getImage() != null) {
+                            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleImageChatCardFXML.fxml"));
+                            try {
+                                Node node = fxmlLoader.load();
+                                SingleImageChatCardFXMLController singleImageChatCardFXMLController = fxmlLoader.getController();
+                                BufferedImage bufferedImage=  ((ToolkitImage)message.getImage().getImage()).getBufferedImage();
+                                Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+                                singleImageChatCardFXMLController.imageView.setImage(image);
+                                singleImageChatCardFXMLController.vBox.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
+                                singleImageChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.userRegistrationNumber)?"Me":message.getSenderName());
+                                singleImageChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                                singleImageChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
+                                        (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),
+                                        CornerRadii.EMPTY,
+                                        Insets.EMPTY)));
+                                Main.chatVBox.getChildren().add(node);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else {
+                            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
+                            try {
+                                Node node = fxmlLoader.load();
+                                SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
+                                singleChatCardFXMLController.messageLabel.setText(message.getText());
+                                singleChatCardFXMLController.messageLabel.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
+                                singleChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.userRegistrationNumber)?"Me":message.getSenderName());
+                                singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                                singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
+                                        (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),
+                                        CornerRadii.EMPTY,
+                                        Insets.EMPTY)));
+                                Main.chatVBox.getChildren().add(node);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });

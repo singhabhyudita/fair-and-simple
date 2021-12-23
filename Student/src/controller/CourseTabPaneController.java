@@ -3,6 +3,7 @@ package controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -15,17 +16,26 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 import request.*;
 import response.*;
 import entity.*;
+import sun.awt.image.ToolkitImage;
 import util.ChatUtil;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
@@ -39,6 +49,8 @@ import java.util.Scanner;
 public class CourseTabPaneController implements Initializable {
     @FXML
     public TabPane courseTabPane;
+    @FXML
+    public Button uploadImageButton;
     @FXML
     public Label courseNameLabel;
     @FXML
@@ -105,6 +117,7 @@ public class CourseTabPaneController implements Initializable {
 
     private SortedList<Exam> sortedData;
     private String courseId, name;
+    File selectedFile;
 
     public String getCourseId() {
         return courseId;
@@ -206,18 +219,28 @@ public class CourseTabPaneController implements Initializable {
         examsTableView.setItems(sortedData);
     }
 
-    public void sendButtonResponse() {
+    public void sendButtonResponse() throws IOException {
         //TODO: send messages
         String text = sendTextField.getText().trim();
-        if(text == "")
+        BufferedImage bufferedImage = null;
+
+        ImageIcon imageIcon = null;
+        if(selectedFile != null) {
+            bufferedImage = ImageIO.read(selectedFile);
+            imageIcon = new ImageIcon(bufferedImage,null);
+        }
+
+        if(text == "" && imageIcon==null)
             return;
         sendTextField.clear();
-        Main.sendRequest(new Message(Main.userRegistrationNumber, name, courseId, courseNameLabel.getText(),text, null,
+        uploadImageButton.setText("Upload");
+        Main.sendRequest(new Message(Main.userRegistrationNumber, name, courseId, courseNameLabel.getText(),text, imageIcon,
                 new Timestamp(System.currentTimeMillis()), true));
         System.out.println("Main.userRegistrationNumber:" + Main.userRegistrationNumber);
         SendMessageResponse sendMessageResponse = (SendMessageResponse) Main.getResponse();
         assert sendMessageResponse != null;
 
+        selectedFile = null;
         System.out.println(sendMessageResponse.getResponse());
     }
 
@@ -326,23 +349,53 @@ public class CourseTabPaneController implements Initializable {
         ArrayList<Message> messages = displayMessagesResponse.getMessages();
 
         for (Message message : messages) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
-            try {
-                Node node = fxmlLoader.load();
-                SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
-                singleChatCardFXMLController.messageLabel.setText(message.getText());
-                singleChatCardFXMLController.messageLabel.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
-                singleChatCardFXMLController.nameLabel.setText(message.getSenderName());
-                singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
-                singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
-                        (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),
-                        CornerRadii.EMPTY,
-                        Insets.EMPTY)));
-                chatContainer.getChildren().add(node);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(message.getImage() != null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleImageChatCardFXML.fxml"));
+                try {
+                    Node node = fxmlLoader.load();
+                    SingleImageChatCardFXMLController singleImageChatCardFXMLController = fxmlLoader.getController();
+                    BufferedImage bufferedImage=  ((ToolkitImage)message.getImage().getImage()).getBufferedImage();
+                    Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+                    singleImageChatCardFXMLController.imageView.setImage(image);
+                    singleImageChatCardFXMLController.vBox.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
+                    singleImageChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.userRegistrationNumber)?"Me":message.getSenderName());
+                    singleImageChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                    singleImageChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
+                            (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),
+                            CornerRadii.EMPTY,
+                            Insets.EMPTY)));
+                    Main.chatVBox.getChildren().add(node);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleChatCardFXML.fxml"));
+                try {
+                    Node node = fxmlLoader.load();
+                    SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
+                    singleChatCardFXMLController.messageLabel.setText(message.getText());
+                    singleChatCardFXMLController.messageLabel.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
+                    singleChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.userRegistrationNumber)?"Me":message.getSenderName());
+                    singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                    singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
+                            (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),
+                            CornerRadii.EMPTY,
+                            Insets.EMPTY)));
+                    Main.chatVBox.getChildren().add(node);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
+    }
+
+    public void uploadButtonResponse(ActionEvent actionEvent) {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("image files","*.png","*.jpg","*.jpeg"));
+        selectedFile = fc.showOpenDialog(null);
+        if(selectedFile != null)
+            uploadImageButton.setText(selectedFile.getName());
     }
 }

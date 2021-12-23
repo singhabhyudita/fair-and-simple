@@ -5,11 +5,14 @@ import main.Server;
 import request.DisplayMessagesRequest;
 import response.DisplayMessagesResponse;
 import table.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DisplayMessagesRequestHandler extends RequestHandler {
@@ -37,6 +40,14 @@ public class DisplayMessagesRequestHandler extends RequestHandler {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                Blob blob=resultSet.getBlob(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_IMAGE);
+                ByteArrayInputStream inputStream = null;
+                ImageIcon imageIcon = null;
+                if(blob != null) {
+                    inputStream = (ByteArrayInputStream) blob.getBinaryStream();
+                    BufferedImage bufferedImage = ImageIO.read(inputStream);
+                    imageIcon = new ImageIcon(bufferedImage);
+                }
                 teacherMessages.add(new Message(
                         resultSet.getString(MessageTable.TABLE_NAME+"."+MessageTable.COLUMN_SENDER_ID),
                         resultSet.getString(StudentTable.TABLE_NAME+"."+ StudentTable.COLUMN_FIRST_NAME)
@@ -44,7 +55,7 @@ public class DisplayMessagesRequestHandler extends RequestHandler {
                         resultSet.getString(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_COURSE_ID),
                             resultSet.getString(CoursesTable.TABLE_NAME + "." + CoursesTable.COURSE_NAME_COLUMN),
                         resultSet.getString(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_TEXT),
-                        null, // TODO :  IMAGE
+                        imageIcon, // TODO :  IMAGE
                         resultSet.getTimestamp(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_SENT_AT),
                         true
                 ));
@@ -55,6 +66,14 @@ public class DisplayMessagesRequestHandler extends RequestHandler {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                Blob blob=resultSet.getBlob(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_IMAGE);
+                ByteArrayInputStream inputStream = null;
+                ImageIcon imageIcon = null;
+                if(blob != null) {
+                    inputStream = (ByteArrayInputStream) blob.getBinaryStream();
+                    BufferedImage bufferedImage = ImageIO.read(inputStream);
+                    imageIcon = new ImageIcon(bufferedImage);
+                }
                 studentMessages.add(new Message(
                         resultSet.getString(MessageTable.TABLE_NAME+"."+MessageTable.COLUMN_SENDER_ID),
                         resultSet.getString(TeacherTable.TABLE_NAME+"."+ TeacherTable.COLUMN_FIRST_NAME)
@@ -62,14 +81,14 @@ public class DisplayMessagesRequestHandler extends RequestHandler {
                         resultSet.getString(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_COURSE_ID),
                         resultSet.getString(MessageTable.TABLE_NAME + "." + CoursesTable.COURSE_NAME_COLUMN),
                         resultSet.getString(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_TEXT),
-                        null, // TODO :  IMAGE
+                        imageIcon,
                         resultSet.getTimestamp(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_SENT_AT),
                         false
                 ));
             }
             displayMessagesResponse = new DisplayMessagesResponse(mergeFunction(studentMessages,teacherMessages));
             Server.sendResponse(oos,displayMessagesResponse);
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
