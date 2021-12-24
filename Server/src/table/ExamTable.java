@@ -42,5 +42,5 @@ public class ExamTable {
             + " WHERE " + PROCTOR_ID_COLUMN + " = ?;";
     public  static final String GET_EXAM_IN_NEXT_15_MINS="SELECT * FROM " + TABLE_NAME +
             " INNER JOIN " + CoursesTable.TABLE_NAME + " on " + CoursesTable.TABLE_NAME + "." + CoursesTable.COURSE_ID_COLUMN +" = " + TABLE_NAME + "." + COURSE_ID_COLUMN +
-            " where TIMESTAMPDIFF(minute, CURRENT_TIMESTAMP(), " + TABLE_NAME + "." + START_TIME_COLUMN + ") <= 15 AND TIMESTAMPDIFF(minute, CURRENT_TIMESTAMP(), " + TABLE_NAME + "." + START_TIME_COLUMN + ") > 14;";
+            " where TIMESTAMPDIFF(second, CURRENT_TIMESTAMP(), " + TABLE_NAME + "." + START_TIME_COLUMN + ") <= 900 AND TIMESTAMPDIFF(second, CURRENT_TIMESTAMP(), " + TABLE_NAME + "." + START_TIME_COLUMN + ") > 840;";
 }

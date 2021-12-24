@@ -2,7 +2,6 @@ package controllers;
 
 import entity.Course;
 import entity.Exam;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -20,12 +19,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import main.GuiUtil;
 import main.Main;
 import request.*;
 import response.*;
 import sun.awt.image.ToolkitImage;
+
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -40,7 +39,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TeacherHomeController {
     @FXML

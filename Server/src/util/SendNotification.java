@@ -24,7 +24,7 @@ public class SendNotification implements Runnable {
         connection=Server.getConnection();
         while (true) {
             try {
-                Thread.sleep(69*1000);
+                Thread.sleep(59*1000);
                 PreparedStatement preparedStatement=connection.prepareStatement(ExamTable.GET_EXAM_IN_NEXT_15_MINS);
                 System.out.println("printing notif query");
                 System.out.println(preparedStatement);
