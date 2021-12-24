@@ -250,6 +250,8 @@ public class ProfileScreenController implements Initializable
                 quizCardLayoutFXMLController.setExam(exam);
                 quizCardLayoutFXMLController.setNoq(exam.getMaxMarks() + "");
                 quizCardLayoutFXMLController.setCourse(exam.getCourseName());
+                quizCardLayoutFXMLController.setStartTimeLabel(exam.getDate().toString().substring(2,16));
+                quizCardLayoutFXMLController.setEndTimeLabel(exam.getEndTime().toString().substring(2,16));
                 examListContainer.getChildren().add(node);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -29,6 +29,11 @@ public class QuizCardLayoutFXMLController implements Initializable {
     @FXML
     public Label course;
     @FXML
+    public Label startTimeLabel;
+
+    @FXML
+    public Label endTimeLabel;
+    @FXML
     public JFXButton startButton;
 
     private Exam exam;
@@ -36,6 +41,14 @@ public class QuizCardLayoutFXMLController implements Initializable {
     public void setExam(Exam exam) {
         this.exam = exam;
         this.title.setText(this.exam.getTitle());
+    }
+
+    public void setStartTimeLabel(String startTime) {
+        this.startTimeLabel.setText(startTime);
+    }
+
+    public void setEndTimeLabel(String endTime) {
+        this.endTimeLabel.setText(endTime);
     }
 
     public void setCourse(String course) {

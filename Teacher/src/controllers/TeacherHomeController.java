@@ -10,13 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -209,10 +210,10 @@ public class TeacherHomeController {
 
     public void callFirst() {
         heyNameLabel.setText("Hey " + Main.getTeacherName() + "!");
-        populateTeacherCourses();
         populateExamTables();
         populateProctoringDutyExamTable();
         setProfilePic();
+        populateTeacherCourses();
     }
     @FXML
     public void createCourseButtonResponse(ActionEvent actionEvent) {
@@ -238,51 +239,55 @@ public class TeacherHomeController {
             }
         }
     }
-
+    @FXML
+    public FlowPane courseContainer;
     private void populateTeacherCourses() {
-        System.out.println("The thread is " + Thread.currentThread());
-        System.out.println("Called first");
-        courseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
-        System.out.println("Values set");
-        System.out.println("Inside courses request thread" + Thread.currentThread());
+        courseContainer.getChildren().clear();
         TeacherCoursesRequest request = new TeacherCoursesRequest(Main.getTeacherId());
         Main.sendRequest(request);
         TeacherCoursesResponse response = (TeacherCoursesResponse) Main.receiveResponse();
-        System.out.println("Fetched courses response");
-        if(response == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fetch your courses. Click OK to exit the application");
-            alert.showAndWait();
-            System.exit(0);
-        } else {
-            System.out.println("Creating courses list");
-            ObservableList<Course> courseList = FXCollections.observableList(response.getCourses());
-            System.out.println("List created. Now setting into table.");
-            coursesTableView.setItems(courseList);
-            System.out.println("List set into table.");
+
+        List <Course> courses = response.getCourses();
+        for(Course course : courses){
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/CourseCardLayoutFXML.fxml"));
+            try {
+                Node node = fxmlLoader.load();
+                CourseCardLayoutFXMLController courseCardLayoutFXMLController = fxmlLoader.getController();
+                courseCardLayoutFXMLController.setAboutLabel(course.getCourseDescription());
+                courseCardLayoutFXMLController.setCourseLabel(course.getCourseName());
+                courseCardLayoutFXMLController.setTeacherExamResponse(teacherExamResponse);
+                courseCardLayoutFXMLController.setCourse(course);
+                courseContainer.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+    @FXML
+    public FlowPane examListContainer;
 
     private void populateExamTables() {
-        upcomingCourseNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
-        upcomingTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        upcomingTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        upcomingMaxMarksTableColumn.setCellValueFactory(new PropertyValueFactory<>("maxMarks"));
-        examsResultTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        examsResultDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        examResultCourseTableColumn.setCellValueFactory(new PropertyValueFactory<>("courseName"));
         TeacherExamRequest request = new TeacherExamRequest(Main.getTeacherId(), false);
         Main.sendRequest(request);
         teacherExamResponse = (TeacherExamResponse) Main.receiveResponse();
         if(teacherExamResponse == null) GuiUtil.alert(Alert.AlertType.ERROR, "Could not fetch your exams. Might be a server error.");
         else {
-            ObservableList<Exam> upcomingExams = FXCollections.observableList(teacherExamResponse.getExams().stream()
-                    .filter((Exam e) -> e.getDate().after(new Date()))
-                    .collect(Collectors.toList()));
-            ObservableList<Exam> pastExams = FXCollections.observableList(teacherExamResponse.getExams().stream()
-                    .filter((Exam e) -> e.getDate().before(new Date()))
-                    .collect(Collectors.toList()));
-            upcomingExamsTableView.setItems(upcomingExams);
-            resultExamsTableView.setItems(pastExams);
+            List<Exam> exams = teacherExamResponse.getExams();
+            for(Exam exam : exams){
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/QuizCardLayoutFXML.fxml"));
+                try {
+                    Node node = fxmlLoader.load();
+                    QuizCardLayoutFXMLController quizCardLayoutFXMLController = fxmlLoader.getController();
+                    quizCardLayoutFXMLController.setExam(exam);
+                    quizCardLayoutFXMLController.setNoq(exam.getMaxMarks() + "");
+                    quizCardLayoutFXMLController.setCourse(exam.getCourseName());
+                    quizCardLayoutFXMLController.setStartTimeLabel(exam.getDate().toString().substring(2,16));
+                    quizCardLayoutFXMLController.setEndTimeLabel(exam.getEndTime().toString().substring(2,16));
+                    examListContainer.getChildren().add(node);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

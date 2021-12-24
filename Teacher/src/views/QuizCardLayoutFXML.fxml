@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="152.0" prefWidth="268.0" style="-fx-background-color: #cedde2;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuizCardLayoutFXMLController">
+<VBox prefHeight="152.0" prefWidth="268.0" style="-fx-background-color: #cedde2;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuizCardLayoutFXMLController">
    <children>
       <Label fx:id="title" text="Quiz Title" wrapText="true">
          <VBox.margin>
@@ -66,7 +65,7 @@
       </HBox>
       <FlowPane alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="118.0">
          <children>
-            <JFXButton fx:id="startButton" onAction="#startQuiz" ripplerFill="#cedde2" style="-fx-background-color: #aee1f5;" text="Start Quiz">
+            <JFXButton fx:id="checkForProctorButton" onAction="#checkProctorJoined" ripplerFill="#cedde2" style="-fx-background-color: #aee1f5;" text="Check for proctor">
                <font>
                   <Font size="15.0" />
                </font>
