@@ -1,32 +1,45 @@
 package controllers;
 
-import entity.Exam;
-import entity.Student;
+import entity.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.GuiUtil;
 import main.Main;
 import request.CourseStudentRequest;
+import request.DisplayMessagesRequest;
 import request.SetExamRequest;
-import entity.Question;
 import response.CourseStudentResponse;
+import response.DisplayMessagesResponse;
+import response.SendMessageResponse;
 import response.SetExamResponse;
-import entity.Status;
+import sun.awt.image.ToolkitImage;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -103,9 +116,19 @@ public class CourseController {
     public TableColumn<Student, String> registrationNumberTableColumn;
     @FXML
     public TextField proctorIDTextField;
+    @FXML
+    public VBox chatContainer;
+    @FXML
+    public TextField sendTextField;
+    @FXML
+    public Button uploadImageButton;
+    @FXML
+    public ScrollPane chatScrollPane;
 
+    File selectedFile = null;
     private String courseId;
     private List<Student> students;
+    private String courseName;
 
     @FXML
     public void handleOnKeyPressed(KeyEvent keyEvent) {
@@ -182,8 +205,11 @@ public class CourseController {
         questions.remove(i);
     }
 
-    public void callFirst(String courseId, List<Exam> courseExams) {
-
+    public void callFirst(String courseId, String courseName, List<Exam> courseExams) {
+        Main.chatVBox = chatContainer;
+        Main.lastOpenCourseId = courseId;
+        chatScrollPane.vvalueProperty().bind(chatContainer.heightProperty());
+        this.courseName = courseName;
         this.courseId = courseId;
 
         questionTableColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
@@ -318,6 +344,88 @@ public class CourseController {
     }
 
     public void backResponse(ActionEvent actionEvent) {
+        Main.chatVBox = null;
+        Main.lastOpenCourseId = null;
         GuiUtil.goToHome((Stage) deleteButton.getScene().getWindow());
     }
+
+    public void onChatClicked(Event event) {
+        chatContainer.getChildren().clear();
+        Main.sendRequest(new DisplayMessagesRequest(courseId));
+        DisplayMessagesResponse displayMessagesResponse = (DisplayMessagesResponse) Main.receiveResponse();
+        ArrayList<Message> messages = displayMessagesResponse.getMessages();
+
+        for (Message message : messages) {
+            if(message.getImage() != null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/SingleImageChatCardFXML.fxml"));
+                try {
+                    Node node = fxmlLoader.load();
+                    SingleImageChatCardFXMLController singleImageChatCardFXMLController = fxmlLoader.getController();
+                    BufferedImage bufferedImage=  ((ToolkitImage)message.getImage().getImage()).getBufferedImage();
+                    Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+                    singleImageChatCardFXMLController.imageView.setImage(image);
+                    singleImageChatCardFXMLController.vBox.setAlignment(message.getSenderID().equals(Main.getTeacherId()) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
+                    singleImageChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.getTeacherId())?"Me":message.getSenderName());
+                    singleImageChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                    singleImageChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
+                            (message.getSenderID().equals(Main.getTeacherId())) ? Main.myColor : Main.otherColor),
+                            CornerRadii.EMPTY,
+                            Insets.EMPTY)));
+                    Main.chatVBox.getChildren().add(node);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/SingleChatCardFXML.fxml"));
+                try {
+                    Node node = fxmlLoader.load();
+                    SingleChatCardFXMLController singleChatCardFXMLController = fxmlLoader.getController();
+                    singleChatCardFXMLController.messageLabel.setText(message.getText());
+                    singleChatCardFXMLController.messageLabel.setAlignment(message.getSenderID().equals(Main.getTeacherId()) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
+                    singleChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.getTeacherId())?"Me":message.getSenderName());
+                    singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                    singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
+                            (message.getSenderID().equals(Main.getTeacherId())) ? Main.myColor : Main.otherColor),
+                            CornerRadii.EMPTY,
+                            Insets.EMPTY)));
+                    Main.chatVBox.getChildren().add(node);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void sendButtonResponse() throws IOException {
+        String text = sendTextField.getText().trim();
+        BufferedImage bufferedImage = null;
+
+        ImageIcon imageIcon = null;
+        if(selectedFile != null) {
+            bufferedImage = ImageIO.read(selectedFile);
+            imageIcon = new ImageIcon(bufferedImage,null);
+        }
+
+        if(text == "" && imageIcon==null)
+            return;
+        sendTextField.clear();
+        uploadImageButton.setText("Upload");
+        Main.sendRequest(new Message(Main.getTeacherId(), Main.getTeacherName(), courseId, courseName,text, imageIcon,
+                new Timestamp(System.currentTimeMillis()), true));
+        SendMessageResponse sendMessageResponse = (SendMessageResponse) Main.receiveResponse();
+        assert sendMessageResponse != null;
+
+        selectedFile = null;
+        System.out.println(sendMessageResponse.getResponse());
+    }
+
+    public void uploadButtonResponse(ActionEvent actionEvent) {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("image files","*.png","*.jpg","*.jpeg"));
+        selectedFile = fc.showOpenDialog(null);
+        if(selectedFile != null)
+            uploadImageButton.setText(selectedFile.getName());
+    }
+
 }

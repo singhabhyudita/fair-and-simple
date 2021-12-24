@@ -79,7 +79,7 @@ public class DisplayMessagesRequestHandler extends RequestHandler {
                         resultSet.getString(TeacherTable.TABLE_NAME+"."+ TeacherTable.COLUMN_FIRST_NAME)
                                 + " " + resultSet.getString(TeacherTable.TABLE_NAME+"."+ TeacherTable.COLUMN_LAST_NAME),
                         resultSet.getString(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_COURSE_ID),
-                        resultSet.getString(MessageTable.TABLE_NAME + "." + CoursesTable.COURSE_NAME_COLUMN),
+                        resultSet.getString(CoursesTable.TABLE_NAME + "." + CoursesTable.COURSE_NAME_COLUMN),
                         resultSet.getString(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_TEXT),
                         imageIcon,
                         resultSet.getTimestamp(MessageTable.TABLE_NAME + "." + MessageTable.COLUMN_SENT_AT),

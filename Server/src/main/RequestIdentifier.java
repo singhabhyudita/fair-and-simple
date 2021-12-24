@@ -2,6 +2,7 @@ package main;
 
 import entity.Message;
 import entity.RegistrationStreamWrapper;
+import entity.TeacherIdStreamWrapper;
 import request.*;
 import requestHandler.*;
 
@@ -60,6 +61,7 @@ public class RequestIdentifier implements Runnable{
                     String registrationNumber = (String) objectInputStream.readObject();
                     System.out.println(chatSocket);
                     System.out.println("connection established with client");
+
                     Server.socketArrayList.add(new RegistrationStreamWrapper(registrationNumber, objectOutputStream));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -74,6 +76,18 @@ public class RequestIdentifier implements Runnable{
                 userID=((TeacherLoginRequest) request).getUsername();
                 TeacherLoginRequestHandler teacherLoginRequestHandler=new TeacherLoginRequestHandler(Server.getConnection(),oos,(TeacherLoginRequest)request);
                 teacherLoginRequestHandler.sendResponse(userID);
+
+                try {
+                    Socket chatSocket=chatServerSocket.accept();
+                    ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
+                    ObjectInputStream objectInputStream = new ObjectInputStream(chatSocket.getInputStream());
+                    String teacherId = (String) objectInputStream.readObject();
+                    System.out.println("connection established with teacher: " + teacherId);
+
+                    Server.teacherSocketArrayList.add(new TeacherIdStreamWrapper(teacherId, objectOutputStream));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             else if(request instanceof TeacherRegisterRequest){
                 System.out.println("Teacher register request came.");

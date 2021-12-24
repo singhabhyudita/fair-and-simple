@@ -2,9 +2,11 @@ package requestHandler;
 
 import entity.Message;
 import entity.RegistrationStreamWrapper;
+import entity.TeacherIdStreamWrapper;
 import main.Server;
 import response.SendMessageResponse;
 import sun.awt.image.ToolkitImage;
+import table.CoursesTable;
 import table.EnrollmentTable;
 import table.MessageTable;
 
@@ -90,6 +92,33 @@ public class SendMessageRequestHandler extends RequestHandler {
                         oos.flush();
                     }
                     System.out.println("message object sent");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Sending teacher
+        String teacherId = null;
+        try {
+            PreparedStatement getRegistrationNumbers = connection.prepareStatement(CoursesTable.GET_TEACHER_ID_BY_COURSE_ID);
+            getRegistrationNumbers.setString(1, message.getCourseID());
+            ResultSet resultSet = getRegistrationNumbers.executeQuery();
+            while(resultSet.next()) {
+                teacherId = resultSet.getString(CoursesTable.TEACHER_ID_COLUMN);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<TeacherIdStreamWrapper> teacherSocketArrayList= Server.teacherSocketArrayList;
+        for (TeacherIdStreamWrapper t:teacherSocketArrayList) {
+            ObjectOutputStream oos = t.getOos();
+            try {
+                System.out.println("##### TRYING TO SEND TEACHER ###" + t.getTeacherId());
+                if(teacherId.equals(t.getTeacherId())) {
+                    oos.writeObject(message);
+                    oos.flush();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

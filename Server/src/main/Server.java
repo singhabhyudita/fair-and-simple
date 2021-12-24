@@ -1,6 +1,7 @@
 package main;
 
 import entity.RegistrationStreamWrapper;
+import entity.TeacherIdStreamWrapper;
 import response.CreateCourseResponse;
 import response.Response;
 import util.RandomString;
@@ -20,7 +21,8 @@ public class Server {
 
     private static Connection connection;
     private static RandomString randomString;
-    public static ArrayList<RegistrationStreamWrapper>socketArrayList=new ArrayList<>();
+    public static ArrayList<RegistrationStreamWrapper> socketArrayList=new ArrayList<>();
+    public static ArrayList<TeacherIdStreamWrapper> teacherSocketArrayList=new ArrayList<>();
 
     public static void main(String[] args) {
         ServerSocket serverSocket= null,chatServerSocket=null;

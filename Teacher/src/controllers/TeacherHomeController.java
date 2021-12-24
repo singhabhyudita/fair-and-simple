@@ -193,7 +193,7 @@ public class TeacherHomeController {
             stage.setTitle(courseTitle);
             CourseController controller = loader.getController();
             List<Exam> courseExam = getExamsForCourse(selectedCourse.getCourseId());
-            controller.callFirst(selectedCourse.getCourseId(), courseExam);
+            controller.callFirst(selectedCourse.getCourseId(), selectedCourse.getCourseName(),courseExam);
         }
     }
 

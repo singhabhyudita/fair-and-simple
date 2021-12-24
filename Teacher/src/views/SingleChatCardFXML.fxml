@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="568.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SingleChatCardFXMLController">
+   <children>
+      <HBox fx:id="nameHBox" alignment="CENTER" prefHeight="10.0" prefWidth="591.0" spacing="20.0">
+         <children>
+            <Label fx:id="nameLabel" prefHeight="22.0" prefWidth="440.0" text="Name" wrapText="true">
+               <font>
+                  <Font name="System Bold Italic" size="10.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <Label fx:id="timestampLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="22.0" prefWidth="303.0" text="Timestamp" wrapText="true">
+               <font>
+                  <Font name="System Italic" size="10.0" />
+               </font>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" />
+      <Label fx:id="messageLabel" alignment="TOP_LEFT" prefHeight="214.0" prefWidth="582.0" text="Message" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+   </children>
+   <padding>
+      <Insets left="5.0" right="5.0" top="5.0" />
+   </padding>
+   <effect>
+      <DropShadow blurType="TWO_PASS_BOX" color="#d3cece" height="33.72" radius="16.36" spread="0.25" width="33.72" />
+   </effect>
+</VBox>

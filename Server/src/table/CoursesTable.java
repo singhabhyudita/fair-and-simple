@@ -24,4 +24,6 @@ public class CoursesTable {
             + " WHERE " + COURSE_ID_COLUMN + " = ?";
     public static final String GET_COURSE_NAME_BY_COURSE_ID = "SELECT "+ COURSE_NAME_COLUMN +" FROM "+ TABLE_NAME+" WHERE "
             +COURSE_ID_COLUMN+" =?;";
+    public static final String GET_TEACHER_ID_BY_COURSE_ID = "SELECT "+ TEACHER_ID_COLUMN +" FROM "+ TABLE_NAME+" WHERE "
+            +COURSE_ID_COLUMN+" =?;";
 }
