@@ -4,6 +4,7 @@ import entity.Status;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
@@ -19,7 +20,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Main extends Application {
-
     private static String teacherId = "";
     private static String teacherName = "";
     static ObjectOutputStream outputStream;

@@ -1,10 +1,10 @@
 package requestHandler;
 
+import entity.Question;
+import entity.Status;
 import main.Server;
 import request.SetExamRequest;
-import entity.Question;
 import response.SetExamResponse;
-import entity.Status;
 import table.ExamQuestionsTable;
 import table.ExamTable;
 

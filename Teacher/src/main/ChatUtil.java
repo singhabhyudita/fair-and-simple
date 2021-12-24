@@ -2,7 +2,9 @@ package main;
 
 import controllers.SingleChatCardFXMLController;
 import controllers.SingleImageChatCardFXMLController;
+import controllers.SingleNotificationCardFXMLController;
 import entity.Message;
+import entity.Notification;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
@@ -48,6 +50,29 @@ public class ChatUtil implements Runnable {
             final Message message = message2;
             System.out.println("Message received from sender id "+ message.getSenderID()+": "+message.getText());
 
+            if(message instanceof Notification){
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Notifications.create()
+                                .title("Notification from " + message.getSenderName() + " in " + message.getCourseName())
+                                .text(message.getText())
+                                .show();
+
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/SingleNotificationCardFXML.fxml"));
+                        try {
+                            Node node = fxmlLoader.load();
+                            SingleNotificationCardFXMLController singleNotificationCardFXMLController = fxmlLoader.getController();
+                            singleNotificationCardFXMLController.courseLabel.setText(message.getCourseName());
+                            singleNotificationCardFXMLController.messageLabel.setText(message.getText());
+                            singleNotificationCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                return;
+            }
 
             if(Main.chatVBox == null || !message.getCourseID().equals(Main.lastOpenCourseId)) {
                 if(!Objects.equals(message.getSenderID(), Main.getTeacherId())) {
