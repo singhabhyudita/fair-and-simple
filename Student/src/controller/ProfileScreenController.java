@@ -218,6 +218,7 @@ public class ProfileScreenController implements Initializable
             try {
                 Node node = fxmlLoader.load();
                 SingleExamHistoryCardFXMLController singleExamHistoryCardFXMLController = fxmlLoader.getController();
+                singleExamHistoryCardFXMLController.setExam(exam);
                 singleExamHistoryCardFXMLController.setCourseLabel(exam.getCourseName());
                 singleExamHistoryCardFXMLController.setMarksLabel(exam.getMaxMarks() + "/" + exam.getMaxMarks());
                 singleExamHistoryCardFXMLController.setTitleLabel(exam.getTitle());

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="153.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SingleCorrectionCardController">
+   <children>
+      <VBox prefHeight="153.0" prefWidth="387.0">
+         <children>
+            <Label fx:id="questionLabel" prefHeight="40.0" prefWidth="385.0" text="Label" />
+            <Separator prefWidth="200.0" />
+            <TextField fx:id="answerTextArea" prefHeight="84.0" prefWidth="387.0" />
+            <HBox prefHeight="22.0" prefWidth="387.0">
+               <children>
+                  <ToggleButton fx:id="correctToggleButton" mnemonicParsing="false" text="Correct" />
+               </children></HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

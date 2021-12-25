@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuizResultSingleQuestionController">
+   <children>
+      <Label fx:id="question" layoutX="20.0" layoutY="20.0" text="Label" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Separator layoutX="15.0" layoutY="46.0" prefWidth="200.0" />
+      <VBox layoutX="15.0" layoutY="49.0" prefWidth="590.0">
+         <children>
+            <Label fx:id="optionA" text="Label" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="optionB" text="Label" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="optionC" text="Label" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="optionD" text="Label" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <TextArea fx:id="answerTextArea" editable="false" layoutX="2.0" layoutY="49.0" prefHeight="100.0" prefWidth="599.0" />
+   </children>
+</AnchorPane>

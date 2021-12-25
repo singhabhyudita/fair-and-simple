@@ -20,4 +20,6 @@ public class ExamQuestionsTable {
             + " WHERE " + EXAM_ID_COLUMN + " = ?;";
     public static final String GET_EXAM_QUESTIONS_BY_EXAM_ID = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + EXAM_ID_COLUMN + " = ?;";
+    public static final String GET_OBJECTIVE_QUESTIONS_BY_EXAM_ID = "SELECT * FROM " + TABLE_NAME
+            + " WHERE " + EXAM_ID_COLUMN + " = ? AND " + CORRECT_OPTION_COLUMN + " <> -1;";
 }

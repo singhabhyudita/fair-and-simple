@@ -358,23 +358,6 @@ public class QuestionsScreenController implements Initializable {
         currentStage.setTitle("Welcome");
         ProfileScreenController profileScreenController=homepageLoader.getController();
         profileScreenController.first(Main.userFullName);
-//        openResultScreen();
-    }
-
-
-    private void openResultScreen() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/QuizResultFXML.fxml"));
-        Stage stage=(Stage)submit.getScene().getWindow();
-        Scene scene=null;
-        try {
-            scene=new Scene(fxmlLoader.load());
-            QuizResultFXMLController controller = fxmlLoader.getController();
-            controller.setValues(this.studentAnswers , numberOfRightAnswers , exam , questionList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setScene(scene);
-        stage.setTitle("Your result");
     }
 
     private void writeToFile(String answer) {

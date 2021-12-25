@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuizCorrectionController">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="515.0">
+         <children>
+            <VBox layoutX="-1.0" prefHeight="195.0" prefWidth="515.0">
+               <children>
+                  <Label fx:id="questionLabel" prefHeight="46.0" prefWidth="515.0" text="Label" />
+                  <TextArea fx:id="answerTextArea" editable="false" prefHeight="144.0" prefWidth="515.0" />
+                  <ToggleButton fx:id="correctToggleButton" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#correctToggleResponse" text="Correct" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <Label prefHeight="27.0" prefWidth="92.0" text="Responses" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </top>
+   <bottom>
+      <HBox alignment="TOP_RIGHT" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="nextQuestionButton" mnemonicParsing="false" onAction="#nextQuestionResponse" text="Next Question" />
+            <Button fx:id="submitCorrectionButton" mnemonicParsing="false" onAction="#submitCorrectionResponse" text="Submit Correction" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

@@ -38,6 +38,7 @@ public class SubmitExamRequestHandler extends RequestHandler {
             for(Question answer : request.getObjectiveAnswers()) {
                 preparedStatement.setString(1, answer.getQuestionId());
                 preparedStatement.setInt(3, answer.getCorrectOption());
+                preparedStatement.setString(4, request.getExam().getExamId());
                 preparedStatement.executeUpdate();
             }
 
