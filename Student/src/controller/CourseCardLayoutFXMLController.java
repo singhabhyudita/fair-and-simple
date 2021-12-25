@@ -47,7 +47,7 @@ public class CourseCardLayoutFXMLController {
         FXMLLoader courseLoader=new FXMLLoader(getClass().getResource("../fxml/CourseTabPane.fxml"));
         Scene scene=null;
         try {
-            scene=new Scene(courseLoader.load());
+            scene=new Scene(courseLoader.load(), professorNameLabel.getScene().getWidth(), professorNameLabel.getScene().getHeight());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -59,11 +59,12 @@ public class LoginController implements Initializable {
             Stage currentStage=(Stage)loginButton.getScene().getWindow();
             Scene scene=null;
             try {
-                 scene=new Scene(homepageLoader.load());
+                 scene=new Scene(homepageLoader.load(), loginButton.getScene().getWidth(), loginButton.getScene().getHeight());
             } catch (IOException e) {
                 e.printStackTrace();
             }
             currentStage.setScene(scene);
+            currentStage.setMaximized(true);
             currentStage.setTitle("Welcome");
             Main.userFullName = response.getFirstName() + " " + response.getLastName();
             ProfileScreenController profileScreenController=homepageLoader.getController();
@@ -90,6 +91,10 @@ public class LoginController implements Initializable {
 
         Thread t=new Thread(new ChatUtil(chatois));
         t.start();
+        loginButton.getScene().getWindow().setOnCloseRequest(event -> {
+            t.interrupt();
+            System.out.println("Thread is interrupted");
+        });
     }
 
     public void switchToSignup(ActionEvent actionEvent) {

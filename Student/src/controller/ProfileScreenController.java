@@ -87,11 +87,12 @@ public class ProfileScreenController implements Initializable
             Stage stage=(Stage)joinCourseButton.getScene().getWindow();
             Scene scene=null;
             try {
-                 scene=new Scene(loader.load());
+                 scene=new Scene(loader.load(), joinCourseButton.getScene().getWidth(), joinCourseButton.getScene().getHeight());
             } catch (IOException e) {
                 e.printStackTrace();
             }
             stage.setScene(scene);
+            stage.setMaximized(true);
             stage.setTitle("Course");
             CourseTabPaneController courseTabPaneController=loader.getController();
             try {
@@ -189,7 +190,7 @@ public class ProfileScreenController implements Initializable
             FXMLLoader loader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
             Stage stage=(Stage)logOutButton.getScene().getWindow();
             try {
-                Scene scene=new Scene(loader.load());
+                Scene scene=new Scene(loader.load(), logOutButton.getScene().getWidth(), logOutButton.getScene().getHeight());
                 stage.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();

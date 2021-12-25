@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -10,352 +9,366 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CourseTabPaneController">
-   <center>
-      <VBox alignment="TOP_CENTER">
-         <children>
-            <TabPane>
-               <tabs>
-                  <Tab text="General">
-                     <content>
-                        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0" prefWidth="600.0">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="371.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CourseTabPaneController">
+   <children>
+      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <tabs>
+            <Tab closable="false" text="General">
+               <content>
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <center>
-                              <VBox prefHeight="478.0" prefWidth="590.0" BorderPane.alignment="CENTER">
+                              <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                    <VBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <HBox alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="246.0" />
-                                          <Label prefHeight="26.0" prefWidth="410.0" text="Course:">
-                                             <font>
-                                                <Font name="System Italic" size="17.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="courseNameLabel" prefHeight="26.0" prefWidth="552.0">
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font>
-                                          </Label>
-                                          <Label alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="390.0" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="System Bold" size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Button fx:id="backfromCourseInfoButton" mnemonicParsing="false" onAction="#backfromCourseInfoButtonResponse" prefHeight="25.0" prefWidth="375.0" text="Back" textAlignment="CENTER" />
-                                          <Button fx:id="refreshCourseInfoButton" mnemonicParsing="false" onAction="#refreshCourseInfoButtonResponse" prefHeight="26.0" prefWidth="390.0" text="Refresh" />
-                                          <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="114.0" spacing="10.0" />
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox prefHeight="26.0" prefWidth="600.0" spacing="20.0" />
-                                    <HBox prefHeight="686.0" prefWidth="590.0" spacing="5.0">
-                                       <children>
-                                          <VBox alignment="CENTER_LEFT" prefHeight="512.0" prefWidth="702.0" spacing="10.0">
+                                          <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
                                              <children>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
-                                                   <children>
-                                                      <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Course Code:">
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="courseCodeLabel" prefHeight="27.0" prefWidth="182.0">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
+                                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Course Code:">
+                                                   <font>
+                                                      <Font name="System Italic" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="courseCodeLabel" prefHeight="27.0" prefWidth="182.0">
                                                    <opaqueInsets>
                                                       <Insets />
                                                    </opaqueInsets>
-                                                   <padding>
-                                                      <Insets bottom="10.0" left="10.0" right="10.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <VBox spacing="5.0">
-                                                   <children>
-                                                      <Label alignment="CENTER" prefHeight="23.0" prefWidth="51.0" text="About:">
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Text fx:id="aboutCourseLabel" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="379.7367172241211">
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                   </padding>
-                                                </VBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
-                                                   <children>
-                                                      <Label alignment="CENTER" prefHeight="22.0" prefWidth="110.0" text="Professor name:">
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="professorLabel" prefHeight="21.0" prefWidth="279.0">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <opaqueInsets>
-                                                      <Insets />
-                                                   </opaqueInsets>
-                                                   <padding>
-                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <VBox alignment="CENTER_LEFT" prefHeight="286.0" prefWidth="570.0" spacing="10.0">
-                                                   <children>
-                                                      <ComboBox fx:id="participantsSearchComboBox1" editable="true" onKeyReleased="#handleOnKeyPressed" prefHeight="26.0" prefWidth="548.0" promptText="Search for participants" />
-                                                      <TableView fx:id="participantsTableView" prefHeight="510.0" prefWidth="272.0">
-                                                         <columns>
-                                                            <TableColumn fx:id="nameTableColumn" prefWidth="273.9999809265137" text="Name" />
-                                                            <TableColumn fx:id="registrationNumberTableColumn" prefWidth="275.3333740234375" text="Registration Number" />
-                                                         </columns>
-                                                      </TableView>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                   </padding>
-                                                </VBox>
-                                                <HBox alignment="CENTER_RIGHT">
-                                                   <children>
-                                                      <Button fx:id="leaveCourseButton" mnemonicParsing="false" onAction="#backfromCourseInfoButtonResponse" prefHeight="26.0" prefWidth="95.0" text="Leave course" textAlignment="CENTER" />
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets right="10.0" />
-                                                   </VBox.margin>
-                                                </HBox>
+                                                   <font>
+                                                      <Font name="System Italic" size="15.0" />
+                                                   </font>
+                                                </Label>
                                              </children>
                                              <opaqueInsets>
                                                 <Insets />
                                              </opaqueInsets>
-                                             <HBox.margin>
-                                                <Insets top="10.0" />
-                                             </HBox.margin>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" />
+                                             </padding>
+                                          </HBox>
+                                          <VBox spacing="5.0">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="23.0" prefWidth="51.0" text="About:">
+                                                   <font>
+                                                      <Font name="System Italic" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Text fx:id="aboutCourseLabel" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="379.7367172241211">
+                                                   <font>
+                                                      <Font name="System Italic" size="15.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </VBox>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="22.0" prefWidth="110.0" text="Professor name:">
+                                                   <font>
+                                                      <Font name="System Italic" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="professorLabel" prefHeight="21.0" prefWidth="279.0">
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <font>
+                                                      <Font name="System Italic" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                          <VBox alignment="CENTER_LEFT" prefHeight="286.0" prefWidth="570.0" spacing="10.0">
+                                             <children>
+                                                <TableView fx:id="participantsTableView" prefHeight="510.0" prefWidth="272.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="nameTableColumn" prefWidth="273.9999809265137" text="Name" />
+                                                      <TableColumn fx:id="registrationNumberTableColumn" prefWidth="275.3333740234375" text="Registration Number" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                           </VBox>
                                        </children>
-                                    </HBox>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
                                  </children>
-                              </VBox>
+                              </AnchorPane>
                            </center>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
-                        </BorderPane>
-                     </content>
-                  </Tab>
-                  <Tab closable="false" text="Exams List">
-                     <content>
-                        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0" prefWidth="600.0">
-                           <center>
-                           <VBox prefHeight="478.0" prefWidth="590.0" spacing="5.0" BorderPane.alignment="CENTER">
-                              <children>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                                       <children>
-                                          <Label alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="390.0" text="Exams Schedule" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="System Bold" size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="121.0" spacing="10.0">
-                                             <children>
-                                                <Button fx:id="backFromExamsScheduleButton" mnemonicParsing="false" onAction="#backFromExamsScheduleButtonResponse" prefHeight="26.0" prefWidth="42.0" text="Back" textAlignment="CENTER" />
-                                                <Button fx:id="refreshExamsScheduleButton" mnemonicParsing="false" onAction="#refreshExamsScheduleButtonResponse" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                 <HBox prefHeight="26.0" prefWidth="600.0" spacing="20.0">
-                                    <children>
-                                       <ComboBox fx:id="examSearchComboBox" editable="true" onKeyReleased="#handleOnKeyPressed" prefHeight="26.0" prefWidth="186.0" promptText="Search" />
-                                       <Label prefHeight="26.0" prefWidth="46.0" text="Sort by:" />
-                                       <ComboBox fx:id="sortByComboBox" onAction="#sortResponse" prefHeight="26.0" prefWidth="90.0" />
-                                    </children>
-                                 </HBox>
-                                 <HBox prefHeight="573.0" prefWidth="590.0" spacing="5.0">
-                                    <children>
-                                       <TableView fx:id="examsTableView" onMouseClicked="#onExamClicked" prefHeight="510.0" prefWidth="272.0">
-                                          <columns>
-                                             <TableColumn fx:id="titleTableColumn" prefWidth="103.99996644258499" text="Title" />
-                                             <TableColumn fx:id="timeTableColumn" prefWidth="81.5999755859375" text="Time" />
-                                          </columns>
-                                       </TableView>
-                                       <VBox alignment="TOP_CENTER" prefHeight="500.0" prefWidth="395.0" spacing="10.0">
-                                          <children>
-                                             <Label fx:id="examTitleLabel">
-                                                   <font>
-                                                      <Font size="24.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Instructions:">
-                                                   <font>
-                                                      <Font name="System Italic" size="15.0" />
-                                                   </font>
-                                                </Label>
-                                                <Text fx:id="instructionsText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="379.7367172241211">
-                                                   <font>
-                                                      <Font name="System Italic" size="15.0" />
-                                                   </font>
-                                                   <VBox.margin>
-                                                      <Insets left="10.0" right="10.0" />
-                                                   </VBox.margin>
-                                                </Text>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
-                                                   <children>
-                                                      <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Start time:">
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="startTimeLabel" prefHeight="27.0" prefWidth="182.0">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <opaqueInsets>
-                                                      <Insets />
-                                                   </opaqueInsets>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
-                                                   <children>
-                                                      <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Duration:">
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="durationLabel" prefHeight="18.0" prefWidth="72.0">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <opaqueInsets>
-                                                      <Insets />
-                                                   </opaqueInsets>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
-                                                   <children>
-                                                      <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Max marks:">
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="maxMarksLabel" prefHeight="18.0" prefWidth="72.0">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <font>
-                                                            <Font name="System Italic" size="15.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <opaqueInsets>
-                                                      <Insets />
-                                                   </opaqueInsets>
-                                                </HBox>
-                                          </children>
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                             <HBox.margin>
-                                                <Insets top="10.0" />
-                                             </HBox.margin>
-                                       </VBox>
-                                    </children>
-                                 </HBox>
-                              </children>
-                           </VBox>
-                           </center>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </BorderPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="discussionForumTab" closable="false" onSelectionChanged="#onChatClicked" text="Discussion Forum">
-                    <content>
-                        <BorderPane>
-                           <center>
-                              <VBox prefHeight="582.0" prefWidth="434.0" spacing="10.0">
+                           <top>
+                              <HBox alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="0.0" prefWidth="579.0" spacing="15.0">
+                                    <Label prefHeight="26.0" prefWidth="69.0" text="Course:" HBox.hgrow="NEVER">
+                                       <font>
+                                          <Font name="System Italic" size="17.0" />
+                                       </font>
                                        <padding>
                                           <Insets left="10.0" />
                                        </padding>
+                                    </Label>
+                                    <Label fx:id="courseNameLabel" maxWidth="1.7976931348623157E308" text="Label" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets top="1.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="backfromCourseInfoButton" mnemonicParsing="false" onAction="#backfromCourseInfoButtonResponse" prefHeight="31.0" prefWidth="70.0" text="Back" textAlignment="CENTER" HBox.hgrow="NEVER" />
+                                    <Button fx:id="refreshCourseInfoButton" mnemonicParsing="false" onAction="#refreshCourseInfoButtonResponse" prefHeight="31.0" prefWidth="80.0" text="Refresh" HBox.hgrow="NEVER" />
+                                 </children>
+                              </HBox>
+                           </top>
+                           <bottom>
+                              <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="leaveCourseButton" mnemonicParsing="false" onAction="#backfromCourseInfoButtonResponse" prefHeight="26.0" prefWidth="95.0" text="Leave course" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                           </bottom>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Exams List">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="590.0" prefWidth="978.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <AnchorPane BorderPane.alignment="CENTER">
+                                 <children>
+                                 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="478.0" prefWidth="590.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <children>
+                                       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                          <children>
+                                             <TableView fx:id="examsTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="500.0" onMouseClicked="#onExamClicked" prefWidth="500.0" HBox.hgrow="NEVER">
+                                                <columns>
+                                                   <TableColumn fx:id="titleTableColumn" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="300.0" resizable="false" text="Title" />
+                                                   <TableColumn fx:id="timeTableColumn" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" resizable="false" text="Time" />
+                                                </columns>
+                                             </TableView>
+                                             <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" spacing="10.0">
+                                                <children>
+                                                   <Label fx:id="examTitleLabel">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Instructions:">
+                                                         <font>
+                                                            <Font name="System Italic" size="15.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Text fx:id="instructionsText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="379.7367172241211">
+                                                         <font>
+                                                            <Font name="System Italic" size="15.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets left="10.0" right="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <HBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
+                                                         <children>
+                                                            <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Start time:">
+                                                               <font>
+                                                                  <Font name="System Italic" size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="startTimeLabel" prefHeight="27.0" prefWidth="182.0">
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                               <font>
+                                                                  <Font name="System Italic" size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
+                                                         <children>
+                                                            <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Duration:">
+                                                               <font>
+                                                                  <Font name="System Italic" size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="durationLabel" prefHeight="18.0" prefWidth="72.0">
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                               <font>
+                                                                  <Font name="System Italic" size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="370.0" spacing="10.0">
+                                                         <children>
+                                                            <Label alignment="CENTER" prefHeight="27.0" prefWidth="98.0" text="Max marks:">
+                                                               <font>
+                                                                  <Font name="System Italic" size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="maxMarksLabel" prefHeight="18.0" prefWidth="72.0">
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                               <font>
+                                                                  <Font name="System Italic" size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                      </HBox>
+                                                </children>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+                                                   </HBox.margin>
+                                             </VBox>
+                                          </children>
+                                       </HBox>
+                                    </children>
+                                 </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </center>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <top>
+                              <HBox alignment="CENTER" prefHeight="47.0" prefWidth="590.0" spacing="20.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="411.0" text="Exams Schedule" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="26.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Label>
+                                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
                                        <children>
-                                          <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="38.0" prefWidth="369.0" text="Discussion Forum">
-                                             <font>
-                                                <Font name="System Bold" size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="121.0" spacing="10.0">
-                                             <children>
-                                                <Button fx:id="backFromDiscussionForumButton" mnemonicParsing="false" onAction="#backFromDiscussionForumButtonResponse" prefHeight="26.0" prefWidth="42.0" text="Back" textAlignment="CENTER" />
-                                                <Button fx:id="refreshDiscussionForumButton" mnemonicParsing="false" onAction="#refreshDiscussionForumButtonResponse" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </HBox>
-                                    <ScrollPane fx:id="chatScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="511.0" prefWidth="579.0">
-                                       <content>
-                                          <VBox fx:id="chatContainer" alignment="TOP_CENTER" prefHeight="377.0" prefWidth="439.0" spacing="10.0">
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </padding>
-                                          </VBox>
-                                       </content>
-                                    </ScrollPane>
-                                    <HBox alignment="CENTER" prefHeight="38.0" prefWidth="368.0" spacing="10.0">
-                                       <children>
-                                          <TextField fx:id="sendTextField" alignment="CENTER" prefHeight="26.0" prefWidth="429.0" promptText="Enter text here..." />
-                                          <Button fx:id="uploadImageButton" mnemonicParsing="false" onAction="#uploadButtonResponse" prefHeight="26.0" prefWidth="70.0" text="Upload" />
-                                          <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendButtonResponse" prefHeight="26.0" prefWidth="82.0" text="Send" />
+                                          <Button fx:id="backFromExamsScheduleButton" mnemonicParsing="false" onAction="#backFromExamsScheduleButtonResponse" text="Back" textAlignment="CENTER" />
+                                          <Button fx:id="refreshExamsScheduleButton" mnemonicParsing="false" onAction="#refreshExamsScheduleButtonResponse" prefHeight="31.0" prefWidth="80.0" text="Refresh" />
                                        </children>
                                     </HBox>
                                  </children>
+                              </HBox>
+                           </top>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="discussionForumTab" closable="false" onSelectionChanged="#onChatClicked" text="Discussion Forum">
+              <content>
+                  <AnchorPane>
+                     <children>
+                        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <AnchorPane>
                                  <BorderPane.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </BorderPane.margin>
-                              </VBox>
+                                 <children>
+                                    <VBox prefHeight="582.0" prefWidth="434.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ScrollPane fx:id="chatScrollPane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                                             <content>
+                                                <VBox fx:id="chatContainer" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </content>
+                                          </ScrollPane>
+                                          <HBox alignment="CENTER" prefHeight="38.0" prefWidth="368.0" spacing="10.0" VBox.vgrow="NEVER">
+                                             <children>
+                                                <TextField fx:id="sendTextField" alignment="CENTER" prefHeight="26.0" prefWidth="429.0" promptText="Enter text here..." HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="uploadImageButton" mnemonicParsing="false" onAction="#uploadButtonResponse" prefHeight="26.0" prefWidth="70.0" text="Upload" />
+                                                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendButtonResponse" prefHeight="26.0" prefWidth="82.0" text="Send" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
                            </center>
+                           <top>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="15.0" BorderPane.alignment="CENTER_LEFT">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                                 <children>
+                                    <HBox alignment="CENTER_RIGHT" disable="true" opacity="0.0" spacing="10.0" HBox.hgrow="NEVER">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Back" textAlignment="CENTER" />
+                                          <Button mnemonicParsing="false" text="Refresh" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Discussion Forum" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="26.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                       <children>
+                                          <Button fx:id="backFromDiscussionForumButton1" mnemonicParsing="false" onAction="#backFromDiscussionForumButtonResponse" text="Back" textAlignment="CENTER" />
+                                          <Button fx:id="refreshDiscussionForumButton1" mnemonicParsing="false" onAction="#refreshDiscussionForumButtonResponse" text="Refresh" />
+                                       </children>
+                                       <padding>
+                                          <Insets right="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </top>
                         </BorderPane>
-                    </content>
-                  </Tab>
-               </tabs>
-            </TabPane>
-         </children>
-      </VBox>
-   </center>
-</BorderPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

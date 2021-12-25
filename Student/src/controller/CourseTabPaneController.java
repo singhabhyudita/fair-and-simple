@@ -251,7 +251,7 @@ public class CourseTabPaneController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
-            scene = new Scene(loader.load());
+            scene = new Scene(loader.load(), backfromCourseInfoButton.getScene().getWidth(), backfromCourseInfoButton.getScene().getHeight());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -268,7 +268,7 @@ public class CourseTabPaneController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
-            scene = new Scene(loader.load());
+            scene = new Scene(loader.load(), backfromCourseInfoButton.getScene().getWidth(), backfromCourseInfoButton.getScene().getHeight());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -285,7 +285,7 @@ public class CourseTabPaneController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Scene scene = null;
         try {
-            scene = new Scene(loader.load());
+            scene = new Scene(loader.load(), backfromCourseInfoButton.getScene().getWidth(), backfromCourseInfoButton.getScene().getHeight());
         } catch (IOException e) {
             e.printStackTrace();
         }

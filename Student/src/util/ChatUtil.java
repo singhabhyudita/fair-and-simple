@@ -38,7 +38,7 @@ public class ChatUtil implements Runnable {
     public void run() {
         Message message2 = null;
         System.out.println(Thread.currentThread());
-        while (true){
+        while (!Thread.interrupted()){
             System.out.println("inside socket is connected loop");
             try {
                 System.out.println("waiting for message object");

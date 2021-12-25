@@ -4,16 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<AnchorPane fx:id="loginPane" prefHeight="354.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
-   <Button fx:id="loginButton" layoutX="192.0" layoutY="232.0" mnemonicParsing="false" onAction="#login" text="Login" />
-   <PasswordField fx:id="passwordField" layoutX="138.0" layoutY="177.0" promptText="Password" />
-   <TextField fx:id="usernameField" layoutX="138.0" layoutY="133.0" promptText="Username" />
-   <Label fx:id="signinLabel" alignment="CENTER" layoutX="147.0" layoutY="63.0" prefHeight="25.0" prefWidth="112.0" text="   Sign In" textAlignment="CENTER" textFill="#232222">
-      <font>
-         <Font name="Arial" size="25.0" />
-      </font>
-   </Label>
-
-   <Hyperlink fx:id="signupLink" layoutX="149.0" layoutY="309.0" onAction="#switchToSignup" text="Don't have an account?" textFill="#0f0000" underline="true" />
+<AnchorPane fx:id="loginPane" prefHeight="354.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <VBox alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+         <Label fx:id="signinLabel" alignment="CENTER" prefHeight="69.0" prefWidth="112.0" text="Sign In" textAlignment="CENTER" textFill="#232222">
+            <font>
+               <Font name="Arial" size="25.0" />
+            </font>
+         </Label>
+         <TextField fx:id="usernameField" maxHeight="30.0" maxWidth="250.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="250.0" promptText="Username" />
+         <PasswordField fx:id="passwordField" maxHeight="27.0" maxWidth="250.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="250.0" promptText="Password" />
+         <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="Login" />
+      
+         <Hyperlink fx:id="signupLink" onAction="#switchToSignup" text="Don't have an account?" textFill="#0f0000" underline="true" />
+      </children>
+   </VBox>
 </AnchorPane>
