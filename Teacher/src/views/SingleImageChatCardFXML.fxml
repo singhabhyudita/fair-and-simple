@@ -8,35 +8,48 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox fx:id="vBox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SingleImageChatCardFXMLController">
+
+
+<HBox fx:id="chatImageHBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SingleImageChatCardFXMLController">
    <children>
-      <HBox fx:id="nameHBox" alignment="CENTER" prefHeight="10.0" prefWidth="591.0" spacing="20.0">
+      <VBox fx:id="vBox" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;">
          <children>
-            <Label fx:id="nameLabel" prefHeight="22.0" prefWidth="440.0" text="Name" wrapText="true">
-               <font>
-                  <Font name="System Bold Italic" size="10.0" />
-               </font>
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </Label>
-            <Label fx:id="timestampLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="22.0" prefWidth="303.0" text="Timestamp" wrapText="true">
-               <font>
-                  <Font name="System Italic" size="10.0" />
-               </font>
-               <padding>
-                  <Insets right="10.0" />
-               </padding>
-            </Label>
+            <HBox fx:id="nameHBox" alignment="CENTER" prefHeight="10.0" spacing="20.0">
+               <children>
+                  <Label fx:id="nameLabel" maxWidth="1.7976931348623157E308" prefHeight="22.0" text="Name" wrapText="true" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold Italic" size="20.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="timestampLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="30.0" text="Timestamp" wrapText="true" HBox.hgrow="NEVER">
+                     <font>
+                        <Font name="System Italic" size="20.0" />
+                     </font>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <Separator maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER" />
+            <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+            </ImageView>
          </children>
-      </HBox>
-      <Separator prefWidth="200.0" />
-      <ImageView fx:id="imageView" fitHeight="287.0" fitWidth="411.0" pickOnBounds="true" preserveRatio="true" />
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <effect>
+            <DropShadow blurType="TWO_PASS_BOX" color="#d3cece" height="33.72" radius="16.36" spread="0.25" width="33.72" />
+         </effect>
+         <HBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </HBox.margin>
+      </VBox>
    </children>
-   <padding>
-      <Insets left="5.0" right="5.0" top="5.0" />
-   </padding>
-   <effect>
-      <DropShadow blurType="TWO_PASS_BOX" color="#d3cece" height="33.72" radius="16.36" spread="0.25" width="33.72" />
-   </effect>
-</VBox>
+</HBox>

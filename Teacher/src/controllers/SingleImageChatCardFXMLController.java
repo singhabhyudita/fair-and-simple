@@ -21,6 +21,8 @@ public class SingleImageChatCardFXMLController implements Initializable {
     public HBox nameHBox;
     @FXML
     public VBox vBox;
+    @FXML
+    public HBox chatImageHBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

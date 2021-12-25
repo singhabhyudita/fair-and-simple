@@ -2,6 +2,7 @@ package main;
 
 import controllers.SingleChatCardFXMLController;
 import controllers.SingleImageChatCardFXMLController;
+import entity.Message;
 import controllers.SingleNotificationCardFXMLController;
 import entity.Message;
 import entity.Notification;
@@ -97,6 +98,8 @@ public class ChatUtil implements Runnable {
                                 singleImageChatCardFXMLController.imageView.setImage(image);
                                 singleImageChatCardFXMLController.vBox.setAlignment(message.getSenderID().equals(Main.getTeacherId()) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
                                 singleImageChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.getTeacherId())?"Me":message.getSenderName());
+                                if(message.getSenderID().equals(Main.getTeacherId()))
+                                    singleImageChatCardFXMLController.chatImageHBox.setAlignment(Pos.TOP_RIGHT);
                                 singleImageChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
                                 singleImageChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
                                         (message.getSenderID().equals(Main.getTeacherId())) ? Main.myColor : Main.otherColor),
@@ -115,6 +118,8 @@ public class ChatUtil implements Runnable {
                                 singleChatCardFXMLController.messageLabel.setText(message.getText());
                                 singleChatCardFXMLController.messageLabel.setAlignment(message.getSenderID().equals(Main.getTeacherId()) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
                                 singleChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.getTeacherId())?"Me":message.getSenderName());
+                                if(message.getSenderID().equals(Main.getTeacherId()))
+                                    singleChatCardFXMLController.chatCardHBox.setAlignment(Pos.TOP_RIGHT);
                                 singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
                                 singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
                                         (message.getSenderID().equals(Main.getTeacherId())) ? Main.myColor : Main.otherColor),

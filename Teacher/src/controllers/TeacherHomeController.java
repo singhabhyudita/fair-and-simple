@@ -158,7 +158,7 @@ public class TeacherHomeController {
             Stage stage = (Stage) changePasswordButton.getScene().getWindow();
             Scene scene = null;
             try {
-                scene = new Scene(loader.load());
+                scene = new Scene(loader.load(),changePasswordButton.getScene().getWidth(),changePasswordButton.getScene().getHeight());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -187,6 +187,7 @@ public class TeacherHomeController {
     }
 
     private void populateResultsExamVBox(List<Exam> previousExams) {
+        examVBox.getChildren().clear();
         for(Exam exam : previousExams) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ResultsExamCardView.fxml"));
             try {
@@ -252,6 +253,7 @@ public class TeacherHomeController {
     public FlowPane examListContainer;
 
     private void populateExamTables() {
+        examListContainer.getChildren().clear();
         TeacherExamRequest request = new TeacherExamRequest(Main.getTeacherId(), false);
         Main.sendRequest(request);
         teacherExamResponse = (TeacherExamResponse) Main.receiveResponse();
@@ -260,7 +262,7 @@ public class TeacherHomeController {
             List<Exam> previousExams = new ArrayList<>();
             List<Exam> futureExams = new ArrayList<>();
             for(Exam exam : teacherExamResponse.getExams()) {
-                if(exam.getDate().before(new Timestamp(System.currentTimeMillis())))
+                if(exam.getEndTime().before(new Timestamp(System.currentTimeMillis())))
                     previousExams.add(exam);
                 else
                     futureExams.add(exam);
@@ -375,7 +377,7 @@ public class TeacherHomeController {
                     if(response.isSetupDone()) {
                         try {
                             FXMLLoader loader = new FXMLLoader(Main.class.getResource("../views/ProctorView.fxml"));
-                            Scene scene = new Scene(loader.load());
+                            Scene scene = new Scene(loader.load(),heyNameLabel.getScene().getWidth(),heyNameLabel.getScene().getHeight());
                             Stage stage = new Stage();
                             stage.setScene(scene);
                             stage.setTitle("Proctoring - Course: " + exam.getCourseName() + " Exam: " + exam.getTitle());

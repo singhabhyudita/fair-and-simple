@@ -52,7 +52,7 @@ public class TeacherRegisterController {
                 Stage stage=(Stage)registerButton.getScene().getWindow();
                 Scene scene=null;
                 try {
-                    scene=new Scene(loginLoader.load());
+                    scene=new Scene(loginLoader.load(),registerButton.getScene().getWidth(),registerButton.getScene().getHeight());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -50,6 +50,7 @@ public class TeacherLoginController implements Initializable {
             System.out.println("Teacher ID is "+response.getTeacherID());
             FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../views/TeacherHomeView2.fxml"));
             Stage currentStage=(Stage)loginButton.getScene().getWindow();
+
             Scene scene=null;
             try {
                 scene=new Scene(homepageLoader.load());
@@ -57,6 +58,8 @@ public class TeacherLoginController implements Initializable {
                 e.printStackTrace();
             }
             currentStage.setScene(scene);
+            currentStage.setMaximized(true);
+            currentStage.setResizable(false);
             currentStage.setTitle("Welcome");
             TeacherHomeController controller = homepageLoader.getController();
             controller.callFirst();

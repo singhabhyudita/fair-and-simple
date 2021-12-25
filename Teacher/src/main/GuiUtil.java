@@ -11,9 +11,10 @@ import java.io.IOException;
 public class GuiUtil {
     public static void goToHome(Stage stage) {
         FXMLLoader loader = new FXMLLoader(GuiUtil.class.getResource("../views/TeacherHomeView2.fxml"));
+
         Scene homeScene = null;
         try {
-            homeScene = new Scene(loader.load());
+            homeScene = new Scene(loader.load(),stage.getScene().getWidth(),stage.getScene().getHeight());
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -52,7 +52,7 @@ public class StudentResultCardController {
         Stage stage = new Stage();
         Scene scene=null;
         try {
-            scene=new Scene(fxmlLoader.load());
+            scene=new Scene(fxmlLoader.load(),nameLabel.getScene().getWidth(),nameLabel.getScene().getHeight());
             QuizResultController controller = fxmlLoader.getController();
             controller.setValues(response);
         } catch (IOException e) {
@@ -69,7 +69,7 @@ public class StudentResultCardController {
         Stage stage = new Stage();
         Scene scene = null;
         try {
-            scene = new Scene(fxmlLoader.load());
+            scene = new Scene(fxmlLoader.load(),nameLabel.getScene().getWidth(),nameLabel.getScene().getHeight());
             QuizCorrectionController controller = fxmlLoader.getController();
             System.out.println("Setting values inside controller");
             controller.setValues(this.exam.getExamId(), String.valueOf(this.student.getRegistrationNumber()), response.getQuestions(), response.getSubjectiveAnswer());
