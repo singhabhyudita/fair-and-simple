@@ -1,8 +1,6 @@
 package requestHandler;
 
-import entity.Message;
-import entity.RegistrationStreamWrapper;
-import entity.TeacherIdStreamWrapper;
+import entity.*;
 import main.Server;
 import response.SendMessageResponse;
 import sun.awt.image.ToolkitImage;
@@ -19,6 +17,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static main.Server.socketArrayList;
 
 public class SendMessageRequestHandler extends RequestHandler {
     private Connection connection;
@@ -125,6 +125,25 @@ public class SendMessageRequestHandler extends RequestHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    public void sendWarningToRecipient(Warning warning) {
+        for (RegistrationStreamWrapper registrationStreamWrapper:socketArrayList) {
+            System.out.println("registration no in wrapper: " + registrationStreamWrapper.getRegistrationNumber());
+            System.out.println("receiver id" + warning.getReceiverId());
+            if(registrationStreamWrapper.getRegistrationNumber().equals(warning.getReceiverId())) {
+                ObjectOutputStream oos = registrationStreamWrapper.getOos();
+                try {
+                    synchronized (oos) {
+                        oos.writeObject(message);
+                        oos.flush();
+                    }
+                    System.out.println("Warning object sent");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 }

@@ -31,7 +31,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <FlowPane fx:id="courseContainer" hgap="10.0" prefHeight="522.0" prefWidth="501.0" vgap="10.0">
                                  <padding>
@@ -60,7 +60,7 @@
                                                 <Font size="18.0" />
                                             </font>
                                         </TextField>
-                              <TextArea fx:id="courseDescriptionTextArea" prefHeight="120.0" prefWidth="542.0" promptText="Course description (200 characters)" wrapText="true">
+                              <TextArea fx:id="courseDescriptionTextArea" prefHeight="400.0" prefWidth="542.0" promptText="Course description (200 characters)" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -84,6 +84,9 @@
                                     <padding>
                                         <Insets left="20.0" right="20.0" top="40.0" />
                                     </padding>
+                           <BorderPane.margin>
+                              <Insets left="200.0" right="200.0" />
+                           </BorderPane.margin>
                                 </VBox>
                             </center>
                   </BorderPane>
@@ -119,8 +122,16 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <VBox fx:id="examVBox" prefHeight="200.0" prefWidth="100.0" />
-                              <VBox fx:id="studentsVBox" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
+                              <FlowPane fx:id="examFlowPane" prefHeight="200.0" prefWidth="200.0">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </FlowPane>
+                              <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" GridPane.columnIndex="1">
+                                <content>
+                                    <VBox fx:id="studentsVBox" />
+                                </content>
+                              </ScrollPane>
                            </children>
                         </GridPane>
                      </center>
@@ -131,18 +142,13 @@
                 <content>
                     <BorderPane prefHeight="200.0" prefWidth="200.0">
                         <center>
-                            <VBox alignment="CENTER" prefHeight="231.0" prefWidth="682.0" spacing="10.0" BorderPane.alignment="CENTER">
+                            <VBox alignment="CENTER" prefHeight="231.0" prefWidth="682.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
                                 <children>
-                                    <TextField fx:id="proctoringDutyExamsSearchBar" prefHeight="26.0" prefWidth="397.0" promptText="Search an exam">
-                                        <font>
-                                            <Font name="System Bold Italic" size="12.0" />
-                                        </font>
-                                    </TextField>
-                                    <TableView fx:id="proctoringDutyExamsTableView" onMouseClicked="#onExamToProctorClick" prefHeight="475.0" prefWidth="524.0">
+                                    <TableView fx:id="proctoringDutyExamsTableView" onMouseClicked="#onExamToProctorClick" prefHeight="475.0" prefWidth="524.0" VBox.vgrow="ALWAYS">
                                         <columns>
-                                            <TableColumn fx:id="proctoringDutyCourseNameTableColumn" prefWidth="132.0" text="Course name" />
-                                            <TableColumn fx:id="proctoringDutyTitleTableColumn" prefWidth="237.0" text="Title" />
-                                            <TableColumn fx:id="proctoringDutyTimeTableColumn" prefWidth="111.0" text="Time" />
+                                            <TableColumn fx:id="proctoringDutyCourseNameTableColumn" prefWidth="200.0" text="Course name" />
+                                            <TableColumn fx:id="proctoringDutyTitleTableColumn" maxWidth="1.7976931348623157E308" prefWidth="400.0" text="Title" />
+                                            <TableColumn fx:id="proctoringDutyTimeTableColumn" prefWidth="300.0" text="Time" />
                                         </columns>
                                     </TableView>
                                 </children>
@@ -158,7 +164,7 @@
                     <content>
                         <BorderPane prefHeight="200.0" prefWidth="200.0">
                             <center>
-                                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" BorderPane.alignment="CENTER">
+                                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" BorderPane.alignment="TOP_CENTER">
                                     <children>
                                         <Label text="Enter your password:   ">
                                             <font>
@@ -199,6 +205,9 @@
                                     <padding>
                                         <Insets left="20.0" right="20.0" top="40.0" />
                                     </padding>
+                           <BorderPane.margin>
+                              <Insets left="200.0" right="200.0" />
+                           </BorderPane.margin>
                                 </VBox>
                             </center>
                   </BorderPane>

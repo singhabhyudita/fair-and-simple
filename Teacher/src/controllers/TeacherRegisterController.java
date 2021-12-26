@@ -39,7 +39,7 @@ public class TeacherRegisterController {
         firstNameField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,15}") ? c : null));
         lastNameField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,15}") ? c : null));
         emailIDField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,50}") ? c : null));
-        teacherIDField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{4}") ? c : null));
+        teacherIDField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,4}") ? c : null));
     }
 
     public void register(ActionEvent actionEvent) {

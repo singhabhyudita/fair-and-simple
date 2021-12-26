@@ -164,7 +164,7 @@ public class CourseController {
         addQuestionStage.setResizable(false);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/NewQuestionView.fxml"));
         try {
-            addQuestionStage.setScene(new Scene(loader.load(),deleteButton.getScene().getWidth(),deleteButton.getScene().getHeight()));
+            addQuestionStage.setScene(new Scene(loader.load()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -310,18 +310,9 @@ public class CourseController {
         SetExamRequest newExam = new SetExamRequest(Main.getTeacherId(),
                 this.courseId, proctorId, startTime, endTime, examTitle,description, questions);
         System.out.println("Here exam request set.");
-            titleTextField.setEditable(false);
-            examDatePicker.setEditable(false);
-            startTimeHourTextField.setEditable(false);
-            startTimeMinTextField.setEditable(false);
-            endTimeHourTextField.setEditable(false);
-            endTimeMinTextField.setEditable(false);
-            okExamButton.setDisable(true);
-            newButton.setDisable(true);
-            editButton.setDisable(true);
-            deleteButton.setDisable(true);
+        toggleCreateExamGUI(false, true);
 
-            System.out.println("Sending request");
+        System.out.println("Sending request");
             Main.sendRequest(newExam);
             System.out.println("Waiting for response");
             SetExamResponse response = (SetExamResponse) Main.receiveResponse();
@@ -334,24 +325,31 @@ public class CourseController {
                 GuiUtil.goToHome((Stage) deleteButton.getScene().getWindow());
             } else if(response.getStatus() == Status.CLASH) {
                 GuiUtil.alert(Alert.AlertType.INFORMATION, "Your exam clashes with other exams.");
-                titleTextField.setEditable(true);
-                examDatePicker.setEditable(true);
-                startTimeHourTextField.setEditable(true);
-                startTimeMinTextField.setEditable(true);
-                endTimeHourTextField.setEditable(true);
-                endTimeMinTextField.setEditable(true);
-                okExamButton.setDisable(false);
-                newButton.setDisable(false);
-                editButton.setDisable(false);
-                deleteButton.setDisable(false);
+                toggleCreateExamGUI(true, false);
             }
             else if(response.getStatus()==Status.PROCTOR_INVALID){
                 GuiUtil.alert(Alert.AlertType.WARNING,"Invalid Proctor ID");
+                toggleCreateExamGUI(true, false);
             }
             else if(response.getStatus()==Status.PROCTOR_UNAVAILABLE){
                 GuiUtil.alert(Alert.AlertType.WARNING,"Proctor has a clashing exam");
+                toggleCreateExamGUI(true, false);
             }
     }
+
+    private void toggleCreateExamGUI(boolean b, boolean b2) {
+        titleTextField.setEditable(b);
+        examDatePicker.setEditable(b);
+        startTimeHourTextField.setEditable(b);
+        startTimeMinTextField.setEditable(b);
+        endTimeHourTextField.setEditable(b);
+        endTimeMinTextField.setEditable(b);
+        okExamButton.setDisable(b2);
+        newButton.setDisable(b2);
+        editButton.setDisable(b2);
+        deleteButton.setDisable(b2);
+    }
+
 
     public void backResponse(ActionEvent actionEvent) {
         Main.chatVBox = null;

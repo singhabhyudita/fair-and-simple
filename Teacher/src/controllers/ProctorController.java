@@ -5,16 +5,22 @@ import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import util.UdpUtil;
 import javafx.util.Pair;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.*;
@@ -93,6 +99,22 @@ public class ProctorController {
                             studentsOnDisplay.add(allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber());
                         }
                     }
+                }
+                else if(event.getButton() == MouseButton.SECONDARY) {
+                    Stage warnStage = new Stage();
+                    warnStage.initOwner(allStudentsListView.getScene().getWindow());
+                    warnStage.initModality(Modality.WINDOW_MODAL);
+                    warnStage.setResizable(false);
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/SendWarningFXML.fxml"));
+                    try {
+                        warnStage.setScene(new Scene(loader.load()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    SendWarningFXMLController sendWarningFXMLController = loader.getController();
+                    Student student = allStudentsListView.getSelectionModel().getSelectedItem();
+                    sendWarningFXMLController.setWarnLabel(student.getName(),String.valueOf(student.getRegistrationNumber()));
+                    warnStage.showAndWait();
                 }
             }
 

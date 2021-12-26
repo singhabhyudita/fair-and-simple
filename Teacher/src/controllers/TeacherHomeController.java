@@ -86,7 +86,7 @@ public class TeacherHomeController {
     @FXML
     public ImageView changeProfilePicImageView;
     @FXML
-    public VBox examVBox;
+    public FlowPane examFlowPane;
     @FXML
     public VBox studentsVBox;
 
@@ -187,15 +187,15 @@ public class TeacherHomeController {
         populateTeacherCourses();
     }
 
-    private void populateResultsExamVBox(List<Exam> previousExams) {
-        examVBox.getChildren().clear();
+    private void populateResultsExamFlowPane(List<Exam> previousExams) {
+        examFlowPane.getChildren().clear();
         for(Exam exam : previousExams) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ResultsExamCardView.fxml"));
             try {
                 Node node = loader.load();
                 ResultsExamCardController controller = loader.getController();
                 controller.first(exam, studentsVBox);
-                examVBox.getChildren().add(node);
+                examFlowPane.getChildren().add(node);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -268,7 +268,7 @@ public class TeacherHomeController {
                 else
                     futureExams.add(exam);
             }
-            populateResultsExamVBox(previousExams);
+            populateResultsExamFlowPane(previousExams);
             for(Exam exam : futureExams){
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/QuizCardLayoutFXML.fxml"));
                 try {

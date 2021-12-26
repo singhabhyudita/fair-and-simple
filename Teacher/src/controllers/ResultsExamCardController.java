@@ -34,11 +34,12 @@ public class ResultsExamCardController {
         this.exam = exam;
         titleLabel.setText(exam.getTitle());
         courseLabel.setText(exam.getCourseName());
-        marksLabel.setText(String.valueOf(exam.getMaxMarks()));
+        marksLabel.setText("Max marks: " + exam.getMaxMarks());
         studentsVBoxReference = studentsVBox;
     }
 
     public void viewResult(ActionEvent actionEvent) {
+        studentsVBoxReference.getChildren().clear();
         CourseStudentRequest request = new CourseStudentRequest(exam.getCourseId());
         Main.sendRequest(request);
         CourseStudentResponse response = (CourseStudentResponse) Main.receiveResponse();

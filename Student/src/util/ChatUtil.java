@@ -49,7 +49,7 @@ public class ChatUtil implements Runnable {
             }
             final Message message = message2;
             System.out.println("Message received from sender id "+ message.getSenderID()+": "+message.getText());
-            if(message instanceof Notification){
+            if(message instanceof Notification) {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

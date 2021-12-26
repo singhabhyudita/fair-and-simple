@@ -2,6 +2,7 @@ package util;
 
 import controllers.SingleChatCardFXMLController;
 import controllers.SingleImageChatCardFXMLController;
+import entity.Message;
 import controllers.SingleNotificationCardFXMLController;
 import entity.Message;
 import entity.Notification;

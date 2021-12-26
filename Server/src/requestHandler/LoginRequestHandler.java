@@ -30,6 +30,7 @@ public class LoginRequestHandler extends RequestHandler {
             preparedStatement=connection.prepareStatement(StudentTable.QUERY_LOGIN);
             preparedStatement.setInt(1,Integer.parseInt(loginRequest.getUsername()));
             preparedStatement.setString(2,loginRequest.getPassword());
+            System.out.println(loginRequest.getUsername() + " : " + loginRequest.getPassword());
             ResultSet resultSet=preparedStatement.executeQuery();
             LoginResponse response=null;
             if(resultSet.next()){
@@ -40,7 +41,7 @@ public class LoginRequestHandler extends RequestHandler {
                 preparedStatement.setString(1,loginRequest.getUsername());
                 preparedStatement.execute();
             }
-            System.out.println("Wassssupppp\n");
+            System.out.println("Wassssupppp\n" + resultSet.getString(StudentTable.COLUMN_FIRST_NAME));
             System.out.println("Sending = " +  response);
             try {
                 oos.writeObject(response);
