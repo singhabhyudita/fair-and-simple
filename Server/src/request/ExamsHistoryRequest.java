@@ -1,8 +1,9 @@
 package request;
 
-import java.io.Serializable;
-
-public class ExamsHistoryRequest extends Request implements Serializable {
+public class ExamsHistoryRequest extends Request {
+    /**
+     * Request to display all the previous exams of the student
+     */
     public ExamsHistoryRequest() {
     }
 }

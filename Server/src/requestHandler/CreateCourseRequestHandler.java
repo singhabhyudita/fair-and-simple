@@ -30,6 +30,8 @@ public class CreateCourseRequestHandler extends RequestHandler{
             createTeamStatement.setString(2, request.getTeamDescription());
             createTeamStatement.setString(3, teamCode);
             createTeamStatement.setString(4, request.getTeacherId());
+            System.out.println("Create course Query");
+            System.out.println(createTeamStatement);
             int result = createTeamStatement.executeUpdate();
             if(result == 0) Server.sendResponse(oos, null);
             else {

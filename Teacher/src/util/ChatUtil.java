@@ -1,8 +1,7 @@
-package main;
+package util;
 
 import controllers.SingleChatCardFXMLController;
 import controllers.SingleImageChatCardFXMLController;
-import entity.Message;
 import controllers.SingleNotificationCardFXMLController;
 import entity.Message;
 import entity.Notification;
@@ -17,6 +16,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import main.Main;
 import org.controlsfx.control.Notifications;
 import sun.awt.image.ToolkitImage;
 

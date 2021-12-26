@@ -1,7 +1,8 @@
 package request;
 
-import java.io.Serializable;
-
-public class CoursesListRequest extends Request implements Serializable {
-    public CoursesListRequest() {};
+public class CoursesListRequest extends Request {
+    /**
+     * Request to display all the courses a student is enrolled in
+     */
+    public CoursesListRequest() {}
 }

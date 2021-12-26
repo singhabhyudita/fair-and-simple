@@ -20,11 +20,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.GuiUtil;
+import util.GuiUtil;
 import main.Main;
 import request.*;
 import response.*;
 import sun.awt.image.ToolkitImage;
+import util.HashUtil;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -108,7 +109,7 @@ public class TeacherHomeController {
         }
         changePasswordButton.setDisable(true);
         TeacherChangePasswordRequest request = new TeacherChangePasswordRequest(Main.getTeacherId(),
-                oldPasswordTextField.getText(), newPasswordTextField.getText());
+                HashUtil.getMd5(oldPasswordTextField.getText()), HashUtil.getMd5(newPasswordTextField.getText()));
         Main.sendRequest(request);
         TeacherChangePasswordResponse response = (TeacherChangePasswordResponse) Main.receiveResponse();
         if(response == null || response.getStatus() == -1) {

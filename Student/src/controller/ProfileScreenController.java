@@ -1,6 +1,9 @@
 package controller;
 
-import entity.*;
+import entity.Course;
+import entity.Exam;
+import entity.Main;
+import entity.Notification;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -8,10 +11,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -19,6 +24,7 @@ import javafx.stage.Stage;
 import request.*;
 import response.*;
 import sun.awt.image.ToolkitImage;
+import util.HashUtil;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -28,7 +34,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 
@@ -120,7 +125,7 @@ public class ProfileScreenController implements Initializable
         String confirmedNewPassword = confirmNewPasswordTextField.getText();
 
         if(newPassword.equals(confirmedNewPassword)) {
-            ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(oldPassword,newPassword);
+            ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(HashUtil.getMd5(oldPassword),HashUtil.getMd5(newPassword));
             System.out.println("change password request sent");
             Main.sendRequest(changePasswordRequest);
             ChangePasswordResponse changePasswordResponse = (ChangePasswordResponse) Main.getResponse();

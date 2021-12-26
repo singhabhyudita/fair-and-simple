@@ -2,7 +2,6 @@ package main;
 
 import entity.RegistrationStreamWrapper;
 import entity.TeacherIdStreamWrapper;
-import response.CreateCourseResponse;
 import response.Response;
 import util.RandomString;
 import util.SendNotification;
@@ -19,15 +18,23 @@ import java.util.ArrayList;
 
 public class Server {
 
+    //Declaring the required variables.
     private static Connection connection;
     private static RandomString randomString;
+
+    // Creating arrayLists of Wrapper class which contains the userId along with
+    // the ObjectOutputStream, which are used to send messages and notifications
+    // to both student and teacher respectively.
     public static ArrayList<RegistrationStreamWrapper> socketArrayList=new ArrayList<>();
     public static ArrayList<TeacherIdStreamWrapper> teacherSocketArrayList=new ArrayList<>();
 
     public static void main(String[] args) {
-        ServerSocket serverSocket= null,chatServerSocket=null;
-        Socket socket,chatSocket;
+        //Declaring sockets
+        ServerSocket serverSocket= null;
+        ServerSocket chatServerSocket=null;
+        Socket socket;
         try {
+            // Creating Server Sockets, one for client requests and Chat.
             serverSocket=new ServerSocket(6969);
             chatServerSocket=new ServerSocket(6970);
         } catch (IOException e) {
@@ -35,14 +42,16 @@ public class Server {
         }
         while (true){
             try {
-                System.out.println("Listening for clients");
                 assert serverSocket != null;
+
+                //ServerSocket accepts the incoming socket from the client.
                 socket=serverSocket.accept();
-                System.out.println("request socket created");
-                System.out.println(socket);
+
+                //Starting a thread that listens for client requests and creates a chat socket connection.
                 Thread thread=new Thread(new RequestIdentifier(socket, chatServerSocket));
                 thread.start();
 
+                //Starting a thread that sends notifications to client dynamically
                 Thread notification=new Thread(new SendNotification());
                 notification.start();
             } catch (IOException e) {
@@ -51,33 +60,52 @@ public class Server {
         }
     }
 
+    /**
+     *  Static method to create a connection with database using JDBC.
+     *  Need to add the my 'mysql-connector-java-8.0.21' Jar in the library.
+     *   Import the DriverManager class from the java.sql package
+     * @return SQL Connection
+     */
     public static Connection getConnection() {
         if(connection!=null)return connection;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url="jdbc:mysql://localhost:3306/fairnsimple";
-            connection= DriverManager.getConnection(url,"utkarsh","Hello@123");
+            connection= DriverManager.getConnection(url,"root","060801&ABab");
             System.out.println("Database connected!!");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return connection;
     }
+
+    /**
+     * Static function to send the response object to the client.
+     * @param outputStream we use the write method of this objectOutputStream instance to send the response.
+     * @param response Object to be sent
+     */
     public static void sendResponse(ObjectOutputStream outputStream, Response response){
         try {
-            System.out.println("The response begin sent is " + response);
-            if(response instanceof CreateCourseResponse)
-            System.out.println("This response is non null and team code = " + ((CreateCourseResponse) response).getTeamCode());
             outputStream.writeObject(response);
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Static method to receive requests from the client
+     * @param inputStream used to read the incoming object
+     * @return returns an Object
+     */
     public static Object receiveRequest(ObjectInputStream inputStream) throws IOException, ClassNotFoundException {
-            return inputStream.readObject();
+        return inputStream.readObject();
     }
 
+    /**
+     * Used to generate random strings
+     * @return Returns a String object
+     */
     public static String getRandomString() {
         if(randomString == null) {
             randomString = new RandomString(8);

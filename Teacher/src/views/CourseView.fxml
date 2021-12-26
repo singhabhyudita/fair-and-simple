@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CourseController">
+<BorderPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CourseController">
    <center>
       <AnchorPane>
          <children>
@@ -37,7 +21,16 @@
                                        <children>
                                           <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="NEVER" />
+                                                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="NEVER">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="216.0" text="Add Student">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="addStudentTextField" alignment="CENTER" prefHeight="16.0" prefWidth="195.0" promptText="Registration Number" />
+                                                      <Button fx:id="addStudentButton" mnemonicParsing="false" onAction="#addStudentButtonResponse" text="Add" />
+                                                   </children></VBox>
                                                 <TableView fx:id="courseStudentTableView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="500.0" VBox.vgrow="ALWAYS">
                                                   <columns>
                                                     <TableColumn fx:id="registrationNumberTableColumn" prefWidth="199.0" text="Registration Number" />

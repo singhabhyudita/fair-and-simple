@@ -4,7 +4,6 @@ public class ExamTable {
     public static final String TABLE_NAME = "exam";
     public static final String EXAM_ID_COLUMN = "examID";
     public static final String COURSE_ID_COLUMN = "courseID";
-    public static final String COURSE_NAME_COLUMN = "courseID";
     public static final String TEACHER_ID_COLUMN = "teacherID";
     public static final String PROCTOR_ID_COLUMN = "proctorID";
     public static final String TITLE_COLUMN = "title";
@@ -14,6 +13,9 @@ public class ExamTable {
     public static final String END_TIME_COLUMN = "endTime";
 
     public static final String GET_CLASHING_EXAMS_BY_TEACHER = "SELECT * FROM " + TABLE_NAME
+            + " WHERE " + TEACHER_ID_COLUMN + " = ? AND NOT (" + START_TIME_COLUMN + " > ? OR "
+            + END_TIME_COLUMN + " < ?);";
+    public static final String GET_CLASHING_EXAMS_FOR_PROCTOR = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + TEACHER_ID_COLUMN + " = ? AND NOT (" + START_TIME_COLUMN + " > ? OR "
             + END_TIME_COLUMN + " < ?);";
     public static final String ADD_EXAM_DETAILS = "INSERT INTO " + TABLE_NAME + " ("

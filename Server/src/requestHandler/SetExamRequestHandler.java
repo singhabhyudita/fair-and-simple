@@ -7,6 +7,7 @@ import request.SetExamRequest;
 import response.SetExamResponse;
 import table.ExamQuestionsTable;
 import table.ExamTable;
+import table.TeacherTable;
 
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
@@ -26,6 +27,23 @@ public class SetExamRequestHandler extends RequestHandler{
 
     public void sendResponse(String userID) {
         try {
+            PreparedStatement preparedStatement=connection.prepareStatement(TeacherTable.GET_TEACHER_NAME_BY_ID);
+            preparedStatement.setInt(1,request.getProctorId());
+            ResultSet query=preparedStatement.executeQuery();
+            if(!query.next()){
+                Server.sendResponse(oos,new SetExamResponse(Status.PROCTOR_INVALID));
+                return;
+            }
+
+            PreparedStatement proctorClash=connection.prepareStatement(ExamTable.GET_CLASHING_EXAMS_FOR_PROCTOR);
+            proctorClash.setInt(1,request.getProctorId());
+            proctorClash.setObject(2,request.getEndTime());
+            proctorClash.setObject(3,request.getStartTime());
+            ResultSet getClash=proctorClash.executeQuery();
+            if(getClash.next()){
+                Server.sendResponse(oos,new SetExamResponse(Status.PROCTOR_UNAVAILABLE));
+                return;
+            }
             PreparedStatement getClashingExams = connection.prepareStatement(ExamTable.GET_CLASHING_EXAMS_BY_TEACHER);
             getClashingExams.setString(1, request.getTeacherId());
             getClashingExams.setObject(2, request.getEndTime());
@@ -45,6 +63,9 @@ public class SetExamRequestHandler extends RequestHandler{
             setExam.setObject(6, request.getStartTime());
             setExam.setObject(7, request.getEndTime());
             setExam.setString(8, request.getTeacherId());
+
+            System.out.println("Set exam query");
+            System.out.println(setExam);
             int result = setExam.executeUpdate();
             if(result == 0) {
                 System.out.println("Returning from here 1111111");

@@ -7,10 +7,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import main.ChatUtil;
+import util.ChatUtil;
+import util.GuiUtil;
 import main.Main;
 import request.TeacherLoginRequest;
 import response.TeacherLoginResponse;
+import util.HashUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,21 +35,15 @@ public class TeacherLoginController implements Initializable {
     public Hyperlink signupLink;
 
     public void login(ActionEvent actionEvent) {
-        System.out.println("Creating a request object");
-        TeacherLoginRequest request=new TeacherLoginRequest(usernameField.getText(),passwordField.getText());
+        TeacherLoginRequest request=new TeacherLoginRequest(usernameField.getText(), HashUtil.getMd5(passwordField.getText()));
         Main.sendRequest(request);
-        System.out.println("Request.Request Sent");
         TeacherLoginResponse response= (TeacherLoginResponse) Main.receiveResponse();
-        if (response != null && response.getFirstName() == null) {
-            System.out.println("Wrong Info");
-        }
+        if(response==null)
+            GuiUtil.alert(Alert.AlertType.ERROR,"Incorrect Information.Please try again.");
         else {
-            assert response != null;
-            if(response==null) System.out.println("null response");
             Main.setTeacherId(response.getTeacherID());
             Main.setTeacherName(response.getFirstName() + " " + response.getLastName());
             startMessageThread();
-            System.out.println("Teacher ID is "+response.getTeacherID());
             FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../views/TeacherHomeView2.fxml"));
             Stage currentStage=(Stage)loginButton.getScene().getWindow();
 
@@ -76,7 +72,6 @@ public class TeacherLoginController implements Initializable {
             objectOutputStream.flush();
             InputStream is = chatSocket.getInputStream();
             chatois=new ObjectInputStream(is);
-            System.out.println(chatois);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,6 +89,8 @@ public class TeacherLoginController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        TeacherRegisterController teacherRegisterController=registerLoader.getController();
+        teacherRegisterController.first();
         stage.setScene(scene);
         stage.setTitle("Sign Up");
     }

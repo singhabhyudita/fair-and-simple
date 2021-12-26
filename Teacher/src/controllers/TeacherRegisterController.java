@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import util.HashUtil;
 
 import java.io.IOException;
 
@@ -34,6 +35,13 @@ public class TeacherRegisterController {
     @FXML
     public Label matchLabel;
 
+    public void first(){
+        firstNameField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,15}") ? c : null));
+        lastNameField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,15}") ? c : null));
+        emailIDField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,50}") ? c : null));
+        teacherIDField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{4}") ? c : null));
+    }
+
     public void register(ActionEvent actionEvent) {
         FXMLLoader loginLoader=new FXMLLoader(getClass().getResource("../views/TeacherLoginView.fxml"));
         if(passwordField.getText().length() != 0
@@ -42,7 +50,7 @@ public class TeacherRegisterController {
                 && lastNameField.getText().length() != 0
                 && emailIDField.getText().length() != 0) {
             TeacherRegisterRequest registerRequest=new TeacherRegisterRequest(firstNameField.getText(),lastNameField.getText(),emailIDField.getText(),
-                    passwordField.getText(),teacherIDField.getText());
+                    HashUtil.getMd5(passwordField.getText()),teacherIDField.getText());
             Main.sendRequest(registerRequest);
             System.out.println("Register request sent");
             TeacherRegisterResponse response=(TeacherRegisterResponse) Main.receiveResponse();

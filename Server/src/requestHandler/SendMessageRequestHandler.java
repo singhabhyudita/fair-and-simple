@@ -51,6 +51,8 @@ public class SendMessageRequestHandler extends RequestHandler {
             preparedStatement.setTimestamp(5,message.getSentAt());
             preparedStatement.setBoolean(6,message.getStudent());
 
+            System.out.println("Message query");
+            System.out.println(preparedStatement);
             int response=preparedStatement.executeUpdate();
 
             if(response==0)oos.writeObject(new SendMessageResponse("Failed"));

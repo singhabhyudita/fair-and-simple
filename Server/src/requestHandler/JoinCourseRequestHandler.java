@@ -1,6 +1,5 @@
 package requestHandler;
 
-import main.RequestIdentifier;
 import main.Server;
 import request.JoinCourseRequest;
 import response.JoinCourseResponse;
@@ -32,6 +31,8 @@ public class JoinCourseRequestHandler extends RequestHandler {
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(CoursesTable.GET_COURSE_ID_BY_COURSE_CODE);
             preparedStatement.setString(1,joinCourseRequest.getCourseCode());
+            System.out.println("Join course query");
+            System.out.println(preparedStatement);
             resultSet=preparedStatement.executeQuery();
             while (resultSet.next()){
                 preparedStatement=connection.prepareStatement(EnrollmentTable.QUERY_JOIN_COURSE_BY_ID);
@@ -39,6 +40,7 @@ public class JoinCourseRequestHandler extends RequestHandler {
                 System.out.println("Course ID = " + courseId);
                 preparedStatement.setInt(1,courseId);
                 preparedStatement.setInt(2,Integer.parseInt(userID));
+                System.out.println(preparedStatement);
                 result=preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {

@@ -12,14 +12,24 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
+/**
+ *  This class acts as an identifier that categorises the requests and handles them accordingly.
+ *  Implements runnable interface so that it's thread can be created.
+ */
 public class RequestIdentifier implements Runnable{
+
+    //Declaring and initialising required variables.
     Socket socket;
     ObjectOutputStream oos=null;
     ObjectInputStream ois=null;
     ServerSocket chatServerSocket;
     public String userID;
 
+    /**
+     * Constructor that takes multiple socket parameters and initialises the I/O streams accordingly
+     * @param socket is used to create ObjectOutput/Input streams through which communication takes place
+     * @param chatServerSocket used to create a chat connection
+     */
     public RequestIdentifier(Socket socket, ServerSocket chatServerSocket){
         this.socket=socket;
         this.chatServerSocket = chatServerSocket;
@@ -28,40 +38,45 @@ public class RequestIdentifier implements Runnable{
             ois=new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit(0); // dont create this client connection.
+            System.exit(0);
         }
     }
 
+    /**
+     * Abstract method of the Runnable interface.
+     * This method is called when the thread starts.
+     * Listens for requests from the client, uses if else to categorise the request
+     * Creates the respective requestHandler instance and calls the sendResponse method
+     * sendResponse method processes the request and sends the appropriate response back to the client
+     */
     @Override
     public void run() {
-
-        System.out.println("We are here");
         while (socket.isConnected()){
             Object request;
+            // Waiting for the request to arrive
             try {
-                System.out.println("Waiting for a request");
                 request = Server.receiveRequest(ois);
-                System.out.println("Request received");
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace(); // basically the client disconnected so end this thread.
+                e.printStackTrace();
                 break;
             }
-            System.out.println("Request came");
-           // if(request==null) break;
-              if(request instanceof LoginRequest){
-                System.out.println("Login request");
+
+            if(request instanceof LoginRequest){
+                  //When login request arrives we create an instance of the LoginRequestHandler,
+                  // pass the required parameters and call the sendResponse method.
                 userID=((LoginRequest) request).getUsername();
                 LoginRequestHandler loginRequestHandler=new LoginRequestHandler(oos,(LoginRequest)request,Server.getConnection());
                 loginRequestHandler.sendResponse(userID);
 
+                //Once the login is successful we create the chat connection
                 try {
                     Socket chatSocket=chatServerSocket.accept();
                     ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
                     ObjectInputStream objectInputStream = new ObjectInputStream(chatSocket.getInputStream());
                     String registrationNumber = (String) objectInputStream.readObject();
-                    System.out.println(chatSocket);
-                    System.out.println("connection established with client");
 
+                    // After chat connection is created we maintain an ArrayList of the userID and their respective
+                    // Output streams
                     Server.socketArrayList.add(new RegistrationStreamWrapper(registrationNumber, objectOutputStream));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -71,8 +86,8 @@ public class RequestIdentifier implements Runnable{
                 RegisterRequestHandler registerRequestHandler=new RegisterRequestHandler((RegisterRequest)request,oos,Server.getConnection());
                 registerRequestHandler.sendResponse(userID);
             }
+            //Same for Teacher Login
             else if(request instanceof TeacherLoginRequest){
-                System.out.println("Login request");
                 userID=((TeacherLoginRequest) request).getUsername();
                 TeacherLoginRequestHandler teacherLoginRequestHandler=new TeacherLoginRequestHandler(Server.getConnection(),oos,(TeacherLoginRequest)request);
                 teacherLoginRequestHandler.sendResponse(userID);
@@ -82,7 +97,6 @@ public class RequestIdentifier implements Runnable{
                     ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
                     ObjectInputStream objectInputStream = new ObjectInputStream(chatSocket.getInputStream());
                     String teacherId = (String) objectInputStream.readObject();
-                    System.out.println("connection established with teacher: " + teacherId);
 
                     Server.teacherSocketArrayList.add(new TeacherIdStreamWrapper(teacherId, objectOutputStream));
                 } catch (Exception e) {
@@ -90,14 +104,12 @@ public class RequestIdentifier implements Runnable{
                 }
             }
             else if(request instanceof TeacherRegisterRequest){
-                System.out.println("Teacher register request came.");
                 TeacherRegisterRequestHandler teacherRegisterRequestHandler=new TeacherRegisterRequestHandler(Server.getConnection(), oos,(TeacherRegisterRequest)request);
                 teacherRegisterRequestHandler.sendResponse(userID);
             } else if(request instanceof TeacherCoursesRequest) {
                 TeacherCoursesRequestHandler handler = new TeacherCoursesRequestHandler(Server.getConnection(), oos, (TeacherCoursesRequest) request);
                 handler.sendResponse(userID);
             } else if(request instanceof CreateCourseRequest) {
-                System.out.println("Request is a create team request by teacher " + ((CreateCourseRequest) request).getTeacherId());
                 CreateCourseRequestHandler handler = new CreateCourseRequestHandler(Server.getConnection(), oos, (CreateCourseRequest) request);
                 handler.sendResponse(userID);
             } else if(request instanceof ExamResultRequest) {
@@ -184,7 +196,8 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof Message) {
                 SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);
                 sendMessageRequestHandler.sendResponse(userID);
-                sendMessageRequestHandler.sendToAll();// send the message to every connected person
+                  // Sends the message to every connected client from the course in which the message was sent
+                sendMessageRequestHandler.sendToAll();
             }
             else if(request instanceof ProctoringDutyRequest) {
                 ProctoringDutyRequestHandler requestHandler = new ProctoringDutyRequestHandler(Server.getConnection(), oos, (ProctoringDutyRequest) request);
@@ -203,7 +216,7 @@ public class RequestIdentifier implements Runnable{
                 displayMessagesRequestHandler.sendResponse(userID);
             }
             else if(request instanceof GetNotificationRequest){
-                GetNotificationRequestHandler getNotificationRequestHandler=new GetNotificationRequestHandler(Server.getConnection(), oos, (GetNotificationRequest) request);
+                GetNotificationRequestHandler getNotificationRequestHandler=new GetNotificationRequestHandler(Server.getConnection(), oos);
                 getNotificationRequestHandler.sendResponse(userID);
             }
             else if(request instanceof SubmitCorrectionRequest) {
@@ -215,10 +228,16 @@ public class RequestIdentifier implements Runnable{
                 GetResultForStudentRequestHandler handler = new GetResultForStudentRequestHandler(Server.getConnection(), oos, (GetResultForStudentRequest) request);
                 handler.sendResponse(userID);
             }
+            else if(request instanceof AddStudentRequest){
+                AddStudentRequestHandler addStudentRequestHandler=new AddStudentRequestHandler(Server.getConnection(),oos,(AddStudentRequest)request);
+                addStudentRequestHandler.sendResponse(userID);
+            }
             else{
                 Server.sendResponse(oos, null);
             }
         }
-        System.out.println("Client disconnected!!");
+        //Remove the OOS after disconnection
+        Server.socketArrayList.removeIf(r -> r.getRegistrationNumber().equals(userID));
+        Server.teacherSocketArrayList.removeIf(r->r.getTeacherId().equals(userID));
     }
 }

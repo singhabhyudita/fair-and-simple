@@ -82,10 +82,15 @@ public class NewQuestionController {
 
     public void callFirst(String question, String optionA, String optionB, String optionC, String optionD, int selectedOption) {
         questionTextArea.setText(question);
+        questionTextArea.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,200}") ? c : null));
         optionATextField.setText(optionA);
+        optionATextField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,200}") ? c : null));
         optionBTextField.setText(optionB);
+        optionBTextField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,200}") ? c : null));
         optionCTextField.setText(optionC);
+        optionCTextField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,200}") ? c : null));
         optionDTextField.setText(optionD);
+        optionDTextField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,200}") ? c : null));
         if(selectedOption == 1) optionARadioButton.setSelected(true);
         else if(selectedOption == 2) optionBRadioButton.setSelected(true);
         else if(selectedOption == 3) optionCRadioButton.setSelected(true);

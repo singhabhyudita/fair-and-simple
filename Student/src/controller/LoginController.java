@@ -1,6 +1,7 @@
 package controller;
 
 
+import entity.GuiUtil;
 import entity.Main;
 import request.LoginRequest;
 import response.LoginResponse;
@@ -13,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import util.ChatUtil;
+import util.HashUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,20 +43,15 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-
     public void login(ActionEvent actionEvent) {
-        System.out.println("Creating a request object");
-        LoginRequest request=new LoginRequest(usernameField.getText(),passwordField.getText());
+        LoginRequest request=new LoginRequest(usernameField.getText(), HashUtil.getMd5(passwordField.getText()));
         Main.sendRequest(request);
-        System.out.println("Request.Request Sent");
         LoginResponse response= (LoginResponse) Main.getResponse();
-        if (response != null && response.getFirstName() == null) {
-            System.out.println("Wrong Info");
-        }
-        else if(response !=null){
+        if (response ==null)
+            GuiUtil.alert(Alert.AlertType.ERROR,"Incorrect Information.Please try again.");
+        else {
             Main.userRegistrationNumber = String.valueOf(response.getRegistrationNo());
             startMessageThread();
-            System.out.println("Registration number is "+response.getRegistrationNo());
             FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
             Stage currentStage=(Stage)loginButton.getScene().getWindow();
             Scene scene=null;
@@ -107,6 +104,8 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
         stage.setScene(scene);
+        RegisterController registerController=registerLoader.getController();
+        registerController.first();
         stage.setTitle("Sign Up");
     }
 }

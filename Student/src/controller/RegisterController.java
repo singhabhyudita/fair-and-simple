@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.HashUtil;
 
 import java.io.IOException;
 
@@ -37,6 +38,12 @@ public class RegisterController {
     public Label matchLabel;
 
     public boolean check;
+    public void first(){
+        firstNameField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,15}") ? c : null));
+        lastNameField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,15}") ? c : null));
+        emailIDField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,50}") ? c : null));
+        registrationNoField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,8}") ? c : null));
+    }
     public void switchToLogin(ActionEvent actionEvent) {
         FXMLLoader loginLoader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
         Stage stage=(Stage)loginLink.getScene().getWindow();
@@ -65,7 +72,7 @@ public class RegisterController {
         FXMLLoader loginLoader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
         if(passwordField.getText().equals(confirmPasswordField.getText())){
             RegisterRequest registerRequest=new RegisterRequest(firstNameField.getText(),lastNameField.getText(),emailIDField.getText(),
-                    passwordField.getText(),registrationNoField.getText());
+                    HashUtil.getMd5(passwordField.getText()),registrationNoField.getText());
             Main.sendRequest(registerRequest);
             System.out.println("Register request sent");
             RegisterResponse response=(RegisterResponse)Main.getResponse();

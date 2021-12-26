@@ -1,7 +1,6 @@
 package requestHandler;
 
 import entity.Notification;
-import request.GetNotificationRequest;
 import response.GetNotificationResponse;
 import table.CoursesTable;
 import table.MessageTable;
@@ -17,12 +16,10 @@ import java.util.ArrayList;
 public class GetNotificationRequestHandler extends RequestHandler{
     private Connection connection;
     private ObjectOutputStream oos;
-    private GetNotificationRequest getNotificationRequest;
 
-    public GetNotificationRequestHandler(Connection connection, ObjectOutputStream oos, GetNotificationRequest getNotificationRequest) {
+    public GetNotificationRequestHandler(Connection connection, ObjectOutputStream oos) {
         this.connection = connection;
         this.oos = oos;
-        this.getNotificationRequest = getNotificationRequest;
     }
 
     @Override

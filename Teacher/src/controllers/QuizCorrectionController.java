@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import main.GuiUtil;
+import util.GuiUtil;
 import main.Main;
 import request.SubmitCorrectionRequest;
 

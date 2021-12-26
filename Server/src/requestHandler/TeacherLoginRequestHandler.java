@@ -26,11 +26,10 @@ public class TeacherLoginRequestHandler extends RequestHandler {
             preparedStatement.setString(1,request.getUsername());
             preparedStatement.setString(2,request.getPassword());
             ResultSet resultSet=preparedStatement.executeQuery();
-            if(!resultSet.next()) response=null;
-            do{
+            while (resultSet.next()){
                 response=new TeacherLoginResponse(resultSet.getString(TeacherTable.COLUMN_FIRST_NAME),resultSet.getString(TeacherTable.COLUMN_LAST_NAME),
                         resultSet.getString(TeacherTable.COLUMN_EMAIL_ID),resultSet.getString(TeacherTable.COLUMN_TEACHER_ID));
-            }while (resultSet.next());
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

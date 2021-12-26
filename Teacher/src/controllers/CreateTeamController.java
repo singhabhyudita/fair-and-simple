@@ -1,15 +1,11 @@
 package controllers;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
 import javafx.stage.Stage;
-import main.GuiUtil;
+import util.GuiUtil;
 import main.Main;
 import request.CreateCourseRequest;
 import response.CreateCourseResponse;
@@ -65,5 +61,9 @@ public class CreateTeamController {
             teamDescriptionTextArea.setText(teamDescriptionTextArea.getText(0, 200));
             GuiUtil.alert(Alert.AlertType.WARNING, "Character limit exceeded!");
         }
+    }
+    public void first(){
+        teamDescriptionTextArea.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,100}") ? c : null));
+        teamNameTextField.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches(".{0,20}") ? c : null));
     }
 }
