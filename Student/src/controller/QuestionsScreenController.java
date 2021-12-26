@@ -117,6 +117,7 @@ public class QuestionsScreenController implements Initializable {
     private File answerFile;
     private FileWriter writer;
     private BufferedWriter bufferedWriter;
+    private Thread videoThread;
 
     //    timer fields
     private long min, sec, hr, totalSec = 0; //250 4 min 10 sec
@@ -174,9 +175,12 @@ public class QuestionsScreenController implements Initializable {
     }
 
     public void setData(int proctorPort, List<Question> questions, String examId) {
-        while(!setupProctoringStuff(proctorPort)) {
+        Thread videoThread = setupProctoringStuff(proctorPort);
+        while(videoThread == null) {
             GuiUtil.alert(Alert.AlertType.ERROR, "Could not access you camera. Close all other applications and try again!!");
+            videoThread = setupProctoringStuff(proctorPort);
         }
+        this.videoThread = videoThread;
         this.questionList = questions;
         objectiveAnswers = new ArrayList<>();
         answerFile = new File(Main.userRegistrationNumber + "_" + examId + "_subjective_answer.txt");
@@ -192,7 +196,7 @@ public class QuestionsScreenController implements Initializable {
         setTimer();
     }
 
-    private boolean setupProctoringStuff(int proctorPort) {
+    private Thread setupProctoringStuff(int proctorPort) {
         for(Webcam w : Webcam.getWebcams()) {
             try {
                 webcam = Webcam.getWebcamByName(w.getName());
@@ -201,7 +205,7 @@ public class QuestionsScreenController implements Initializable {
             } catch (Exception ignored) {}
         }
         if(webcam == null)
-            return false;
+            return null;
         try {
             this.sendVideoSocket = new DatagramSocket();
         } catch (SocketException e) {
@@ -211,7 +215,7 @@ public class QuestionsScreenController implements Initializable {
             @Override
             public void run() {
                 DatagramPacket packet;
-                while(true) {
+                while(!Thread.interrupted()) {
                     try {
                         Thread.sleep(500);
                         BufferedImage image = webcam.getImage();
@@ -227,7 +231,7 @@ public class QuestionsScreenController implements Initializable {
         });
         videoThread.setDaemon(true);
         videoThread.start();
-        return true;
+        return videoThread;
     }
 
     private void renderProgress() {
@@ -346,6 +350,7 @@ public class QuestionsScreenController implements Initializable {
         } else {
             GuiUtil.alert(Alert.AlertType.ERROR, "Kuch locha ho gaya. Fail tum.");
         }
+        videoThread.interrupt();
         FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Stage currentStage=(Stage)submit.getScene().getWindow();
         Scene scene=null;

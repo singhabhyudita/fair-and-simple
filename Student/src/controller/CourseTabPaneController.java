@@ -335,6 +335,8 @@ public class CourseTabPaneController implements Initializable {
                     singleImageChatCardFXMLController.vBox.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
                     singleImageChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.userRegistrationNumber)?"Me":message.getSenderName());
                     singleImageChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
+                    if(message.getSenderID().equals(Main.userRegistrationNumber))
+                        singleImageChatCardFXMLController.chatImageHBox.setAlignment(Pos.TOP_RIGHT);
                     singleImageChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
                             (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),
                             CornerRadii.EMPTY,
@@ -352,6 +354,8 @@ public class CourseTabPaneController implements Initializable {
                     singleChatCardFXMLController.messageLabel.setText(message.getText());
                     singleChatCardFXMLController.messageLabel.setAlignment(message.getSenderID().equals(Main.userRegistrationNumber) ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
                     singleChatCardFXMLController.nameLabel.setText(message.getSenderID().equals(Main.userRegistrationNumber)?"Me":message.getSenderName());
+                    if(message.getSenderID().equals(Main.userRegistrationNumber))
+                        singleChatCardFXMLController.chatCardHBox.setAlignment(Pos.TOP_RIGHT);
                     singleChatCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
                     singleChatCardFXMLController.nameHBox.backgroundProperty().set(new Background(new BackgroundFill(Color.web(
                             (message.getSenderID().equals(Main.userRegistrationNumber)) ? Main.myColor : Main.otherColor),

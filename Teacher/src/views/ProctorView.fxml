@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProctorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProctorController">
    <center>
-      <GridPane fx:id="studentVideoGridPane" BorderPane.alignment="CENTER">
+      <GridPane fx:id="studentVideoGridPane" gridLinesVisible="true" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -16,10 +24,54 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="topLeftImageView" fitHeight="302.0" fitWidth="196.0" pickOnBounds="true" preserveRatio="true" />
-             <ImageView fx:id="topRightImageView" fitHeight="302.0" fitWidth="196.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-             <ImageView fx:id="bottomLeftImageView" fitHeight="302.0" fitWidth="196.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-             <ImageView fx:id="bottomRightImageView" fitHeight="302.0" fitWidth="196.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <VBox alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+               <children>
+                  <ImageView fx:id="topLeftImageView" fitHeight="258.0" fitWidth="333.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                  </ImageView>
+                  <Label fx:id="topLeftLabel" text="Click on student name." VBox.vgrow="NEVER">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+               <children>
+                   <ImageView fx:id="topRightImageView" fitHeight="258.0" fitWidth="333.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
+                     <image>
+                        <Image url="@../../../../../../Pictures/Untitled.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="topRightLabel" text="Click on student name." VBox.vgrow="NEVER">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+               <children>
+                   <ImageView fx:id="bottomLeftImageView" fitHeight="258.0" fitWidth="333.0" pickOnBounds="true" VBox.vgrow="ALWAYS" />
+                  <Label fx:id="bottomLeftLabel" text="Click on student name." VBox.vgrow="NEVER">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <children>
+                   <ImageView fx:id="bottomRightImageView" fitHeight="258.0" fitWidth="333.0" pickOnBounds="true" VBox.vgrow="ALWAYS" />
+                  <Label fx:id="bottomRightLabel" text="Click on student name." VBox.vgrow="NEVER">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </GridPane>
    </center>
