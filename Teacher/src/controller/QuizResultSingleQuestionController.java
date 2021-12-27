@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import entity.Question;
 import javafx.fxml.FXML;
@@ -28,6 +28,8 @@ public class QuizResultSingleQuestionController {
     public void setValues(Question question, String s, int marks) {
         this.questionObject = question;
         System.out.println("string sent = " + s);
+        if(s==null)
+            s="";
         this.userAnswer = s;
         this.question.setText(question.getQuestion());
         if(question.isObjective()) {
@@ -72,7 +74,7 @@ public class QuizResultSingleQuestionController {
         System.out.println("Right answer = " + rightAnswer);
         System.out.println("user answer = " + this.userAnswer);
 
-        if(!Objects.equals(this.userAnswer, rightAnswer.getText())) {
+        if(!Objects.equals(this.userAnswer.trim(), rightAnswer.getText().trim())) {
             Label userAnswer = null;
 
             if(Objects.equals(optionA.getText(), this.userAnswer)) userAnswer = optionA;

@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<HBox fx:id="chatImageHBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SingleImageChatCardFXMLController">
+<HBox fx:id="chatImageHBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SingleImageChatCardFXMLController">
    <children>
       <VBox fx:id="vBox" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;">
          <children>

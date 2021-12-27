@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import com.jfoenix.controls.JFXButton;
 import entity.Exam;

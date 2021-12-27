@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import entity.Question;
 import javafx.event.ActionEvent;

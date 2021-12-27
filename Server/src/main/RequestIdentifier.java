@@ -200,7 +200,7 @@ public class RequestIdentifier implements Runnable{
             }
             else if(request instanceof Warning) {
                 SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);
-                sendMessageRequestHandler.sendResponse(userID);
+//                sendMessageRequestHandler.sendResponse(userID);
                 // Sends the message to every connected client from the course in which the message was sent
                 sendMessageRequestHandler.sendWarningToRecipient((Warning)request);
             }

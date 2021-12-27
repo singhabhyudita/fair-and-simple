@@ -1,9 +1,8 @@
-package controllers;
+package controller;
 
 import com.jfoenix.controls.JFXButton;
 import entity.Exam;
 import entity.Student;
-import entity.StudentResult;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

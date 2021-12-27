@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import entity.Course;
 import entity.Exam;

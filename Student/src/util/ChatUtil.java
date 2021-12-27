@@ -6,6 +6,7 @@ import controller.SingleNotificationCardFXMLController;
 import entity.Main;
 import entity.Message;
 import entity.Notification;
+import entity.Warning;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
@@ -38,7 +39,7 @@ public class ChatUtil implements Runnable {
     public void run() {
         Message message2 = null;
         System.out.println(Thread.currentThread());
-        while (!Thread.interrupted()){
+        while (true){
             System.out.println("inside socket is connected loop");
             try {
                 System.out.println("waiting for message object");
@@ -46,7 +47,7 @@ public class ChatUtil implements Runnable {
                 if(o instanceof String && o.equals("disconnected")) {
                     break;
                 } else if(o instanceof Message) {
-                    message2= (Message)ois.readObject();
+                    message2 = (Message)o;
                 }
                 System.out.println("response sent on chat thread");
             } catch (IOException | ClassNotFoundException e) {
@@ -55,6 +56,8 @@ public class ChatUtil implements Runnable {
             final Message message = message2;
             System.out.println("Message received from sender id "+ message.getSenderID()+": "+message.getText());
             if(message instanceof Notification) {
+                if(message instanceof Warning)
+                    System.out.println("Warning here: "+((Warning) message).getText());
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -76,7 +79,7 @@ public class ChatUtil implements Runnable {
                         }
                     }
                 });
-                return;
+                continue;
             }
 
              if(Main.chatVBox == null || !message.getCourseID().equals(Main.lastOpenCourseId)) {

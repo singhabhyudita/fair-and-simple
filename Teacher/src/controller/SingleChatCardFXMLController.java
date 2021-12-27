@@ -1,19 +1,24 @@
-package controllers;
+package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SingleNotificationCardFXMLController implements Initializable {
+public class SingleChatCardFXMLController implements Initializable {
     @FXML
     public Label messageLabel;
     @FXML
     public Label timestampLabel;
     @FXML
-    public Label courseLabel;
+    public Label nameLabel;
+    @FXML
+    public HBox nameHBox;
+    @FXML
+    public HBox chatCardHBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="590.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TeacherRegisterController">
+<AnchorPane prefHeight="590.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TeacherRegisterController">
     <Button fx:id="registerButton" layoutX="254.0" layoutY="319.0" mnemonicParsing="false" onAction="#register" text="Register" />
     <Hyperlink fx:id="loginLink" layoutX="212.0" layoutY="363.0" onAction="#switchToLogin" text="Already have an account?" textFill="#130000" underline="true" />
     <Label fx:id="signupLabel" layoutX="236.0" layoutY="43.0" text="Sign Up">

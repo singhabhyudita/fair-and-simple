@@ -1,6 +1,6 @@
 package util;
 
-import controllers.TeacherHomeController;
+import controller.TeacherHomeController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class GuiUtil {
     public static void goToHome(Stage stage) {
-        FXMLLoader loader = new FXMLLoader(GuiUtil.class.getResource("../views/TeacherHomeView2.fxml"));
+        FXMLLoader loader = new FXMLLoader(GuiUtil.class.getResource("../views/TeacherHomeView.fxml"));
 
         Scene homeScene = null;
         try {

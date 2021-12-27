@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TeacherHomeController">
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TeacherHomeController">
    <center>
         <TabPane prefHeight="592.0" prefWidth="698.0" side="LEFT" stylesheets="@../css/tabs.css" tabClosingPolicy="UNAVAILABLE">
             <tabs>

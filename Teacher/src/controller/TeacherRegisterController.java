@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import main.Main;
 import request.TeacherRegisterRequest;

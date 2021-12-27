@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import com.jfoenix.controls.JFXButton;
 import entity.Exam;
@@ -13,9 +13,7 @@ import main.Main;
 import request.GetResultForStudentRequest;
 import response.GetResultForStudentResponse;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 public class StudentResultCardController {
 
@@ -78,6 +76,8 @@ public class StudentResultCardController {
         }
         stage.setScene(scene);
         stage.setTitle("Responses of " + nameLabel.getText());
-        stage.show();
+        if(response.getObjectiveAnswers().size() != response.getQuestions().size()) {
+            stage.show();
+        }
     }
 }

@@ -5,7 +5,6 @@ import request.SubmitExamRequest;
 import response.SubmitExamResponse;
 import table.AnswerFilesTable;
 import table.ObjectiveResponseTable;
-import table.ResultTable;
 
 import java.io.*;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import entity.Question;
 import javafx.collections.ObservableList;
@@ -82,6 +82,7 @@ public class QuizResultController {
                     System.out.println("Correct answer = " + question.getCorrectOption());
                     System.out.println("Answerd option = " + answer.getCorrectOption());
                     userAnswers.put(question, getOptionValue(question, answer.getCorrectOption()));
+                    System.out.println("getOptionValue: "+getOptionValue(question, answer.getCorrectOption()));
                     if(question.getCorrectOption() == answer.getCorrectOption()) numberOfRightAnswers++;
                     if(answer.getCorrectOption() == -1) notAttemped++;
                     else attemped++;
@@ -153,6 +154,6 @@ public class QuizResultController {
         else if(op == 2) return question.getOptionB();
         else if(op == 3) return question.getOptionC();
         else if(op == 4) return question.getOptionD();
-        return null;
+        return "";
     }
 }

@@ -219,7 +219,6 @@ public class QuestionsScreenController implements Initializable {
                         String registrationNumber = Main.userRegistrationNumber;
                         byte [] imageByte = UdpUtil.bufferedImageToByteArray(image);
                         byte [] registrationNumberByte = UdpUtil.objectToByteArray(registrationNumber);
-                        System.out.println("image being sent by Registraiton number = " + registrationNumber);
                         Object [] wrapped = {registrationNumberByte, imageByte};
                         UdpUtil.sendObjectToPort(wrapped, proctorPort);
                     } catch (InterruptedException ignored) { break; }

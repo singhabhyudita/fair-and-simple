@@ -1,9 +1,9 @@
 package util;
 
-import controllers.SingleChatCardFXMLController;
-import controllers.SingleImageChatCardFXMLController;
-import controllers.SingleNotificationCardFXMLController;
+import controller.SingleChatCardFXMLController;
+import controller.SingleImageChatCardFXMLController;
 import entity.Message;
+import controller.SingleNotificationCardFXMLController;
 import entity.Notification;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -47,7 +47,7 @@ public class ChatUtil implements Runnable {
                 if(o instanceof String && o.equals("disconnected")) {
                     break;
                 } else if(o instanceof Message) {
-                    message2= (Message)ois.readObject();
+                    message2= (Message)o;
                 }
                 System.out.println("response sent on chat thread");
             } catch (IOException | ClassNotFoundException e) {
@@ -71,7 +71,7 @@ public class ChatUtil implements Runnable {
                         singleNotificationCardFXMLController.timestampLabel.setText(message.getSentAt().toString());
                     }
                 });
-                return;
+                continue;
             }
 
             if(Main.chatVBox == null || !message.getCourseID().equals(Main.lastOpenCourseId)) {

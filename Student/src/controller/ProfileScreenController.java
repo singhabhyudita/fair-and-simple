@@ -300,25 +300,20 @@ public class ProfileScreenController implements Initializable
     public Label heyNameLabel;
 
     public void first(String name) {
+        Main.notificationVbox=notificationContainer;
         this.name=name;
         heyNameLabel.setText("Hey, "+name);
         System.out.println("inside the first method after login trying to create chat socket");
         setCoursesList();
-       // setNotificationsList();
         setUpcomingExamsList();
         setExamsHistory();
         setProfilePic();
-    }
-
-    public void setNotificationsList(){
-
     }
 
     @FXML
     public VBox notificationContainer;
 
     public void onNotificationsClicked(Event event) {
-        Main.notificationVbox=notificationContainer;
         notificationContainer.getChildren().clear();
         Main.sendRequest(new GetNotificationRequest());
         System.out.println("notif request sent");

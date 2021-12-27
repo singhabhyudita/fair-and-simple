@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="152.0" prefWidth="268.0" style="-fx-background-color: #cedde2;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuizCardLayoutFXMLController">
+<VBox prefHeight="152.0" prefWidth="268.0" style="-fx-background-color: #cedde2;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuizCardLayoutFXMLController">
    <children>
       <Label fx:id="title" text="Quiz Title" wrapText="true">
          <VBox.margin>

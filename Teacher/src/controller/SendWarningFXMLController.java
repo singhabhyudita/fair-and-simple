@@ -1,6 +1,5 @@
-package controllers;
+package controller;
 
-import entity.Notification;
 import entity.Warning;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import main.Main;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class SendWarningFXMLController {

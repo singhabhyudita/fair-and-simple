@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +44,7 @@ public class TeacherLoginController implements Initializable {
             Main.setTeacherId(response.getTeacherID());
             Main.setTeacherName(response.getFirstName() + " " + response.getLastName());
             startMessageThread();
-            FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../views/TeacherHomeView2.fxml"));
+            FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../views/TeacherHomeView.fxml"));
             Stage currentStage=(Stage)loginButton.getScene().getWindow();
 
             Scene scene=null;

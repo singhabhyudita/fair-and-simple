@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane prefHeight="173.0" prefWidth="228.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ResultsExamCardController">
+<BorderPane prefHeight="173.0" prefWidth="228.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ResultsExamCardController">
    <center>
       <VBox alignment="CENTER" prefHeight="160.0" prefWidth="211.0" style="-fx-background-color: #cedde2;">
          <children>
