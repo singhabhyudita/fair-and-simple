@@ -1,6 +1,4 @@
 <h1 align="center">Fair And Simple</i></h1>
-<p align="center"><img alt="pic" height="600" width="300px"  src=""/>
-</p>
 <hr>
 
 # Table of Contents
