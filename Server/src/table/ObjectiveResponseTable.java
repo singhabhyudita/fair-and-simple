@@ -8,6 +8,6 @@ public class ObjectiveResponseTable {
     private final static String COLUMN_EXAM_ID = "examID";
 
     public final static String ADD_ENTRY_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?);";
-    public final static String GET_ENTRY_BY_REGISTRATION_NO_AND_EXAM_ID = "SELECT * FROM " + TABLE_NAME
+    public final static String GET_ENTRY_BY_EXAM_ID_AND_REGISTRATION_NO = "SELECT * FROM " + TABLE_NAME
             + " WHERE " + COLUMN_EXAM_ID + " = ? AND " + COLUMN_REGISTRATION_NO + " = ?";
 }

@@ -1,11 +1,8 @@
 package requestHandler;
 
-import entity.Question;
-import jdk.internal.org.objectweb.asm.Handle;
 import request.SubmitCorrectionRequest;
 import table.ExamQuestionsMarksTable;
 import table.ExamQuestionsTable;
-import table.ExamTable;
 import table.ObjectiveResponseTable;
 
 import java.io.ObjectOutputStream;
@@ -47,7 +44,7 @@ public class SubmitCorrectionRequestHandler extends RequestHandler {
                         set.getString(ExamQuestionsTable.QUESTION_ID_COLUMN),
                         set.getInt(ExamQuestionsTable.CORRECT_OPTION_COLUMN));
             }
-            statement = connection.prepareStatement(ObjectiveResponseTable.GET_ENTRY_BY_REGISTRATION_NO_AND_EXAM_ID);
+            statement = connection.prepareStatement(ObjectiveResponseTable.GET_ENTRY_BY_EXAM_ID_AND_REGISTRATION_NO);
             statement.setString(1, request.getExamId());
             statement.setString(2, request.getRegistrationNumber());
             set = statement.executeQuery();

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuestionsScreenController">
+<AnchorPane prefHeight="316.0" prefWidth="535.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuestionsScreenController">
    <children>
       <SplitPane dividerPositions="0.75" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -60,45 +60,54 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </Separator>
-                        <VBox fx:id="objectiveVBox">
+                        <AnchorPane>
                            <children>
-                              <JFXRadioButton fx:id="optionA" wrapText="true">
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="options" />
-                                 </toggleGroup>
-                              </JFXRadioButton>
-                              <JFXRadioButton fx:id="optionB" toggleGroup="$options" wrapText="true">
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </JFXRadioButton>
-                              <JFXRadioButton fx:id="optionC" toggleGroup="$options" wrapText="true">
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </JFXRadioButton>
-                              <JFXRadioButton fx:id="optionD" text="RadioButton" toggleGroup="$options" wrapText="true">
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </JFXRadioButton>
+                              <VBox fx:id="objectiveVBox" layoutX="7.0" layoutY="7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXRadioButton fx:id="optionA" wrapText="true">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="options" />
+                                       </toggleGroup>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="optionB" toggleGroup="$options" wrapText="true">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="optionC" toggleGroup="$options" wrapText="true">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="optionD" text="RadioButton" toggleGroup="$options" wrapText="true">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </JFXRadioButton>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="subjectiveVBox" prefHeight="150.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXTextArea fx:id="subjectiveAnswerTextArea" wrapText="true" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </AnchorPane>
                         <Separator prefWidth="200.0">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -148,7 +157,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </Label>
-                  <FlowPane fx:id="progressPane" alignment="TOP_CENTER" hgap="10.0" layoutY="54.0" prefHeight="344.0" prefWidth="146.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0">
+                  <FlowPane fx:id="progressPane" alignment="TOP_CENTER" hgap="10.0" layoutY="54.0" prefHeight="357.0" prefWidth="122.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -157,10 +166,5 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <VBox fx:id="subjectiveVBox" layoutY="114.0" prefHeight="150.0" prefWidth="445.0">
-         <children>
-            <JFXTextArea fx:id="subjectiveAnswerTextArea" />
-         </children>
-      </VBox>
    </children>
 </AnchorPane>

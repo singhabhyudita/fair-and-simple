@@ -15,11 +15,13 @@ public class LoginRequestHandler extends RequestHandler {
     private ObjectOutputStream oos;
     private LoginRequest loginRequest;
     private Connection connection;
+    private boolean loginSuccessful;
 
     public LoginRequestHandler(ObjectOutputStream oos, LoginRequest loginRequest, Connection connection) {
         this.oos = oos;
         this.loginRequest = loginRequest;
         this.connection = connection;
+        loginSuccessful = false;
     }
 
     @Override
@@ -40,9 +42,8 @@ public class LoginRequestHandler extends RequestHandler {
                 preparedStatement=connection.prepareStatement(StudentTable.QUERY_UPDATE_LAST_ACTIVE);
                 preparedStatement.setString(1,loginRequest.getUsername());
                 preparedStatement.execute();
+                loginSuccessful = true;
             }
-            System.out.println("Wassssupppp\n" + resultSet.getString(StudentTable.COLUMN_FIRST_NAME));
-            System.out.println("Sending = " +  response);
             try {
                 oos.writeObject(response);
                 oos.flush();
@@ -52,7 +53,9 @@ public class LoginRequestHandler extends RequestHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
-
+    public boolean isLoginSuccessful() {
+        return loginSuccessful;
     }
 }

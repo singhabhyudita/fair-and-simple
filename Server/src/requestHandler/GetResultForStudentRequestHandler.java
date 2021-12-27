@@ -10,7 +10,6 @@ import table.ExamQuestionsTable;
 import table.ObjectiveResponseTable;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -125,7 +124,7 @@ public class GetResultForStudentRequestHandler extends RequestHandler{
     }
 
     private List<Question> getObjectiveAnswers() throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(ObjectiveResponseTable.GET_ENTRY_BY_REGISTRATION_NO_AND_EXAM_ID);
+        PreparedStatement statement = connection.prepareStatement(ObjectiveResponseTable.GET_ENTRY_BY_EXAM_ID_AND_REGISTRATION_NO);
         statement.setString(1, request.getExamId());
         statement.setString(2, request.getStudentId());
         ResultSet objectiveResponses = statement.executeQuery();

@@ -125,6 +125,8 @@ public class CourseController {
     public TextField addStudentTextField;
     @FXML
     public Button addStudentButton;
+    @FXML
+    public Label courseNameCodeLabel;
 
     File selectedFile = null;
     private String courseId;
@@ -206,9 +208,10 @@ public class CourseController {
         questions.remove(i);
     }
 
-    public void callFirst(String courseId, String courseName, List<Exam> courseExams) {
+    public void callFirst(String courseId, String courseName, String courseCode, List<Exam> courseExams) {
         Main.chatVBox = chatContainer;
         Main.lastOpenCourseId = courseId;
+        courseNameCodeLabel.setText("Course - " + courseName + "\t\t\tCourse Code - " + courseCode);
         chatScrollPane.vvalueProperty().bind(chatContainer.heightProperty());
         this.courseName = courseName;
         this.courseId = courseId;

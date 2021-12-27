@@ -3,6 +3,8 @@ package controller;
 
 import entity.GuiUtil;
 import entity.Main;
+import javafx.event.EventHandler;
+import javafx.stage.WindowEvent;
 import request.LoginRequest;
 import response.LoginResponse;
 import javafx.event.ActionEvent;
@@ -63,6 +65,18 @@ public class LoginController implements Initializable {
             currentStage.setScene(scene);
             currentStage.setMaximized(true);
             currentStage.setTitle("Welcome");
+            currentStage.setOnCloseRequest(event -> {
+                try {
+                    Main.oos.close();
+                    Main.ois.close();
+                    Main.oos = null;
+                    Main.ois = null;
+                } catch (IOException e) {
+                    Main.oos = null;
+                    Main.ois = null;
+                    e.printStackTrace();
+                }
+            });
             Main.userFullName = response.getFirstName() + " " + response.getLastName();
             ProfileScreenController profileScreenController=homepageLoader.getController();
             profileScreenController.first(response.getFirstName()+" "+response.getLastName());

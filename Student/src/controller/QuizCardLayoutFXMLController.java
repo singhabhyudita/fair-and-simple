@@ -69,15 +69,19 @@ public class QuizCardLayoutFXMLController implements Initializable {
         }
         else {
             GetQuestionsResponse response = getData(exam);
+            if(response.isAlreadyAttempted()) {
+                GuiUtil.alert(Alert.AlertType.INFORMATION, "You have already attempted the quiz!");
+                return;
+            }
             if(response.getProctorPort() == -1) {
-                GuiUtil.alert(Alert.AlertType.ERROR, "Exam will start only after the proctor joins!");
+                GuiUtil.alert(Alert.AlertType.INFORMATION, "Exam will start only after the proctor joins!");
                 return;
             }
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxml/QuestionsScreenFXML.fxml"));
             Stage currentStage=(Stage)title.getScene().getWindow();
             Scene scene;
             try {
-                scene=new Scene(fxmlLoader.load());
+                scene=new Scene(fxmlLoader.load(), title.getScene().getWidth(), title.getScene().getHeight());
                 QuestionsScreenController questionsScreenController= fxmlLoader.getController();
                 questionsScreenController.setQuiz(exam);
                 questionsScreenController.setData(response.getProctorPort(), response.getQuestionsList(), exam.getExamId());

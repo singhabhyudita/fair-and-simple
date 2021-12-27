@@ -10,11 +10,13 @@ public class TeacherLoginRequestHandler extends RequestHandler {
     Connection connection;
     ObjectOutputStream oos;
     TeacherLoginRequest request;
+    private boolean loginSuccessful;
 
     public TeacherLoginRequestHandler(Connection connection, ObjectOutputStream oos, TeacherLoginRequest request) {
         this.connection = connection;
         this.oos = oos;
         this.request = request;
+        loginSuccessful = false;
     }
 
     @Override
@@ -29,6 +31,7 @@ public class TeacherLoginRequestHandler extends RequestHandler {
             while (resultSet.next()){
                 response=new TeacherLoginResponse(resultSet.getString(TeacherTable.COLUMN_FIRST_NAME),resultSet.getString(TeacherTable.COLUMN_LAST_NAME),
                         resultSet.getString(TeacherTable.COLUMN_EMAIL_ID),resultSet.getString(TeacherTable.COLUMN_TEACHER_ID));
+                loginSuccessful = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,5 +42,9 @@ public class TeacherLoginRequestHandler extends RequestHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isLoginSuccessful() {
+        return loginSuccessful;
     }
 }

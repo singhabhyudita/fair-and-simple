@@ -13,6 +13,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import request.Request;
 import response.Response;
+import util.HashUtil;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -44,6 +45,18 @@ public class Main extends Application {
             primaryStage.setTitle("Teacher Login");
             primaryStage.setMinHeight(600);
             primaryStage.setMinWidth(590);
+            primaryStage.setOnCloseRequest(event -> {
+                try {
+                    Main.outputStream.close();
+                    Main.inputStream.close();
+                    Main.outputStream = null;
+                    Main.inputStream = null;
+                } catch (IOException e) {
+                    Main.outputStream = null;
+                    Main.inputStream = null;
+                    e.printStackTrace();
+                }
+            });
 //            primaryStage.setAlwaysOnTop(true);
 //            primaryStage.setMaximized(true);
 //            primaryStage.resizableProperty().setValue(Boolean.FALSE);

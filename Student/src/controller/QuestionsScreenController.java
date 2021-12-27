@@ -175,12 +175,10 @@ public class QuestionsScreenController implements Initializable {
     }
 
     public void setData(int proctorPort, List<Question> questions, String examId) {
-        Thread videoThread = setupProctoringStuff(proctorPort);
-        while(videoThread == null) {
+        while(this.videoThread == null) {
             GuiUtil.alert(Alert.AlertType.ERROR, "Could not access you camera. Close all other applications and try again!!");
-            videoThread = setupProctoringStuff(proctorPort);
+            this.videoThread = setupProctoringStuff(proctorPort);
         }
-        this.videoThread = videoThread;
         this.questionList = questions;
         objectiveAnswers = new ArrayList<>();
         answerFile = new File(Main.userRegistrationNumber + "_" + examId + "_subjective_answer.txt");
@@ -214,7 +212,6 @@ public class QuestionsScreenController implements Initializable {
         Thread videoThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                DatagramPacket packet;
                 while(!Thread.interrupted()) {
                     try {
                         Thread.sleep(500);
@@ -225,7 +222,7 @@ public class QuestionsScreenController implements Initializable {
                         System.out.println("image being sent by Registraiton number = " + registrationNumber);
                         Object [] wrapped = {registrationNumberByte, imageByte};
                         UdpUtil.sendObjectToPort(wrapped, proctorPort);
-                    } catch (InterruptedException ignored) {}
+                    } catch (InterruptedException ignored) { break; }
                 }
             }
         });
@@ -337,6 +334,7 @@ public class QuestionsScreenController implements Initializable {
     }
 
     public void submit(ActionEvent actionEvent) {
+        System.out.println("Submit button clicked vaiii.");
         SubmitExamRequest submitExamRequest = new SubmitExamRequest(exam, objectiveAnswers);
         Main.sendRequest(submitExamRequest);
         SubmitExamResponse response = (SubmitExamResponse) Main.getResponse();
@@ -350,12 +348,14 @@ public class QuestionsScreenController implements Initializable {
         } else {
             GuiUtil.alert(Alert.AlertType.ERROR, "Kuch locha ho gaya. Fail tum.");
         }
-        videoThread.interrupt();
+        System.out.println("Interrupting the thread hue hue.");
+        this.videoThread.interrupt();
+        this.webcam.close();
         FXMLLoader homepageLoader= new FXMLLoader(getClass().getResource("../fxml/ProfileScreen.fxml"));
         Stage currentStage=(Stage)submit.getScene().getWindow();
         Scene scene=null;
         try {
-            scene=new Scene(homepageLoader.load());
+            scene=new Scene(homepageLoader.load(), submit.getScene().getWidth(), submit.getScene().getHeight());
         } catch (IOException e) {
             e.printStackTrace();
         }

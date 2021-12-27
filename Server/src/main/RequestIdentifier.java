@@ -70,17 +70,19 @@ public class RequestIdentifier implements Runnable{
                 loginRequestHandler.sendResponse(userID);
 
                 //Once the login is successful we create the chat connection
-                try {
-                    Socket chatSocket=chatServerSocket.accept();
-                    ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
-                    ObjectInputStream objectInputStream = new ObjectInputStream(chatSocket.getInputStream());
-                    String registrationNumber = (String) objectInputStream.readObject();
+                if(loginRequestHandler.isLoginSuccessful()) {
+                    try {
+                        Socket chatSocket=chatServerSocket.accept();
+                        ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
+                        ObjectInputStream objectInputStream = new ObjectInputStream(chatSocket.getInputStream());
+                        String registrationNumber = (String) objectInputStream.readObject();
 
-                    // After chat connection is created we maintain an ArrayList of the userID and their respective
-                    // Output streams
-                    Server.socketArrayList.add(new RegistrationStreamWrapper(registrationNumber, objectOutputStream));
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        // After chat connection is created we maintain an ArrayList of the userID and their respective
+                        // Output streams
+                        Server.socketArrayList.add(new RegistrationStreamWrapper(registrationNumber, objectOutputStream));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             else if(request instanceof RegisterRequest){
@@ -92,16 +94,17 @@ public class RequestIdentifier implements Runnable{
                 userID=((TeacherLoginRequest) request).getUsername();
                 TeacherLoginRequestHandler teacherLoginRequestHandler=new TeacherLoginRequestHandler(Server.getConnection(),oos,(TeacherLoginRequest)request);
                 teacherLoginRequestHandler.sendResponse(userID);
+                if(teacherLoginRequestHandler.isLoginSuccessful()) {
+                    try {
+                        Socket chatSocket=chatServerSocket.accept();
+                        ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
+                        ObjectInputStream objectInputStream = new ObjectInputStream(chatSocket.getInputStream());
+                        String teacherId = (String) objectInputStream.readObject();
 
-                try {
-                    Socket chatSocket=chatServerSocket.accept();
-                    ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
-                    ObjectInputStream objectInputStream = new ObjectInputStream(chatSocket.getInputStream());
-                    String teacherId = (String) objectInputStream.readObject();
-
-                    Server.teacherSocketArrayList.add(new TeacherIdStreamWrapper(teacherId, objectOutputStream));
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        Server.teacherSocketArrayList.add(new TeacherIdStreamWrapper(teacherId, objectOutputStream));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             else if(request instanceof TeacherRegisterRequest){
@@ -141,6 +144,7 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof LogOutRequest){
                 LogOutRequestHandler logOutRequestHandler=new LogOutRequestHandler(Server.getConnection(),oos);
                 logOutRequestHandler.sendResponse(userID);
+                deleteChatSocketConnection();
             }
             else if(request instanceof ParticipantsListRequest){
                 ParticipantsListRequestHandler participantsListRequestHandler=new ParticipantsListRequestHandler(Server.getConnection(),oos,(ParticipantsListRequest)request);
@@ -238,13 +242,44 @@ public class RequestIdentifier implements Runnable{
             else if(request instanceof AddStudentRequest){
                 AddStudentRequestHandler addStudentRequestHandler=new AddStudentRequestHandler(Server.getConnection(),oos,(AddStudentRequest)request);
                 addStudentRequestHandler.sendResponse(userID);
+            } else if(request instanceof ProctorPortForExamRequest) {
+                ProctorPortForExamRequestHandler handler = new ProctorPortForExamRequestHandler(Server.getConnection(), oos, (ProctorPortForExamRequest) request);
+                handler.sendResponse(userID);
             }
             else{
                 Server.sendResponse(oos, null);
             }
         }
+        System.out.println("Should have broken");
+        deleteChatSocketConnection();
+    }
+
+    private void deleteChatSocketConnection() {
         //Remove the OOS after disconnection
-        Server.socketArrayList.removeIf(r -> r.getRegistrationNumber().equals(userID));
-        Server.teacherSocketArrayList.removeIf(r->r.getTeacherId().equals(userID));
+        System.out.println(userID + " disconnected");
+        Server.socketArrayList.removeIf(r -> {
+            if(r.getRegistrationNumber().equals(userID)) {
+                try {
+                    System.out.println("Sending disconnected to their oos");
+                    r.getOos().writeObject("disconnected");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+            return false;
+        });
+        Server.teacherSocketArrayList.removeIf(r-> {
+            if(r.getTeacherId().equals(userID)) {
+                try {
+                    System.out.println("Sending disconnected to their oos");
+                    r.getOos().writeObject("disconnected");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+            return false;
+        });
     }
 }

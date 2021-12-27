@@ -3,7 +3,9 @@ package requestHandler;
 import entity.Question;
 import request.GetQuestionsRequest;
 import response.GetQuestionsResponse;
+import table.AnswerFilesTable;
 import table.ExamQuestionsTable;
+import table.ObjectiveResponseTable;
 import table.ProctorPortTable;
 
 import java.io.IOException;
@@ -31,6 +33,7 @@ public class GetQuestionsRequestHandler extends RequestHandler{
         ResultSet resultSet;
         PreparedStatement preparedStatement= null;
         GetQuestionsResponse getQuestionsResponse;
+        boolean alreadyAttempted = false;
         int proctorPort = -1;
         try {
             preparedStatement = connection.prepareStatement(ProctorPortTable.GET_PORT_BY_EXAM_ID);
@@ -54,12 +57,24 @@ public class GetQuestionsRequestHandler extends RequestHandler{
                             resultSet.getInt(ExamQuestionsTable.CORRECT_OPTION_COLUMN) != -1
                     ));
             }
+            preparedStatement = connection.prepareStatement(ObjectiveResponseTable.GET_ENTRY_BY_EXAM_ID_AND_REGISTRATION_NO);
+            preparedStatement.setString(1, getQuestionsRequest.getExamId());
+            preparedStatement.setString(2, userID);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) alreadyAttempted = true;
+            if(!alreadyAttempted) {
+                preparedStatement = connection.prepareStatement(AnswerFilesTable.GET_ENTRY_BY_EXAM_ID_REGISTRATION_NO);
+                preparedStatement.setString(1, getQuestionsRequest.getExamId());
+                preparedStatement.setString(2, userID);
+                resultSet = preparedStatement.executeQuery();
+                if(resultSet.next()) alreadyAttempted = true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println("sending questions array "+ questions.get(0).getOptionA());
         try {
-            getQuestionsResponse=new GetQuestionsResponse(questions, proctorPort);
+            getQuestionsResponse=new GetQuestionsResponse(questions, proctorPort, alreadyAttempted);
             System.out.println("Get questions resposne");
             oos.writeObject(getQuestionsResponse);
             oos.flush();

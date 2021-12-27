@@ -167,7 +167,7 @@ public class TeacherHomeController {
             stage.setTitle(courseTitle);
             CourseController controller = loader.getController();
             List<Exam> courseExam = getExamsForCourse(selectedCourse.getCourseId());
-            controller.callFirst(selectedCourse.getCourseId(), selectedCourse.getCourseName(),courseExam);
+            controller.callFirst(selectedCourse.getCourseId(), selectedCourse.getCourseName(), selectedCourse.getCourseCode(),courseExam);
         }
     }
 
@@ -361,21 +361,32 @@ public class TeacherHomeController {
         courseNameTextField.clear();
         courseDescriptionTextArea.clear();
         courseCodeTextField.clear();
+        courseNameTextField.setEditable(true);
+        courseDescriptionTextArea.setEditable(true);
+        createCourseButton.setDisable(false);
     }
 
     public void onExamToProctorClick(MouseEvent mouseEvent) {
         System.out.println("Yoyo");
         if(mouseEvent.getClickCount() == 2) {
             Exam exam = proctoringDutyExamsTableView.getSelectionModel().getSelectedItem();
+            ProctorPortForExamRequest portRequest = new ProctorPortForExamRequest(exam.getExamId());
+            Main.sendRequest(portRequest);
+            int port = 0;
+            ProctorPortForExamResponse portResponse = (ProctorPortForExamResponse) Main.receiveResponse();
+            if(portResponse != null) port = portResponse.getProctorPort();
             Timestamp startTime = exam.getDate();
             if(startTime.getTime() - (new Date().getTime()) <= 15*60*1000) { // 15 min into ms.
                 DatagramSocket videoFeedSocket = null;
                 try {
-                    videoFeedSocket = new DatagramSocket(0);
-                    ProctoringRequest request = new ProctoringRequest(exam.getExamId(), videoFeedSocket.getLocalPort(), InetAddress.getLocalHost());
-                    Main.sendRequest(request);
-                    ProctoringResponse response = (ProctoringResponse) Main.receiveResponse();
-                    if(response.isSetupDone()) {
+                    videoFeedSocket = new DatagramSocket(port);
+                    ProctoringResponse response = null;
+                    if(portResponse == null) {
+                        ProctoringRequest request = new ProctoringRequest(exam.getExamId(), videoFeedSocket.getLocalPort(), InetAddress.getLocalHost());
+                        Main.sendRequest(request);
+                        response = (ProctoringResponse) Main.receiveResponse();
+                    }
+                    if(portResponse != null || response != null) {
                         try {
                             FXMLLoader loader = new FXMLLoader(Main.class.getResource("../views/ProctorView.fxml"));
                             Scene scene = new Scene(loader.load(),heyNameLabel.getScene().getWidth(),heyNameLabel.getScene().getHeight());
@@ -385,7 +396,7 @@ public class TeacherHomeController {
                             stage.setMaximized(true);
                             stage.show();
                             ProctorController controller = loader.getController();
-                            controller.callFirst(videoFeedSocket, response.getStudents());
+                            controller.callFirst(videoFeedSocket, portResponse != null ? portResponse.getStudents() : response.getStudents());
                         } catch(IOException e) {
                             e.printStackTrace();
                         }

@@ -44,7 +44,12 @@ public class ChatUtil implements Runnable {
             System.out.println("inside socket is connected loop");
             try {
                 System.out.println("waiting for message object");
-                message2= (Message)ois.readObject();
+                Object o = ois.readObject();
+                if(o instanceof String && o.equals("disconnected")) {
+                    break;
+                } else if(o instanceof Message) {
+                    message2= (Message)ois.readObject();
+                }
                 System.out.println("response sent on chat thread");
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();

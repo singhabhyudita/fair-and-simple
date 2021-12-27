@@ -8,10 +8,12 @@ public class GetQuestionsResponse extends Response implements Serializable{
 
     private ArrayList<Question> questionsList;
     private int proctorPort;
+    private boolean alreadyAttempted;
 
-    public GetQuestionsResponse(ArrayList<Question> questionsList, int proctorPort) {
+    public GetQuestionsResponse(ArrayList<Question> questionsList, int proctorPort, boolean alreadyAttempted) {
         this.questionsList = questionsList;
         this.proctorPort = proctorPort;
+        this.alreadyAttempted = alreadyAttempted;
     }
 
     public ArrayList<Question> getQuestionsList() {
@@ -28,5 +30,13 @@ public class GetQuestionsResponse extends Response implements Serializable{
 
     public void setProctorPort(int proctorPort) {
         this.proctorPort = proctorPort;
+    }
+
+    public boolean isAlreadyAttempted() {
+        return alreadyAttempted;
+    }
+
+    public void setAlreadyAttempted(boolean alreadyAttempted) {
+        this.alreadyAttempted = alreadyAttempted;
     }
 }

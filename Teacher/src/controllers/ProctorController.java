@@ -132,10 +132,8 @@ public class ProctorController {
             @Override
             public void run() {
                 while(true) {
-//                    System.out.println("Waiting for video");
                     Object[] data = (Object[]) UdpUtil.getObjectFromPort(videoFeedSocket);
                     String registrationNumber = (String) UdpUtil.byteArrayToObject((byte[]) data[0]);
-                    System.out.println("Got video of registraion no = " + registrationNumber);
                     BufferedImage image = UdpUtil.byteArrayToBufferedImage((byte[]) data[1]);
                     if(image != null && registrationNumber != null) {
                         if(studentsOnDisplay.contains(Integer.valueOf(registrationNumber))) {
