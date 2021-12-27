@@ -1,5 +1,5 @@
 <h1 align="center">Fair And Simple</i></h1>
-<p align="center"><img alt="pic" height="600" width="300px"  src="https://user-images.githubusercontent.com/59930598/136701189-5226c8f0-d4f8-4810-8831-200376241c6b.gif"/>
+<p align="center"><img alt="pic" height="600" width="300px"  src=""/>
 </p>
 <hr>
 
