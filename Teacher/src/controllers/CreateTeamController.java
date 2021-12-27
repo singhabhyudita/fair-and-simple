@@ -50,7 +50,7 @@ public class CreateTeamController {
                 backButton.setDisable(false);
                 createTeamButton.setDisable(false);
             } else {
-                teamCodeTextField.setText(response.getTeamCode());
+                teamCodeTextField.setText(response.getCourseCode());
                 backButton.setDisable(false);
             }
         }

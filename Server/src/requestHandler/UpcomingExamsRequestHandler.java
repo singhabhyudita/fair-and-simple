@@ -1,7 +1,6 @@
 package requestHandler;
 
 import entity.Exam;
-import main.RequestIdentifier;
 import request.UpcomingExamsRequest;
 import response.UpcomingExamsResponse;
 import table.CoursesTable;
@@ -9,7 +8,10 @@ import table.ExamTable;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UpcomingExamsRequestHandler extends RequestHandler {
@@ -30,7 +32,6 @@ public class UpcomingExamsRequestHandler extends RequestHandler {
             PreparedStatement preparedStatement=connection.prepareStatement(ExamTable.GET_UPCOMING_EXAMS_STUDENT);
             preparedStatement.setString(1, userID);
             preparedStatement.setTimestamp(2,new java.sql.Timestamp(System.currentTimeMillis()));
-            System.out.println(preparedStatement.toString());
             ResultSet results = preparedStatement.executeQuery();
 
             ArrayList <Exam> upcomingExamArrayList = new ArrayList<>();

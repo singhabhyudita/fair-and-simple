@@ -1,7 +1,6 @@
 package requestHandler;
 
 import entity.Exam;
-import main.RequestIdentifier;
 import request.ExamsHistoryRequest;
 import response.ExamsHistoryResponse;
 import table.CoursesTable;
@@ -35,7 +34,6 @@ public class ExamsHistoryRequestHandler extends RequestHandler {
             PreparedStatement preparedStatement=connection.prepareStatement(ExamTable.GET_EXAMS_HISTORY_STUDENT);
             preparedStatement.setString(1, userID);
             preparedStatement.setTimestamp(2,new java.sql.Timestamp(System.currentTimeMillis()));
-            System.out.println(preparedStatement.toString());
             ResultSet results = preparedStatement.executeQuery();
 
             ArrayList<Exam> examsHistoryArrayList = new ArrayList<>();

@@ -8,8 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import main.Main;
-import request.TeacherExamRequest;
 import response.TeacherExamResponse;
 
 import java.io.IOException;

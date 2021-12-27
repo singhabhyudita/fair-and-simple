@@ -2,11 +2,11 @@ use fairnsimple;
 
 create table if not exists student(registrationNo int primary key, firstName varchar(15),lastName
  varchar(15), emailID varchar(50),password varchar(50), lastActive
- datetime, profilePic blob);
+ datetime, profilePic longblob);
  
  create table if not exists teacher(teacherID int primary key, firstName varchar(15),lastName
  varchar(15), emailID varchar(50), password varchar(50), lastActive
- datetime, profilePic blob);
+ datetime, profilePic longblob);
  
  create table if not exists course(courseID int primary key auto_increment, courseCode varchar(8), courseName
  varchar(20), courseDescription varchar(200), teacherID int, foreign key (teacherID) references teacher(teacherID)

@@ -1,6 +1,5 @@
 package requestHandler;
 
-import main.RequestIdentifier;
 import request.GetProfilePicRequest;
 import response.GetProfilePicResponse;
 import table.StudentTable;
@@ -37,10 +36,7 @@ public class GetProfilePicRequestHandler extends RequestHandler {
                 Blob blob=results.getBlob(1);
                 ByteArrayInputStream inputStream= (ByteArrayInputStream) blob.getBinaryStream();
                 BufferedImage bufferedImage =ImageIO.read(inputStream);
-                System.out.println("Buffered image is "+bufferedImage);
                 ImageIcon imageIcon=new ImageIcon(bufferedImage);
-//                byte[] image=new byte[inputStream.available()];
-//                System.out.println("byte array to be sent is "+ Arrays.toString(image));
                 getProfilePicResponse = new GetProfilePicResponse(imageIcon);
             }
 

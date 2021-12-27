@@ -26,8 +26,6 @@ public class SendNotification implements Runnable {
             try {
                 Thread.sleep(59*1000);
                 PreparedStatement preparedStatement=connection.prepareStatement(ExamTable.GET_EXAM_IN_NEXT_15_MINS);
-                System.out.println("printing notif query");
-                System.out.println(preparedStatement);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     sendToAll(new Notification(
@@ -73,10 +71,8 @@ public class SendNotification implements Runnable {
          * courseId -> registration no.
          */
         ArrayList<RegistrationStreamWrapper> socketArrayList= Server.socketArrayList;
-        System.out.println("inside send to all");
         for (RegistrationStreamWrapper w:socketArrayList) {
             ObjectOutputStream oos = w.getOos();
-            System.out.println("Chat oos  here:");
             System.out.println(oos.toString());
             try {
                 //if(s.getOutputStream().equals(oos))continue;
@@ -85,7 +81,6 @@ public class SendNotification implements Runnable {
                         oos.writeObject(message);
                         oos.flush();
                     }
-                    System.out.println("message object sent");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -95,12 +90,10 @@ public class SendNotification implements Runnable {
         for (TeacherIdStreamWrapper r:Server.teacherSocketArrayList) {
             if(proctorID.equals(r.getTeacherId())){
                 ObjectOutputStream objectOutputStream=r.getOos();
-                System.out.println("sending proctor notif, got his oos"+objectOutputStream);
                 try {
                     synchronized (objectOutputStream){
                         objectOutputStream.writeObject(message);
                         objectOutputStream.flush();
-                        System.out.println("send notification to proctor");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

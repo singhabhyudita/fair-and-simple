@@ -338,6 +338,12 @@ public class CourseController {
                 GuiUtil.alert(Alert.AlertType.WARNING,"Proctor has a clashing exam");
                 toggleCreateExamGUI(true, false);
             }
+            else if(response.getStatus()==Status.PROCTOR_INVALID){
+                GuiUtil.alert(Alert.AlertType.WARNING,"Invalid Proctor ID");
+            }
+            else if(response.getStatus()==Status.PROCTOR_UNAVAILABLE){
+                GuiUtil.alert(Alert.AlertType.WARNING,"Proctor has a clashing exam");
+            }
     }
 
     private void toggleCreateExamGUI(boolean b, boolean b2) {

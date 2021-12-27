@@ -246,6 +246,10 @@ public class RequestIdentifier implements Runnable{
                 ProctorPortForExamRequestHandler handler = new ProctorPortForExamRequestHandler(Server.getConnection(), oos, (ProctorPortForExamRequest) request);
                 handler.sendResponse(userID);
             }
+            else if(request instanceof CheckProctorJoinedRequest){
+                CheckProctorJoinedRequestHandler checkProctorJoinedRequestHandler=new CheckProctorJoinedRequestHandler(Server.getConnection(),oos,(CheckProctorJoinedRequest)request);
+                checkProctorJoinedRequestHandler.sendResponse(userID);
+            }
             else{
                 Server.sendResponse(oos, null);
             }

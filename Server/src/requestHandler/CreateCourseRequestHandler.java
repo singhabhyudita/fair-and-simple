@@ -5,7 +5,6 @@ import request.CreateCourseRequest;
 import response.CreateCourseResponse;
 import table.CoursesTable;
 
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,12 +34,13 @@ public class CreateCourseRequestHandler extends RequestHandler{
             int result = createTeamStatement.executeUpdate();
             if(result == 0) Server.sendResponse(oos, null);
             else {
-                System.out.println("Team created with code " + teamCode);
-                System.out.println("Sending create team response\n");
-                oos.writeObject(new CreateCourseResponse(teamCode));
-                System.out.println("create team response sent.");
+                PreparedStatement coursesByCode = connection.prepareStatement(CoursesTable.GET_COURSES_BY_COURSE_CODE);
+                coursesByCode.setString(1,teamCode);
+                ResultSet set=coursesByCode.executeQuery();
+                set.next();
+                Server.sendResponse(oos,new CreateCourseResponse(teamCode,set.getString(CoursesTable.COURSE_ID_COLUMN)));
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             Server.sendResponse(oos, null);
         }

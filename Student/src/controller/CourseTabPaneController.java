@@ -255,7 +255,7 @@ public class CourseTabPaneController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage stage = (Stage) backFromDiscussionForumButton.getScene().getWindow();
+        Stage stage = (Stage) backfromCourseInfoButton.getScene().getWindow();
         ProfileScreenController profileScreenController = loader.getController();
         profileScreenController.first(name);
         stage.setTitle("Profile");

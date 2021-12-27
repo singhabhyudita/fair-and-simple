@@ -36,13 +36,11 @@ public class RegisterRequestHandler extends requestHandler.RequestHandler {
             preparedStatement.setString(5,registerRequest.getPassword());
             fis=new FileInputStream(file);
             preparedStatement.setBinaryStream(6,fis);
-            System.out.println("Query register = " + StudentTable.QUERY_REGISTER);
-            System.out.println(preparedStatement.toString());
+            System.out.println(preparedStatement);
             result=preparedStatement.executeUpdate();
         } catch (SQLException | FileNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println(result+" register query executed");
         if(result==0) {
             try {
                 oos.writeObject(new RegisterResponse(""));

@@ -1,6 +1,5 @@
 package requestHandler;
 
-import main.RequestIdentifier;
 import response.LogOutResponse;
 import table.StudentTable;
 
@@ -32,7 +31,6 @@ public class LogOutRequestHandler extends RequestHandler  {
         try {
           if(result==0)oos.writeObject(new LogOutResponse(""));
           else oos.writeObject(new LogOutResponse("Successful"));
-            System.out.println("Flushing logout");
           oos.flush();
         } catch (IOException e) {
             e.printStackTrace();
