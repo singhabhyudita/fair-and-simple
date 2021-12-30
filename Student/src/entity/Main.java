@@ -1,6 +1,7 @@
 package entity;
 
 import controller.LoginController;
+import controller.ProfileScreenController;
 import javafx.scene.layout.VBox;
 import request.Request;
 import javafx.application.Application;
@@ -23,6 +24,7 @@ public class Main extends Application {
     public static final String myColor = "#f55f78";
     public static final String otherColor = "#bee2f7";
     public static String userFullName = "Pionel Pepsi";
+    public static ProfileScreenController profileScreenController = null;
 
     public static void main(String[] args) {
         launch(args);
@@ -32,7 +34,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("../fxml/Login.fxml"));
         try {
             System.out.println("Creating a new connection");
-            socket=new Socket("localhost",6969);
+            socket=new Socket("192.168.0.112",6969);
             System.out.println(socket);
             oos=new ObjectOutputStream(socket.getOutputStream());
             ois=new ObjectInputStream(socket.getInputStream());

@@ -12,7 +12,7 @@ public class UdpUtil {
     public static void sendObjectToPort(Object o, int port) {
         try {
             byte [] ob = objectToByteArray(o);
-            DatagramPacket dp = new DatagramPacket(ob, ob.length, InetAddress.getLocalHost(), port);
+            DatagramPacket dp = new DatagramPacket(ob, ob.length, InetAddress.getByName("192.168.0.112"), port);
             DatagramSocket ds = new DatagramSocket();
             ds.send(dp);
         } catch (IOException e) {

@@ -3,10 +3,7 @@ package util;
 import controller.SingleChatCardFXMLController;
 import controller.SingleImageChatCardFXMLController;
 import controller.SingleNotificationCardFXMLController;
-import entity.Main;
-import entity.Message;
-import entity.Notification;
-import entity.Warning;
+import entity.*;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
@@ -56,8 +53,12 @@ public class ChatUtil implements Runnable {
             final Message message = message2;
             System.out.println("Message received from sender id "+ message.getSenderID()+": "+message.getText());
             if(message instanceof Notification) {
-                if(message instanceof Warning)
-                    System.out.println("Warning here: "+((Warning) message).getText());
+                if(message instanceof AddedInformation && Main.profileScreenController != null) {
+                    System.out.println("It was added information and our profile screen is not null so we will refresh");
+                    Platform.runLater(() -> Main.profileScreenController.refreshButtonResponse());
+                } else if(message instanceof ExamScheduledInformation) {
+                    Platform.runLater(() -> Main.profileScreenController.refreshButtonResponse());
+                }
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

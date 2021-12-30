@@ -87,7 +87,7 @@ public class LoginController implements Initializable {
         Socket chatSocket;
         ObjectInputStream chatois = null;
         try {
-            chatSocket = new Socket("localhost",6970);
+            chatSocket = new Socket("192.168.0.112",6970);
             System.out.println(chatSocket);
             ObjectOutputStream objectOutputStream=new ObjectOutputStream(chatSocket.getOutputStream());
             System.out.println(objectOutputStream);

@@ -1,9 +1,6 @@
 package main;
 
-import entity.Message;
-import entity.RegistrationStreamWrapper;
-import entity.TeacherIdStreamWrapper;
-import entity.Warning;
+import entity.*;
 import request.*;
 import requestHandler.*;
 
@@ -203,6 +200,15 @@ public class RequestIdentifier implements Runnable{
 //                sendMessageRequestHandler.sendResponse(userID);
                 // Sends the message to every connected client from the course in which the message was sent
                 sendMessageRequestHandler.sendWarningToRecipient((Warning)request);
+            }else if(request instanceof AddedInformation) {
+                System.out.println("Added Information has to be sent to = " + ((AddedInformation) request).getReceiverId());
+                SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);
+//                sendMessageRequestHandler.sendResponse(userID);
+                sendMessageRequestHandler.sendAddedInformationToRecipient((AddedInformation) request);
+            } else if(request instanceof ExamScheduledInformation) {
+                SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);
+                sendMessageRequestHandler.sendResponse(userID);
+                sendMessageRequestHandler.sendToAll();
             }
             else if(request instanceof Message) {
                 SendMessageRequestHandler sendMessageRequestHandler = new SendMessageRequestHandler(Server.getConnection(), oos, (Message) request);

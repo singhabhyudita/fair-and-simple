@@ -324,8 +324,21 @@ public class CourseController {
                 GuiUtil.goToHome((Stage) deleteButton.getScene().getWindow());
             }
             if(response.getStatus() == Status.EXAM_CREATED) {
-                GuiUtil.alert(Alert.AlertType.INFORMATION, "Exam scheduled successfully.");
+//                GuiUtil.alert(Alert.AlertType.INFORMATION, "Exam scheduled successfully.");
+//                GuiUtil.goToHome((Stage) deleteButton.getScene().getWindow());
+                ExamScheduledInformation information = new ExamScheduledInformation(
+                        Main.getTeacherId(),
+                        Main.getTeacherName(),
+                        courseId,
+                        courseName,
+                        "Exam - " + newExam.getExamTitle() + " scheduled in course " + courseName + " at " + newExam.getStartTime(),
+                        null,
+                        new Timestamp(System.currentTimeMillis()),
+                        false);
+                Main.sendRequest(information);
+                Main.receiveResponse(); // "ignore hue hue"
                 GuiUtil.goToHome((Stage) deleteButton.getScene().getWindow());
+                GuiUtil.alert(Alert.AlertType.INFORMATION, "Exam scheduled successfully.");
             } else if(response.getStatus() == Status.CLASH) {
                 GuiUtil.alert(Alert.AlertType.INFORMATION, "Your exam clashes with other exams.");
                 toggleCreateExamGUI(true, false);
@@ -337,6 +350,12 @@ public class CourseController {
             else if(response.getStatus()==Status.PROCTOR_UNAVAILABLE){
                 GuiUtil.alert(Alert.AlertType.WARNING,"Proctor has a clashing exam");
                 toggleCreateExamGUI(true, false);
+            }
+            else if(response.getStatus()==Status.PROCTOR_INVALID){
+                GuiUtil.alert(Alert.AlertType.WARNING,"Invalid Proctor ID");
+            }
+            else if(response.getStatus()==Status.PROCTOR_UNAVAILABLE){
+                GuiUtil.alert(Alert.AlertType.WARNING,"Proctor has a clashing exam");
             }
     }
 
@@ -449,8 +468,20 @@ public class CourseController {
         AddStudentResponse addStudentResponse=(AddStudentResponse)Main.receiveResponse();
         assert addStudentResponse != null;
         if(addStudentResponse.getStatus()==Status.STUDENT_ADDED){
-            GuiUtil.alert(Alert.AlertType.INFORMATION,"Student added successfully");
             populateCourseStudentsTable();
+            AddedInformation information = new AddedInformation(
+                    Main.getTeacherId(),
+                    Main.getTeacherName(),
+                    addStudentRequest.getRegistrationNo(),
+                    courseId,
+                    courseName,
+                    "You have been added to course " + courseName + " by " + Main.getTeacherName(),
+                    null,
+                    new Timestamp(System.currentTimeMillis()),
+                    false);
+            System.out.println("Sending added information to student");
+            Main.sendRequest(information);
+            GuiUtil.alert(Alert.AlertType.INFORMATION,"Student added successfully");
         }else if(addStudentResponse.getStatus()==Status.REGISTRATION_NUMBER_INVALID){
             GuiUtil.alert(Alert.AlertType.ERROR,"Invalid Registration Number");
         }

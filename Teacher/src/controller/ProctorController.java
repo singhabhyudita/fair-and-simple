@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -20,6 +21,7 @@ import util.UdpUtil;
 import javafx.util.Pair;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -80,6 +82,7 @@ public class ProctorController {
         allStudentsListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                System.out.println("Student queue = " + studentsOnDisplay);
                 if(event.getClickCount() == 2) {
                     System.out.println("We want to see the video of student = " + allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber());
                     if(!studentsOnDisplay.contains(allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber())) {
@@ -96,6 +99,7 @@ public class ProctorController {
                             imageViewHolder.get(studentsOnDisplay.size()).getKey().setText(String.format("%s (%s)",
                                     allStudentsListView.getSelectionModel().getSelectedItem().getName(),
                                     allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber()));
+                            imageViewHolder.get(studentsOnDisplay.size()).getValue().setImage(new Image(new File("src/images/NotJoined.png").toURI().toString()));
                             studentsOnDisplay.add(allStudentsListView.getSelectionModel().getSelectedItem().getRegistrationNumber());
                         }
                     }
@@ -119,10 +123,10 @@ public class ProctorController {
             }
 
             private void replaceStudent(Integer incomingRegistrationNumber, String incomingName, Integer outgoing) {
-                studentsOnDisplay.remove();
                 studentsOnDisplay.add(incomingRegistrationNumber);
                 Pair<Label, ImageView> p = registrationNumberImageWindowMap.get(outgoing);
                 p.getKey().setText(String.format("%s (%s)", incomingName, incomingRegistrationNumber));
+                p.getValue().setImage(new Image(new File("src/images/NotJoined.png").toURI().toString()));
                 registrationNumberImageWindowMap.remove(outgoing);
                 registrationNumberImageWindowMap.put(incomingRegistrationNumber, p);
             }

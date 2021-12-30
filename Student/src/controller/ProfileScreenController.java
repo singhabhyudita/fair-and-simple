@@ -96,6 +96,7 @@ public class ProfileScreenController implements Initializable
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            Main.profileScreenController = null;
             stage.setScene(scene);
             stage.setMaximized(true);
             stage.setTitle("Course");
@@ -196,6 +197,7 @@ public class ProfileScreenController implements Initializable
             Stage stage=(Stage)logOutButton.getScene().getWindow();
             try {
                 Scene scene=new Scene(loader.load(), logOutButton.getScene().getWidth(), logOutButton.getScene().getHeight());
+                Main.profileScreenController = null;
                 stage.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -300,6 +302,7 @@ public class ProfileScreenController implements Initializable
     public Label heyNameLabel;
 
     public void first(String name) {
+        Main.profileScreenController = this;
         Main.notificationVbox=notificationContainer;
         this.name=name;
         heyNameLabel.setText("Hey, "+name);

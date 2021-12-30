@@ -146,4 +146,26 @@ public class SendMessageRequestHandler extends RequestHandler {
 
         }
     }
+
+    public void sendAddedInformationToRecipient(AddedInformation request) {
+        System.out.println("Sending the message - " + request.getText() + " to " + request.getReceiverId());
+        for (RegistrationStreamWrapper registrationStreamWrapper:socketArrayList) {
+            System.out.println("registration no in wrapper: " + registrationStreamWrapper.getRegistrationNumber());
+            System.out.println("receiver id" + request.getReceiverId());
+            if(registrationStreamWrapper.getRegistrationNumber().equals(request.getReceiverId())) {
+                System.out.println("Found the stream sending info now.");
+                ObjectOutputStream oos = registrationStreamWrapper.getOos();
+                try {
+                    synchronized (oos) {
+                        oos.writeObject(message);
+                        oos.flush();
+                    }
+                    System.out.println("Added information sent object sent");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
 }

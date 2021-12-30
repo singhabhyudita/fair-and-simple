@@ -2,6 +2,8 @@ package util;
 
 import controller.SingleChatCardFXMLController;
 import controller.SingleImageChatCardFXMLController;
+import entity.AddedInformation;
+import entity.ExamScheduledInformation;
 import entity.Message;
 import controller.SingleNotificationCardFXMLController;
 import entity.Notification;
@@ -57,6 +59,7 @@ public class ChatUtil implements Runnable {
             System.out.println("Message received from sender id "+ message.getSenderID()+": "+message.getText());
 
             if(message instanceof Notification){
+                if(message instanceof ExamScheduledInformation || message instanceof AddedInformation) continue;
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
