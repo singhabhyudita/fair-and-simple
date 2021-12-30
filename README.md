@@ -7,7 +7,7 @@
 * [ What it does ](#features)
 * [ What we used to implement it ](#made)
 * [ Challenges we ran into ](#challenges)
-* [ What's next for Failed-in](#future)
+* [ What's next for Fair And Simple](#future)
 * [ Contributors ](#contributors)
 
 
